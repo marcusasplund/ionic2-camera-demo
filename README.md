@@ -28,7 +28,8 @@ $ tsd install cordova --save
 
 ### Add this row in file: typings/main.d.ts
 `/// <reference path="./cordova/plugins/Camera.d.ts"/>`
-### replace content in folder app/pages/page1 with content from same folder in this project
+
+download folder "app" from this project and replace folder "app" with this 
 
 $ ionic build android
 
