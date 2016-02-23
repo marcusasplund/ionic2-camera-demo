@@ -26,7 +26,7 @@ $ ionic plugin add cordova-plugin-camera --save
 $ tsd init
 $ tsd install cordova --save
 
-### Add this row in file: typings/main.d.ts
+Add this row in file: typings/main.d.ts
 `/// <reference path="./cordova/plugins/Camera.d.ts"/>`
 
 download folder "app" from this project and replace folder "app" with this 
