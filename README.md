@@ -10,22 +10,25 @@ $ npm install -g cordova
 
 ## The long way to try out this project:
 
-Install a starter project
+### Install a starter project
 (heads up: this project is written in typescript, if you want plain js, skip the flag --ts)
+
 $ ionic start ionic2-camera-demo --v2 --ts
 
 $ cd ionic2-camera-demo
 
-Install Camera plugin
+### Install Camera plugin
+
 $ ionic plugin add cordova-plugin-camera --save
 
-Install Cordova typedefs (if you write in typescript this part is needed)
+### Install Cordova typedefs (if you write in typescript this part is needed)
+
 $ tsd init
 $ tsd install cordova --save
 
-Add this row in file: typings/main.d.ts
-/// <reference path="./cordova/plugins/Camera.d.ts"/>
-replace content in folder app/pages/page1 with content from same folder in this project
+### Add this row in file: typings/main.d.ts
+`/// <reference path="./cordova/plugins/Camera.d.ts"/>`
+### replace content in folder app/pages/page1 with content from same folder in this project
 
 $ ionic build android
 
