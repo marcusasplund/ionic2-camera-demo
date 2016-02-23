@@ -9,6 +9,17 @@ $ npm install -g ionic@beta
 
 $ npm install -g cordova
 
+## A short way to try out this project:
+$ git clone https://github.com/marcusasplund/ionic2-camera-demo.git
+
+$ cd ionic2-camera-demo
+
+$ npm install
+
+$ ionic build android
+
+install .apk and test
+
 ## The long way to try out this project:
 
 ### Install a starter project
@@ -31,17 +42,6 @@ Add this row in file: typings/main.d.ts
 `/// <reference path="./cordova/plugins/Camera.d.ts"/>`
 
 download folder "app" from this project and replace folder "app" with this 
-
-$ ionic build android
-
-install .apk and test
-
-## A shorter way to try out this project:
-$ git clone https://github.com/marcusasplund/ionic2-camera-demo.git
-
-$ cd ionic2-camera-demo
-
-$ npm install
 
 $ ionic build android
 
