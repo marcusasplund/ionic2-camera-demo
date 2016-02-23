@@ -1,0 +1,17 @@
+<ion-navbar *navbar>
+</ion-navbar>
+
+<ion-content padding class="page1">
+  <ion-slides style="height: 50vh">
+    <ion-slide *ngFor="#image of images">
+      <ion-card>
+        <img [src]="image.src"/>
+      </ion-card>
+    </ion-slide>
+  </ion-slides>
+  <p>
+  <button fab primary fab-bottom fab-center (click)="takePhoto()">
+    <ion-icon name="camera"></ion-icon>
+  </button>
+  </p>
+</ion-content>
