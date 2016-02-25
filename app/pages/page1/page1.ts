@@ -1,4 +1,4 @@
-import {Page, NavController, Platform, NavParams} from 'ionic-framework/ionic';
+import {Page, NavController, Platform} from 'ionic-framework/ionic';
 import {NgZone} from 'angular2/core';
 
 @Page({
@@ -11,7 +11,7 @@ export class Page1 {
   platform:any;
   images: Array<Object>;
 
-  constructor(platform:Platform, navParams: NavParams, _zone : NgZone) {
+  constructor(platform:Platform, zone : NgZone) {
     this._zone = _zone;
     this.platform = platform;
     this.images = [];
