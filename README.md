@@ -36,6 +36,7 @@ $ ionic plugin add cordova-plugin-camera --save
 ### Install Cordova typedefs (if you write in typescript this part is needed)
 
 $ tsd init
+
 $ tsd install cordova --save
 
 Add this row in file: typings/main.d.ts
