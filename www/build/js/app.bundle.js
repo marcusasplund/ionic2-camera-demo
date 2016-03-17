@@ -3175,6 +3175,7 @@
 /* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
+	"use strict";
 	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
 	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
 	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -3184,8 +3185,8 @@
 	var __metadata = (this && this.__metadata) || function (k, v) {
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
-	var ionic_1 = __webpack_require__(5);
-	var tabs_1 = __webpack_require__(358);
+	var ionic_angular_1 = __webpack_require__(5);
+	var tabs_1 = __webpack_require__(362);
 	var MyApp = (function () {
 	    function MyApp(platform) {
 	        this.rootPage = tabs_1.TabsPage;
@@ -3207,14 +3208,14 @@
 	        });
 	    }
 	    MyApp = __decorate([
-	        ionic_1.App({
+	        ionic_angular_1.App({
 	            template: '<ion-nav [root]="rootPage"></ion-nav>',
 	            config: {} // http://ionicframework.com/docs/v2/api/config/Config/
 	        }), 
-	        __metadata('design:paramtypes', [ionic_1.Platform])
+	        __metadata('design:paramtypes', [ionic_angular_1.Platform])
 	    ], MyApp);
 	    return MyApp;
-	})();
+	}());
 	exports.MyApp = MyApp;
 
 
@@ -3228,11 +3229,11 @@
 	__export(__webpack_require__(6));
 	__export(__webpack_require__(161));
 	__export(__webpack_require__(284));
-	__export(__webpack_require__(342));
-	__export(__webpack_require__(343));
-	__export(__webpack_require__(344));
+	__export(__webpack_require__(345));
+	__export(__webpack_require__(346));
+	__export(__webpack_require__(347));
 	__export(__webpack_require__(162));
-	__export(__webpack_require__(348));
+	__export(__webpack_require__(351));
 	__export(__webpack_require__(160));
 	__export(__webpack_require__(165));
 	__export(__webpack_require__(276));
@@ -3240,13 +3241,14 @@
 	__export(__webpack_require__(306));
 	__export(__webpack_require__(305));
 	__export(__webpack_require__(283));
-	__export(__webpack_require__(352));
+	__export(__webpack_require__(355));
 	// these modules don't export anything
-	__webpack_require__(353);
-	__webpack_require__(354);
-	__webpack_require__(355);
 	__webpack_require__(356);
 	__webpack_require__(357);
+	__webpack_require__(358);
+	__webpack_require__(359);
+	__webpack_require__(360);
+	__webpack_require__(361);
 
 
 /***/ },
@@ -3324,7 +3326,7 @@
 	        linkEle.href = href;
 	    }
 	    // set the mode class name
-	    // ios/md
+	    // ios/md/wp
 	    bodyEle.classList.add(mode);
 	    // language and direction
 	    platform.setDir(document.documentElement.dir, false);
@@ -26203,7 +26205,8 @@
 	 * @name Config
 	 * @demo /docs/v2/demos/config/
 	 * @description
-	 * Config lets you change multiple or a single value in an apps mode configuration. Things such as tab placement, icon changes, and view animations can be set here.
+	 * The Config lets you configure your entire app or specific platforms.
+	 * You can set the tab placement, icon mode, animations, and more here.
 	 *
 	 * ```ts
 	 * @App({
@@ -26219,7 +26222,7 @@
 	 * })
 	 * ```
 	 *
-	 * Or change the whole mode
+	 * To change the mode to always use Material Design (md).
 	 *
 	 * ```ts
 	 * @App({
@@ -26230,7 +26233,7 @@
 	 * })
 	 * ```
 	 *
-	 * Config can be overwritting at multiple levels, allowing deeper configuration. Taking the example from earlier, we can override any setting we want based on a platform.
+	 * Config can be overwritten at multiple levels allowing for more configuration. Taking the example from earlier, we can override any setting we want based on a platform.
 	 * ```ts
 	 * @App({
 	 *   template: `<ion-nav [root]="root"></ion-nav>`
@@ -26252,8 +26255,6 @@
 	 *    <ion-tab tabTitle="Dash" tabIcon="pulse" [root]="tabRoot"></ion-tab>
 	 *  </ion-tabs>
 	 * ```
-	 *
-	 * The property will override anything else set in the apps.
 	 *
 	 * The last way we could configure is through URL query strings. This is useful for testing while in the browser.
 	 * Simply add `?ionic<PROPERTYNAME>=<value>` to the url.
@@ -26291,6 +26292,7 @@
 	 * | pageTransitionDelay        | 16                     | 120                       |
 	 * | tabbarPlacement            | bottom                 | top                       |
 	 * | tabbarHighlight            |                        | top                       |
+	 * | tabbarLayout               |                        |                           |
 	 * | tabSubPages                |                        | true                      |
 	 *
 	**/
@@ -26301,73 +26303,15 @@
 	        this._s = config && util_1.isObject(config) && !util_1.isArray(config) ? config : {};
 	    }
 	    /**
-	     * For setting and getting multiple config values
-	     */
-	    /**
-	     * @private
-	     * @name settings()
-	     * @description
-	     */
-	    Config.prototype.settings = function () {
-	        var args = arguments;
-	        switch (args.length) {
-	            case 0:
-	                return this._s;
-	            case 1:
-	                // settings({...})
-	                this._s = args[0];
-	                this._c = {}; // clear cache
-	                break;
-	            case 2:
-	                // settings('ios', {...})
-	                this._s.platforms = this._s.platforms || {};
-	                this._s.platforms[args[0]] = args[1];
-	                this._c = {}; // clear cache
-	                break;
-	        }
-	        return this;
-	    };
-	    /**
-	     * @name set
-	     * @description
-	     * Sets a single config value.
-	     *
-	     * @param {string} [platform] - The platform (either 'ios' or 'android') that the config value should apply to. Leaving this blank will apply the config value to all platforms.
-	     * @param {string} [key] - The key used to look up the value at a later point in time.
-	     * @param {string} [value] - The config value being stored.
-	     */
-	    Config.prototype.set = function () {
-	        var args = arguments;
-	        var arg0 = args[0];
-	        var arg1 = args[1];
-	        switch (args.length) {
-	            case 2:
-	                // set('key', 'value') = set key/value pair
-	                // arg1 = value
-	                this._s[arg0] = arg1;
-	                delete this._c[arg0]; // clear cache
-	                break;
-	            case 3:
-	                // setting('ios', 'key', 'value') = set key/value pair for platform
-	                // arg0 = platform
-	                // arg1 = key
-	                // arg2 = value
-	                this._s.platforms = this._s.platforms || {};
-	                this._s.platforms[arg0] = this._s.platforms[arg0] || {};
-	                this._s.platforms[arg0][arg1] = args[2];
-	                delete this._c[arg1]; // clear cache
-	                break;
-	        }
-	        return this;
-	    };
-	    /**
 	     * @name get
 	     * @description
 	     * Returns a single config value, given a key.
 	     *
 	     * @param {string} [key] - the key for the config value
+	     * @param {any} [fallbackValue] - a fallback value to use when the config value was not found, or is config value is `null`. Fallback value defaults to `null`.
 	     */
-	    Config.prototype.get = function (key) {
+	    Config.prototype.get = function (key, fallbackValue) {
+	        if (fallbackValue === void 0) { fallbackValue = null; }
 	        if (!util_1.isDefined(this._c[key])) {
 	            if (!util_1.isDefined(key)) {
 	                throw 'config key is not defined';
@@ -26441,10 +26385,14 @@
 	        // or it was from the users platform configs
 	        // or it was from the default platform configs
 	        // in that order
+	        var rtnVal;
 	        if (util_1.isFunction(this._c[key])) {
-	            return this._c[key](this.platform);
+	            rtnVal = this._c[key](this.platform);
 	        }
-	        return this._c[key];
+	        else {
+	            rtnVal = this._c[key];
+	        }
+	        return (rtnVal !== null ? rtnVal : fallbackValue);
 	    };
 	    /**
 	     * @name getBoolean
@@ -26458,14 +26406,80 @@
 	        return (val || val === 'true') ? true : false;
 	    };
 	    /**
+	     * @name set
+	     * @description
+	     * Sets a single config value.
+	     *
+	     * @param {string} [platform] - The platform (either 'ios' or 'android') that the config value should apply to. Leaving this blank will apply the config value to all platforms.
+	     * @param {string} [key] - The key used to look up the value at a later point in time.
+	     * @param {string} [value] - The config value being stored.
+	     */
+	    Config.prototype.set = function () {
+	        var args = [];
+	        for (var _i = 0; _i < arguments.length; _i++) {
+	            args[_i - 0] = arguments[_i];
+	        }
+	        var arg0 = args[0];
+	        var arg1 = args[1];
+	        switch (args.length) {
+	            case 2:
+	                // set('key', 'value') = set key/value pair
+	                // arg1 = value
+	                this._s[arg0] = arg1;
+	                delete this._c[arg0]; // clear cache
+	                break;
+	            case 3:
+	                // setting('ios', 'key', 'value') = set key/value pair for platform
+	                // arg0 = platform
+	                // arg1 = key
+	                // arg2 = value
+	                this._s.platforms = this._s.platforms || {};
+	                this._s.platforms[arg0] = this._s.platforms[arg0] || {};
+	                this._s.platforms[arg0][arg1] = args[2];
+	                delete this._c[arg1]; // clear cache
+	                break;
+	        }
+	        return this;
+	    };
+	    /**
+	     * @private
+	     * @name settings()
+	     * @description
+	     */
+	    Config.prototype.settings = function () {
+	        var args = arguments;
+	        switch (args.length) {
+	            case 0:
+	                return this._s;
+	            case 1:
+	                // settings({...})
+	                this._s = args[0];
+	                this._c = {}; // clear cache
+	                break;
+	            case 2:
+	                // settings('ios', {...})
+	                this._s.platforms = this._s.platforms || {};
+	                this._s.platforms[args[0]] = args[1];
+	                this._c = {}; // clear cache
+	                break;
+	        }
+	        return this;
+	    };
+	    /**
 	     * @private
 	     */
 	    Config.prototype.setPlatform = function (platform) {
 	        this.platform = platform;
 	    };
+	    /**
+	     * @private
+	     */
 	    Config.setModeConfig = function (mode, config) {
 	        modeConfigs[mode] = config;
 	    };
+	    /**
+	     * @private
+	     */
 	    Config.getModeConfig = function (mode) {
 	        return modeConfigs[mode] || null;
 	    };
@@ -26491,8 +26505,10 @@
 	 *
 	 * @usage
 	 * ```ts
-	 * import {Platform} 'ionic/ionic';
-	 * export MyClass {
+	 * import {Platform} from 'ionic-angular';
+	 *
+	 * @Page({...})
+	 * export MyPage {
 	 *    constructor(platform: Platform){
 	 *      this.platform = platform;
 	 *    }
@@ -26513,18 +26529,40 @@
 	    // **********************************************
 	    /**
 	     * @param {string} platformName
-	     * @returns {boolean} returns true/false based on platform you place
+	     * @returns {boolean} returns true/false based on platform.
 	     * @description
-	     * Depending on the platform name, isPlatform will return true or flase
+	     * Depending on the platform the user is on, `is(platformName)` will
+	     * return `true` or `false`. Note that the same app can return `true`
+	     * for more than one platform name. For example, an app running from
+	     * an iPad would return `true` for the platform names: `mobile`,
+	     * `ios`, `ipad`, and `tablet`. Additionally, if the app was running
+	     * from Cordova then `cordova` would be true, and if it was running
+	     * from a web browser on the iPad then then `mobileweb` would also
+	     * be `true`.
+	     *
+	     * Possible built-in platform names:
+	     *
+	     * - `android`
+	     * - `cordova`
+	     * - `core`
+	     * - `ios`
+	     * - `ipad`
+	     * - `iphone`
+	     * - `mobile`
+	     * - `mobileweb`
+	     * - `phablet`
+	     * - `tablet`
+	     * - `windows`
 	     *
 	     * ```
-	     * import {Platform} 'ionic/ionic';
-	     * export MyClass {
-	     *    constructor(platform: Platform){
-	     *      this.platform = platform;
-	     *      if(this.platform.is('ios'){
-	     *        // what ever you need to do for
-	     *        // if the platfomr is ios
+	     * import {Platform} from 'ionic-angular';
+	     *
+	     * @Page({...})
+	     * export MyPage {
+	     *    constructor(platform: Platform) {
+	     *      if (platform.is('ios')) {
+	     *        // what ever you need to do
+	     *        // if the platform is ios
 	     *      }
 	     *    }
 	     * }
@@ -26541,9 +26579,9 @@
 	     * it would return mobile, ios, and iphone.
 	     *
 	     * ```
-	     * import {Platform} 'ionic/ionic';
-	     * export MyClass {
-	     *    constructor(platform: Platform){
+	     * import {Platform} from 'ionic-angular';
+	     * export MyPage {
+	     *    constructor(platform: Platform) {
 	     *      this.platform = platform;
 	     *      console.log(this.platform.platforms());
 	     *      // This will return an array of all the availble platforms
@@ -26561,9 +26599,11 @@
 	     * Returns an object containing information about the paltform
 	     *
 	     * ```
-	     * import {Platform} 'ionic/ionic';
-	     * export MyClass {
-	     *    constructor(platform: Platform){
+	     * import {Platform} from 'ionic-angular';
+	     *
+	     * @Page({...})
+	     * export MyPage {
+	     *    constructor(platform: Platform) {
 	     *      this.platform = platform;
 	     *      console.log(this.platform.versions());
 	     *    }
@@ -26597,9 +26637,11 @@
 	     * Returns a promise when the platform is ready and native functionality can be called
 	     *
 	     * ```
-	     * import {Platform} 'ionic/ionic';
-	     * export MyClass {
-	     *    constructor(platform: Platform){
+	     * import {Platform} from 'ionic-angular';
+	     *
+	     * @Page({...})
+	     * export MyPage {
+	     *    constructor(platform: Platform) {
 	     *      this.platform = platform;
 	     *      this.platform.ready().then(() => {
 	     *        console.log('Platform ready');
@@ -26856,13 +26898,6 @@
 	    /**
 	     * @private
 	     */
-	    Platform.prototype.testUserAgent = function (userAgentExpression) {
-	        var rgx = new RegExp(userAgentExpression, 'i');
-	        return rgx.test(this._ua || '');
-	    };
-	    /**
-	     * @private
-	     */
 	    Platform.prototype.testNavigatorPlatform = function (navigatorPlatformExpression) {
 	        var rgx = new RegExp(navigatorPlatformExpression, 'i');
 	        return rgx.test(this._bPlt);
@@ -26884,15 +26919,25 @@
 	    /**
 	     * @private
 	     */
-	    Platform.prototype.isPlatform = function (queryTestValue, userAgentExpression) {
-	        if (!userAgentExpression) {
-	            userAgentExpression = queryTestValue;
-	        }
+	    Platform.prototype.isPlatformMatch = function (queryStringName, userAgentAtLeastHas, userAgentMustNotHave) {
+	        if (userAgentMustNotHave === void 0) { userAgentMustNotHave = []; }
 	        var queryValue = this.query('ionicplatform');
 	        if (queryValue) {
-	            return this.testQuery(queryValue, queryTestValue);
+	            return this.testQuery(queryValue, queryStringName);
 	        }
-	        return this.testUserAgent(userAgentExpression);
+	        userAgentAtLeastHas = userAgentAtLeastHas || [queryStringName];
+	        var userAgent = this._ua.toLowerCase();
+	        for (var i = 0; i < userAgentAtLeastHas.length; i++) {
+	            if (userAgent.indexOf(userAgentAtLeastHas[i]) > -1) {
+	                for (var j = 0; j < userAgentMustNotHave.length; j++) {
+	                    if (userAgent.indexOf(userAgentMustNotHave[j]) > -1) {
+	                        return false;
+	                    }
+	                }
+	                return true;
+	            }
+	        }
+	        return false;
 	    };
 	    /**
 	     * @private
@@ -27209,15 +27254,32 @@
 	exports.isFunction = function (val) { return typeof val === 'function'; };
 	exports.isDefined = function (val) { return typeof val !== 'undefined'; };
 	exports.isUndefined = function (val) { return typeof val === 'undefined'; };
+	exports.isPresent = function (val) { return val !== undefined && val !== null; };
 	exports.isBlank = function (val) { return val === undefined || val === null; };
 	exports.isObject = function (val) { return typeof val === 'object'; };
 	exports.isArray = Array.isArray;
 	exports.isTrueProperty = function (val) {
 	    if (typeof val === 'string') {
 	        val = val.toLowerCase().trim();
-	        return (val === 'true' || val === '');
+	        return (val === 'true' || val === 'on' || val === '');
 	    }
 	    return !!val;
+	};
+	exports.isCheckedProperty = function (a, b) {
+	    if (a === undefined || a === null || a === '') {
+	        return (b === undefined || b === null || b === '');
+	    }
+	    else if (a === true || a === 'true') {
+	        return (b === true || b === 'true');
+	    }
+	    else if (a === false || a === 'false') {
+	        return (b === false || b === 'false');
+	    }
+	    else if (a === 0 || a === '0') {
+	        return (b === 0 || b === '0');
+	    }
+	    // not using strict comparison on purpose
+	    return (a == b);
 	};
 	/**
 	 * Convert a string in the format thisIsAString to a slug format this-is-a-string
@@ -27266,10 +27328,14 @@
 	        var startIndex = url.indexOf('?');
 	        if (startIndex !== -1) {
 	            var queries = url.slice(startIndex + 1).split('&');
-	            queries.forEach(function (param) {
-	                var split = param.split('=');
-	                queryParams[split[0].toLowerCase()] = split[1].split('#')[0];
-	            });
+	            for (var i = 0; i < queries.length; i++) {
+	                if (queries[i].indexOf('=') > 0) {
+	                    var split = queries[i].split('=');
+	                    if (split.length > 1) {
+	                        queryParams[split[0].toLowerCase()] = split[1].split('#')[0];
+	                    }
+	                }
+	            }
 	        }
 	    }
 	    return queryParams;
@@ -27315,14 +27381,12 @@
 /* 164 */
 /***/ function(module, exports) {
 
-	var win = window;
-	var doc = document;
-	var docEle = doc.documentElement;
 	// RequestAnimationFrame Polyfill (Android 4.3 and below)
 	/*! @author Paul Irish */
 	/*! @source https://gist.github.com/paulirish/1579671 */
 	(function () {
 	    var rafLastTime = 0;
+	    var win = window;
 	    if (!win.requestAnimationFrame) {
 	        win.requestAnimationFrame = function (callback, element) {
 	            var currTime = Date.now();
@@ -27338,8 +27402,8 @@
 	        win.cancelAnimationFrame = function (id) { clearTimeout(id); };
 	    }
 	})();
-	exports.raf = win.requestAnimationFrame.bind(win);
-	exports.cancelRaf = win.cancelAnimationFrame.bind(win);
+	exports.raf = window.requestAnimationFrame.bind(window);
+	exports.cancelRaf = window.cancelAnimationFrame.bind(window);
 	function rafFrames(framesToWait, callback) {
 	    framesToWait = Math.ceil(framesToWait);
 	    if (framesToWait < 2) {
@@ -27358,7 +27422,7 @@
 	    var i, keys = ['webkitTransform', 'transform', '-webkit-transform', 'webkit-transform',
 	        '-moz-transform', 'moz-transform', 'MozTransform', 'mozTransform', 'msTransform'];
 	    for (i = 0; i < keys.length; i++) {
-	        if (docEle.style[keys[i]] !== undefined) {
+	        if (document.documentElement.style[keys[i]] !== undefined) {
 	            exports.CSS.transform = keys[i];
 	            break;
 	        }
@@ -27366,7 +27430,7 @@
 	    // transition
 	    keys = ['webkitTransition', 'mozTransition', 'msTransition', 'transition'];
 	    for (i = 0; i < keys.length; i++) {
-	        if (docEle.style[keys[i]] !== undefined) {
+	        if (document.documentElement.style[keys[i]] !== undefined) {
 	            exports.CSS.transition = keys[i];
 	            break;
 	        }
@@ -27377,6 +27441,8 @@
 	    exports.CSS.transitionDuration = (isWebkit ? '-webkit-' : '') + 'transition-duration';
 	    // transition timing function
 	    exports.CSS.transitionTimingFn = (isWebkit ? '-webkit-' : '') + 'transition-timing-function';
+	    // transition delay
+	    exports.CSS.transitionDelay = (isWebkit ? '-webkit-' : '') + 'transition-delay';
 	    // To be sure transitionend works everywhere, include *both* the webkit and non-webkit events
 	    exports.CSS.transitionEnd = (isWebkit ? 'webkitTransitionEnd ' : '') + 'transitionend';
 	})();
@@ -27406,17 +27472,17 @@
 	        // a callback wasn't provided, so let's return a promise instead
 	        promise = new Promise(function (resolve) { callback = resolve; });
 	    }
-	    if (doc.readyState === 'complete' || doc.readyState === 'interactive') {
+	    if (document.readyState === 'complete' || document.readyState === 'interactive') {
 	        callback();
 	    }
 	    else {
 	        function completed() {
-	            doc.removeEventListener('DOMContentLoaded', completed, false);
-	            win.removeEventListener('load', completed, false);
+	            document.removeEventListener('DOMContentLoaded', completed, false);
+	            window.removeEventListener('load', completed, false);
 	            callback();
 	        }
-	        doc.addEventListener('DOMContentLoaded', completed, false);
-	        win.addEventListener('load', completed, false);
+	        document.addEventListener('DOMContentLoaded', completed, false);
+	        window.addEventListener('load', completed, false);
 	    }
 	    return promise;
 	}
@@ -27427,15 +27493,15 @@
 	        // a callback wasn't provided, so let's return a promise instead
 	        promise = new Promise(function (resolve) { callback = resolve; });
 	    }
-	    if (doc.readyState === 'complete') {
+	    if (document.readyState === 'complete') {
 	        callback();
 	    }
 	    else {
 	        function completed() {
-	            win.removeEventListener('load', completed, false);
+	            window.removeEventListener('load', completed, false);
 	            callback();
 	        }
-	        win.addEventListener('load', completed, false);
+	        window.addEventListener('load', completed, false);
 	    }
 	    return promise;
 	}
@@ -27461,7 +27527,7 @@
 	}
 	exports.hasPointerMoved = hasPointerMoved;
 	function isActive(ele) {
-	    return !!(ele && (doc.activeElement === ele));
+	    return !!(ele && (document.activeElement === ele));
 	}
 	exports.isActive = isActive;
 	function hasFocus(ele) {
@@ -27476,14 +27542,14 @@
 	}
 	exports.isTextInput = isTextInput;
 	function hasFocusedTextInput() {
-	    var ele = doc.activeElement;
+	    var ele = document.activeElement;
 	    if (isTextInput(ele)) {
 	        return (ele.parentElement.querySelector(':focus') === ele);
 	    }
 	    return false;
 	}
 	exports.hasFocusedTextInput = hasFocusedTextInput;
-	var skipInputAttrsReg = /^(value|checked|disabled|type|class|style|id)$/i;
+	var skipInputAttrsReg = /^(value|checked|disabled|type|class|style|id|autofocus|autocomplete|autocorrect)$/i;
 	function copyInputAttributes(srcElement, destElement) {
 	    // copy attributes from one element to another
 	    // however, skip over a few of them as they're already
@@ -27500,7 +27566,7 @@
 	var matchesFn;
 	var matchesMethods = ['matches', 'webkitMatchesSelector', 'mozMatchesSelector', 'msMatchesSelector'];
 	matchesMethods.some(function (fn) {
-	    if (typeof docEle[fn] == 'function') {
+	    if (typeof document.documentElement[fn] === 'function') {
 	        matchesFn = fn;
 	        return true;
 	    }
@@ -27522,7 +27588,6 @@
 	/**
 	 * Get the element offsetWidth and offsetHeight. Values are cached
 	 * to reduce DOM reads. Cache is cleared on a window resize.
-	 * @param {TODO} ele  TODO
 	 */
 	function getDimensions(ele, id) {
 	    var dimensions = dimensionCache[id];
@@ -27544,13 +27609,17 @@
 	    return dimensions;
 	}
 	exports.getDimensions = getDimensions;
+	function clearDimensions(id) {
+	    delete dimensionCache[id];
+	}
+	exports.clearDimensions = clearDimensions;
 	function windowDimensions() {
 	    if (!dimensionCache.win) {
 	        // make sure we got good values before caching
-	        if (win.innerWidth && win.innerHeight) {
+	        if (window.innerWidth && window.innerHeight) {
 	            dimensionCache.win = {
-	                width: win.innerWidth,
-	                height: win.innerHeight
+	                width: window.innerWidth,
+	                height: window.innerHeight
 	            };
 	        }
 	        else {
@@ -27575,8 +27644,9 @@
 	/**
 	 * @name Events
 	 * @description
-	 * Events is a pub/sub style event system for sending and responding to application-level
+	 * Events is a publish-subscribe style event system for sending and responding to application-level
 	 * events across your app.
+	 *
 	 * @usage
 	 * ```ts
 	 * // first page (publish an event when a user is created)
@@ -27830,39 +27900,46 @@
 	var browser_1 = __webpack_require__(169);
 	var config_1 = __webpack_require__(161);
 	var click_block_1 = __webpack_require__(160);
-	var dom_1 = __webpack_require__(164);
 	/**
-	 * @private
-	 * Component registry service.  For more information on registering
-	 * components see the [IdRef API reference](../id/IdRef/).
+	 * App utility service.  Allows you to look up components that have been
+	 * registered using the [Id directive](../Id/).
 	 */
 	var IonicApp = (function () {
 	    function IonicApp(_config, _clickBlock, _zone) {
 	        this._config = _config;
 	        this._clickBlock = _clickBlock;
 	        this._zone = _zone;
-	        this._titleSrv = new browser_1.Title();
-	        this._title = '';
+	        this._cmps = {};
 	        this._disTime = 0;
 	        this._scrollTime = 0;
-	        // Our component registry map
-	        this.components = {};
+	        this._title = '';
+	        this._titleSrv = new browser_1.Title();
+	        this._isProd = false;
 	    }
 	    /**
 	     * Sets the document title.
 	     * @param {string} val  Value to set the document title to.
 	     */
 	    IonicApp.prototype.setTitle = function (val) {
-	        var self = this;
-	        if (val !== self._title) {
-	            self._title = val;
-	            this._zone.runOutsideAngular(function () {
-	                function setAppTitle() {
-	                    self._titleSrv.setTitle(self._title);
-	                }
-	                dom_1.rafFrames(4, setAppTitle);
-	            });
+	        if (val !== this._title) {
+	            this._title = val;
+	            this._titleSrv.setTitle(val);
 	        }
+	    };
+	    /**
+	     * Returns if the app has been set to be in be in production mode or not.
+	     * Production mode can only be set within the config of `@App`. Defaults
+	     * to `false`.
+	     * @return {boolean}
+	     */
+	    IonicApp.prototype.isProd = function () {
+	        return this._isProd;
+	    };
+	    /**
+	     * @private
+	     */
+	    IonicApp.prototype.setProd = function (val) {
+	        this._isProd = !!val;
 	    };
 	    /**
 	     * @private
@@ -27899,7 +27976,6 @@
 	        this._scrollTime = Date.now();
 	    };
 	    /**
-	     * @private
 	     * Boolean if the app is actively scrolling or not.
 	     * @return {boolean}
 	     */
@@ -27913,7 +27989,7 @@
 	     * @param {object} component  The component to register
 	     */
 	    IonicApp.prototype.register = function (id, component) {
-	        this.components[id] = component;
+	        this._cmps[id] = component;
 	    };
 	    /**
 	     * @private
@@ -27921,7 +27997,7 @@
 	     * @param {string} id  The id to use to unregister
 	     */
 	    IonicApp.prototype.unregister = function (id) {
-	        delete this.components[id];
+	        delete this._cmps[id];
 	    };
 	    /**
 	     * @private
@@ -27930,25 +28006,22 @@
 	     * @return {object} the matching component, or undefined if none was found
 	     */
 	    IonicApp.prototype.getRegisteredComponent = function (cls) {
-	        for (var key in this.components) {
-	            var component = this.components[key];
+	        for (var key in this._cmps) {
+	            var component = this._cmps[key];
 	            if (component instanceof cls) {
 	                return component;
 	            }
 	        }
 	    };
 	    /**
-	     * @private
 	     * Get the component for the given key.
-	     * @param {string} id  TODO
-	     * @return {object} TODO
 	     */
 	    IonicApp.prototype.getComponent = function (id) {
 	        // deprecated warning
 	        if (/menu/i.test(id)) {
 	            void 0;
 	        }
-	        return this.components[id];
+	        return this._cmps[id];
 	    };
 	    IonicApp = __decorate([
 	        core_1.Injectable(), 
@@ -41164,7 +41237,7 @@
 	/**
 	 * @name Keyboard
 	 * @description
-	 * The `Keyboard` class allows you to work with the keyboard events provide by the Ionic keyboard plugin.
+	 * The `Keyboard` class allows you to work with the keyboard events provided by the Ionic keyboard plugin.
 	 *
 	 * @usage
 	 * ```ts
@@ -41341,7 +41414,7 @@
 	 * _For basic Menu usage, see the [Menu section](../../../../components/#menus)
 	 * of the Component docs._
 	 *
-	 * Menu is a side-menu interface that can be dragged out or toggled to open or closed.
+	 * Menu is a side-menu interface that can be dragged and toggled to open or close.
 	 * An Ionic app can have numerous menus, all of which can be controlled within
 	 * template HTML, or programmatically.
 	 *
@@ -41379,7 +41452,7 @@
 	 * without requiring a menu ID.
 	 *
 	 * ```ts
-	 * import{Page, MenuController} from 'ionic/ionic';
+	 * import{Page, MenuController} from 'ionic-angular';
 	 * @Page({...})
 	 * export class MyPage {
 	 *  constructor(menu: MenuController) {
@@ -41534,8 +41607,9 @@
 	    };
 	    /**
 	     * Used to enable or disable a menu. For example, there could be multiple
-	     * left menus, but only one of them should be able to be dragged open.
-	     * @param {boolean} shouldEnable  True if it should be enabled, false if not.
+	     * left menus, but only one of them should be able to be opened at the same
+	     * time. If there are multiple menus on the same side, then enabling one menu
+	     * will also automatically disable all the others that are on the same side.
 	     * @param {string} [menuId]  Optionally get the menu by its id, or side.
 	     * @return {Menu}  Returns the instance of the menu, which is useful for chaining.
 	     */
@@ -41572,24 +41646,35 @@
 	        return menu && menu.enabled || false;
 	    };
 	    /**
-	     * Used to get a menu instance. If a `menuId` is not provided then it'll return
-	     * the first menu found. If a `menuId` is provided, then it'll first try to find
-	     * the menu using the menu's `id` attribute. If a menu is not found using the `id`
-	     * attribute, then it'll try to find the menu by its `side` name.
+	     * Used to get a menu instance. If a `menuId` is not provided then it'll
+	     * return the first menu found. If a `menuId` is `left` or `right`, then
+	     * it'll return the enabled menu on that side. Otherwise, if a `menuId` is
+	     * provided, then it'll try to find the menu using the menu's `id`
+	     * property. If a menu is not found then it'll return `null`.
 	     * @param {string} [menuId]  Optionally get the menu by its id, or side.
 	     * @return {Menu}  Returns the instance of the menu if found, otherwise `null`.
 	     */
 	    MenuController.prototype.get = function (menuId) {
-	        if (menuId) {
-	            // first try by "id"
-	            var menu = this._menus.find(function (m) { return m.id === menuId; });
+	        var menu;
+	        if (menuId === 'left' || menuId === 'right') {
+	            // there could be more than one menu on the same side
+	            // so first try to get the enabled one
+	            menu = this._menus.find(function (m) { return m.side === menuId && m.enabled; });
 	            if (menu)
 	                return menu;
-	            // not found by "id", next try by "side"
-	            menu = this._menus.find(function (m) { return m.side === menuId; });
-	            if (menu)
-	                return menu;
+	            // didn't find a menu side that is enabled
+	            // so try to get the first menu side found
+	            return this._menus.find(function (m) { return m.side === menuId; }) || null;
 	        }
+	        else if (menuId) {
+	            // the menuId was not left or right
+	            // so try to get the menu by its "id"
+	            return this._menus.find(function (m) { return m.id === menuId; }) || null;
+	        }
+	        // return the first enabled menu
+	        menu = this._menus.find(function (m) { return m.enabled; });
+	        if (menu)
+	            return menu;
 	        // get the first menu in the array, if one exists
 	        return (this._menus.length ? this._menus[0] : null);
 	    };
@@ -42245,31 +42330,35 @@
 	var blur_1 = __webpack_require__(309);
 	var content_1 = __webpack_require__(310);
 	var scroll_1 = __webpack_require__(311);
-	var pull_to_refresh_1 = __webpack_require__(312);
-	var slides_1 = __webpack_require__(313);
-	var tabs_1 = __webpack_require__(315);
-	var tab_1 = __webpack_require__(317);
-	var list_1 = __webpack_require__(319);
-	var item_1 = __webpack_require__(322);
-	var item_sliding_1 = __webpack_require__(324);
+	var infinite_scroll_1 = __webpack_require__(312);
+	var infinite_scroll_content_1 = __webpack_require__(313);
+	var refresher_1 = __webpack_require__(315);
+	var refresher_content_1 = __webpack_require__(316);
+	var slides_1 = __webpack_require__(317);
+	var tabs_1 = __webpack_require__(319);
+	var tab_1 = __webpack_require__(321);
+	var list_1 = __webpack_require__(323);
+	var item_1 = __webpack_require__(325);
+	var item_sliding_1 = __webpack_require__(327);
 	var toolbar_1 = __webpack_require__(300);
 	var icon_1 = __webpack_require__(299);
-	var checkbox_1 = __webpack_require__(325);
-	var select_1 = __webpack_require__(326);
-	var option_1 = __webpack_require__(328);
-	var toggle_1 = __webpack_require__(329);
-	var input_1 = __webpack_require__(330);
-	var label_1 = __webpack_require__(323);
-	var segment_1 = __webpack_require__(333);
-	var radio_button_1 = __webpack_require__(334);
-	var radio_group_1 = __webpack_require__(335);
-	var searchbar_1 = __webpack_require__(336);
-	var nav_1 = __webpack_require__(337);
-	var nav_push_1 = __webpack_require__(338);
-	var nav_router_1 = __webpack_require__(339);
+	var spinner_1 = __webpack_require__(314);
+	var checkbox_1 = __webpack_require__(328);
+	var select_1 = __webpack_require__(329);
+	var option_1 = __webpack_require__(331);
+	var toggle_1 = __webpack_require__(332);
+	var input_1 = __webpack_require__(333);
+	var label_1 = __webpack_require__(326);
+	var segment_1 = __webpack_require__(336);
+	var radio_button_1 = __webpack_require__(337);
+	var radio_group_1 = __webpack_require__(338);
+	var searchbar_1 = __webpack_require__(339);
+	var nav_1 = __webpack_require__(340);
+	var nav_push_1 = __webpack_require__(341);
+	var nav_router_1 = __webpack_require__(342);
 	var navbar_1 = __webpack_require__(298);
-	var id_1 = __webpack_require__(340);
-	var show_hide_when_1 = __webpack_require__(341);
+	var id_1 = __webpack_require__(343);
+	var show_hide_when_1 = __webpack_require__(344);
 	/**
 	 * @name IONIC_DIRECTIVES
 	 * @private
@@ -42290,7 +42379,10 @@
 	 * -  Blur
 	 * -  Content
 	 * -  Scroll
+	 * -  InfiniteScroll
+	 * -  InfiniteScrollContent
 	 * -  Refresher
+	 * -  RefresherContent
 	 *
 	 * **Lists**
 	 * -  List
@@ -42314,6 +42406,7 @@
 	 *
 	 * **Media**
 	 * -  Icon
+	 * -  Spinner
 	 *
 	 * **Forms**
 	 * -  Searchbar
@@ -42354,7 +42447,10 @@
 	    blur_1.Blur,
 	    content_1.Content,
 	    scroll_1.Scroll,
-	    pull_to_refresh_1.Refresher,
+	    infinite_scroll_1.InfiniteScroll,
+	    infinite_scroll_content_1.InfiniteScrollContent,
+	    refresher_1.Refresher,
+	    refresher_content_1.RefresherContent,
 	    // Lists
 	    list_1.List,
 	    list_1.ListHeader,
@@ -42373,6 +42469,7 @@
 	    toolbar_1.ToolbarItem,
 	    // Media
 	    icon_1.Icon,
+	    spinner_1.Spinner,
 	    // Forms
 	    searchbar_1.Searchbar,
 	    searchbar_1.SearchbarInput,
@@ -42742,14 +42839,27 @@
 	    };
 	    /**
 	     * Used to enable or disable a menu. For example, there could be multiple
-	     * left menus, but only one of them should be able to be dragged open.
+	     * left menus, but only one of them should be able to be opened at the same
+	     * time. If there are multiple menus on the same side, then enabling one menu
+	     * will also automatically disable all the others that are on the same side.
 	     * @param {boolean} shouldEnable  True if it should be enabled, false if not.
 	     * @return {Menu}  Returns the instance of the menu, which is useful for chaining.
 	     */
 	    Menu.prototype.enable = function (shouldEnable) {
+	        var _this = this;
 	        this.enabled = shouldEnable;
 	        if (!shouldEnable && this.isOpen) {
+	            // close if this menu is open, and should not be enabled
 	            this.close();
+	        }
+	        if (shouldEnable) {
+	            // if this menu should be enabled
+	            // then find all the other menus on this same side
+	            // and automatically disable other same side menus
+	            var sameSideMenus = this._menuCtrl
+	                .getMenus()
+	                .filter(function (m) { return m.side === _this.side && m !== _this; })
+	                .map(function (m) { return m.enabled = false; });
 	        }
 	        return this;
 	    };
@@ -42905,6 +43015,9 @@
 	    };
 	    Ion.prototype.height = function () {
 	        return dom.getDimensions(this.elementRef.nativeElement, this._id).height;
+	    };
+	    Ion.prototype.ngOnDestroy = function () {
+	        dom.clearDimensions(this._id);
 	    };
 	    return Ion;
 	})();
@@ -43244,7 +43357,6 @@
 	        this._options = opts;
 	    }
 	    Gesture.prototype.options = function (opts) {
-	        if (opts === void 0) { opts = {}; }
 	        util_1.assign(this._options, opts);
 	    };
 	    Gesture.prototype.on = function (type, cb) {
@@ -43274,11 +43386,12 @@
 	            this._hammer.destroy();
 	        }
 	        this._callbacks = {};
+	        this._hammer = null;
 	        this.isListening = false;
 	    };
 	    Gesture.prototype.destroy = function () {
 	        this.unlisten();
-	        this._hammer = this.element = this._options = null;
+	        this.element = this._options = null;
 	    };
 	    return Gesture;
 	})();
@@ -45515,8 +45628,8 @@
 	        */
 	        get: function () {
 	            if (this._inNavbar && this._viewCtrl) {
-	                if (this._viewCtrl.isRoot()) {
-	                    // this is the root view, so it should always show
+	                if (this._viewCtrl.isFirst()) {
+	                    // this is the first view, so it should always show
 	                    return false;
 	                }
 	                var menu = this._menu.get(this.menuToggle);
@@ -45573,13 +45686,14 @@
 	};
 	var core_1 = __webpack_require__(7);
 	var nav_params_1 = __webpack_require__(297);
+	var util_1 = __webpack_require__(163);
 	/**
 	 * @name ViewController
 	 * @description
 	 * Access various features and information about the current view
 	 * @usage
 	 *  ```ts
-	 *  import {Page, ViewController} from 'ionic/ionic';
+	 *  import {Page, ViewController} from 'ionic-angular';
 	 *  @Page....
 	 *  export class MyPage{
 	 *   constructor(viewCtrl: ViewController){
@@ -45590,7 +45704,6 @@
 	 */
 	var ViewController = (function () {
 	    function ViewController(componentType, data) {
-	        if (data === void 0) { data = {}; }
 	        this.componentType = componentType;
 	        this._destroys = [];
 	        this._hdAttr = null;
@@ -45611,10 +45724,20 @@
 	        this.viewType = '';
 	        /**
 	         * @private
+	         * If this is currently the active view, then set to false
+	         * if it does not want the other views to fire their own lifecycles.
+	         */
+	        this.fireOtherLifecycles = true;
+	        /**
+	         * @private
+	         */
+	        this.isOverlay = false;
+	        /**
+	         * @private
 	         */
 	        this._emitter = new core_1.EventEmitter();
 	        // passed in data could be NavParams, but all we care about is its data object
-	        this.data = (data instanceof nav_params_1.NavParams ? data.data : data);
+	        this.data = (data instanceof nav_params_1.NavParams ? data.data : util_1.isPresent(data) ? data : {});
 	    }
 	    ViewController.prototype.subscribe = function (generatorOrNext) {
 	        return this._emitter.subscribe(generatorOrNext);
@@ -45710,15 +45833,29 @@
 	        configurable: true
 	    });
 	    /**
-	     * @returns {boolean} Returns if this Page is the root page of the NavController.
+	     * @private
 	     */
 	    ViewController.prototype.isRoot = function () {
-	        return (this.index === 0);
+	        // deprecated warning
+	        void 0;
+	        return this.isFirst();
+	    };
+	    /**
+	     * @returns {boolean} Returns if this Page is the first in the stack of pages within its NavController.
+	     */
+	    ViewController.prototype.isFirst = function () {
+	        return (this._nav ? this._nav.first() === this : false);
+	    };
+	    /**
+	     * @returns {boolean} Returns if this Page is the last in the stack of pages within its NavController.
+	     */
+	    ViewController.prototype.isLast = function () {
+	        return (this._nav ? this._nav.last() === this : false);
 	    };
 	    /**
 	     * @private
 	     */
-	    ViewController.prototype.domCache = function (shouldShow, renderer) {
+	    ViewController.prototype.domShow = function (shouldShow, renderer) {
 	        // using hidden element attribute to display:none and not render views
 	        // renderAttr of '' means the hidden attribute will be added
 	        // renderAttr of null means the hidden attribute will be removed
@@ -46091,6 +46228,7 @@
 	var toolbar_1 = __webpack_require__(300);
 	var config_1 = __webpack_require__(161);
 	var app_1 = __webpack_require__(168);
+	var util_1 = __webpack_require__(163);
 	var view_controller_1 = __webpack_require__(296);
 	var nav_controller_1 = __webpack_require__(302);
 	var BackButton = (function (_super) {
@@ -46149,17 +46287,14 @@
 	 * @name Navbar
 	 * @description
 	 * Navbar is a global level toolbar that gets updated every time a page gets
-	 * loaded. You can pass the navbar a `ion-title` or any number of buttons.
+	 * loaded. You can pass the navbar an `ion-title`, any number of buttons, a segment, or a searchbar.
 	 *
 	 * @usage
 	 * ```html
 	 * <ion-navbar *navbar>
-	 *
-	 *   <ion-buttons start>
-	 *     <button (click)="toggleItems()">
-	 *       toggle
-	 *     </button>
-	 *   </ion-buttons>
+	 *   <button menuToggle>
+	 *     <ion-icon name="menu"></ion-icon>
+	 *   </button>
 	 *
 	 *   <ion-title>
 	 *     Page Title
@@ -46167,7 +46302,7 @@
 	 *
 	 *   <ion-buttons end>
 	 *     <button (click)="openModal()">
-	 *       Modal
+	 *       <ion-icon name="options"></ion-icon>
 	 *     </button>
 	 *   </ion-buttons>
 	 * </ion-navbar>
@@ -46182,19 +46317,25 @@
 	        _super.call(this, elementRef);
 	        this._app = _app;
 	        this._renderer = _renderer;
+	        this._hidden = false;
+	        this._hideBb = false;
 	        viewCtrl && viewCtrl.setNavbar(this);
 	        this._bbIcon = config.get('backButtonIcon');
 	        this._bbText = config.get('backButtonText');
 	    }
-	    /**
-	     * @private
-	     */
-	    Navbar.prototype.ngOnInit = function () {
-	        var hideBackButton = this.hideBackButton;
-	        if (typeof hideBackButton === 'string') {
-	            this.hideBackButton = (hideBackButton === '' || hideBackButton === 'true');
-	        }
-	    };
+	    Object.defineProperty(Navbar.prototype, "hideBackButton", {
+	        /**
+	         * @input {boolean} whether the back button should be shown or not
+	         */
+	        get: function () {
+	            return this._hideBb;
+	        },
+	        set: function (val) {
+	            this._hideBb = util_1.isTrueProperty(val);
+	        },
+	        enumerable: true,
+	        configurable: true
+	    });
 	    /**
 	     * @private
 	     */
@@ -46257,13 +46398,13 @@
 	    };
 	    __decorate([
 	        core_1.Input(), 
-	        __metadata('design:type', Object)
-	    ], Navbar.prototype, "hideBackButton", void 0);
+	        __metadata('design:type', Boolean)
+	    ], Navbar.prototype, "hideBackButton", null);
 	    Navbar = __decorate([
 	        core_1.Component({
 	            selector: 'ion-navbar',
 	            template: '<div class="toolbar-background"></div>' +
-	                '<button class="back-button bar-button bar-button-default" [hidden]="hideBackButton">' +
+	                '<button class="back-button bar-button bar-button-default" [hidden]="_hideBb">' +
 	                '<span class="button-inner">' +
 	                '<ion-icon class="back-button-icon" [name]="_bbIcon"></ion-icon>' +
 	                '<span class="back-button-text">' +
@@ -46337,12 +46478,12 @@
 	 * For a full list of available icons, check out the
 	 * [Ionicons resource docs](../../../../resources/ionicons).
 	 *
-	 * One feature of Ionicons is that when icon names are set, the actual icon
+	 * One feature of Ionicons in Ionic is when icon names are set, the actual icon
 	 * which is rendered can change slightly depending on the mode the app is
 	 * running from. For example, by setting the icon name of `alarm`, on iOS the
 	 * icon will automatically apply `ios-alarm`, and on Material Design it will
-	 * automatically apply `md-alarm`. This allow the developer to write the
-	 * markup once, and let Ionic automatically apply the appropriate icon.
+	 * automatically apply `md-alarm`. This allows the developer to write the
+	 * markup once while Ionic applies the appropriate icon based on the mode.
 	 *
 	 * @usage
 	 * ```html
@@ -46759,40 +46900,43 @@
 	};
 	var core_1 = __webpack_require__(7);
 	var config_1 = __webpack_require__(161);
+	var util_1 = __webpack_require__(163);
 	/**
 	  * @name Button
 	  * @module ionic
-	  * @property [outline] - for an unfilled outline button
-	  * @property [clear] - for a transparent button that only shows text and icons
-	  * @property [round] - for a button with rounded corners
-	  * @property [block] - for a block button that fills it's parent container
-	  * @property [full] - for a full width button
-	  * @property [small] - sets button size to small
-	  * @property [large] - sets button size to large
-	  * @property [disabled] - disables the button
-	  * @property [fab] - for a floating action button
-	  * @property [fab-left] - position a fab button to the left
-	  * @property [fab-right] - position a fab button to the right
-	  * @property [fab-center] - position a fab button towards the center
-	  * @property [fab-top] - position a fab button towards the top
-	  * @property [fab-bottom] - position a fab button towards the bottom
-	  * @property [color] - Dynamically set which color attribute this button should use.
+	  *
 	  * @description
-	  * Buttons are simple components in Ionic, can consist of text, an icon, or both, and can be enhanced with a wide range of attributes.
+	  * Buttons are simple components in Ionic. They can consist of text and icons
+	  * and be enhanced by a wide range of attributes.
+	  *
+	  * @property [outline] - A transparent button with a border.
+	  * @property [clear] - A transparent button without a border.
+	  * @property [round] - A button with rounded corners.
+	  * @property [block] - A button that fills its parent container with a border-radius.
+	  * @property [full] - A button that fills its parent container without a border-radius or borders on the left/right.
+	  * @property [small] - A button with size small.
+	  * @property [large] - A button with size large.
+	  * @property [disabled] - A disabled button.
+	  * @property [fab] - A floating action button.
+	  * @property [fab-left] - Position a fab button to the left.
+	  * @property [fab-right] - Position a fab button to the right.
+	  * @property [fab-center] - Position a fab button towards the center.
+	  * @property [fab-top] - Position a fab button towards the top.
+	  * @property [fab-bottom] - Position a fab button towards the bottom.
+	  * @property [color] - Dynamically set which color attribute this button should use.
+	  *
 	  * @demo /docs/v2/demos/button/
 	  * @see {@link /docs/v2/components#buttons Button Component Docs}
-
 	 */
 	var Button = (function () {
 	    function Button(config, _elementRef, _renderer, ionItem) {
 	        this._elementRef = _elementRef;
 	        this._renderer = _renderer;
 	        this._role = 'button'; // bar-button/item-button
-	        this._size = null; // large/small
+	        this._size = null; // large/small/default
 	        this._style = 'default'; // outline/clear/solid
 	        this._shape = null; // round/fab
 	        this._display = null; // block/full
-	        this._lastColor = null;
 	        this._colors = []; // primary/secondary
 	        this._icon = null; // left/right/only
 	        this._disabled = false; // disabled
@@ -46811,27 +46955,125 @@
 	        }
 	        this._readAttrs(element);
 	    }
+	    Object.defineProperty(Button.prototype, "large", {
+	        /**
+	         * @input {string} Large button.
+	         */
+	        set: function (val) {
+	            this._attr('_size', 'large', val);
+	        },
+	        enumerable: true,
+	        configurable: true
+	    });
+	    Object.defineProperty(Button.prototype, "small", {
+	        /**
+	         * @input {string} Small button.
+	         */
+	        set: function (val) {
+	            this._attr('_size', 'small', val);
+	        },
+	        enumerable: true,
+	        configurable: true
+	    });
+	    Object.defineProperty(Button.prototype, "default", {
+	        /**
+	         * @input {string} Default button.
+	         */
+	        set: function (val) {
+	            this._attr('_size', 'default', val);
+	        },
+	        enumerable: true,
+	        configurable: true
+	    });
+	    Object.defineProperty(Button.prototype, "outline", {
+	        /**
+	         * @input {string} A transparent button with a border.
+	         */
+	        set: function (val) {
+	            this._attr('_style', 'outline', val);
+	        },
+	        enumerable: true,
+	        configurable: true
+	    });
+	    Object.defineProperty(Button.prototype, "clear", {
+	        /**
+	         * @input {string} A transparent button without a border.
+	         */
+	        set: function (val) {
+	            this._attr('_style', 'clear', val);
+	        },
+	        enumerable: true,
+	        configurable: true
+	    });
+	    Object.defineProperty(Button.prototype, "solid", {
+	        /**
+	         * @input {string} Force a solid button. Useful for buttons within an item.
+	         */
+	        set: function (val) {
+	            this._attr('_style', 'solid', val);
+	        },
+	        enumerable: true,
+	        configurable: true
+	    });
+	    Object.defineProperty(Button.prototype, "round", {
+	        /**
+	         * @input {string} A button with rounded corners.
+	         */
+	        set: function (val) {
+	            this._attr('_shape', 'round', val);
+	        },
+	        enumerable: true,
+	        configurable: true
+	    });
+	    Object.defineProperty(Button.prototype, "block", {
+	        /**
+	         * @input {string} A button that fills its parent container with a border-radius.
+	         */
+	        set: function (val) {
+	            this._attr('_display', 'block', val);
+	        },
+	        enumerable: true,
+	        configurable: true
+	    });
+	    Object.defineProperty(Button.prototype, "full", {
+	        /**
+	         * @input {string} A button that fills its parent container without a border-radius or borders on the left/right.
+	         */
+	        set: function (val) {
+	            this._attr('_display', 'full', val);
+	        },
+	        enumerable: true,
+	        configurable: true
+	    });
+	    Button.prototype._attr = function (type, attrName, attrValue) {
+	        this._setClass(this[type], false);
+	        if (util_1.isTrueProperty(attrValue)) {
+	            this[type] = attrName;
+	            this._setClass(attrName, true);
+	        }
+	        else {
+	            this[type] = null;
+	        }
+	    };
+	    Object.defineProperty(Button.prototype, "color", {
+	        /**
+	         * @input {string} Dynamically set which color attribute this button should use.
+	         */
+	        set: function (val) {
+	            this._assignCss(false);
+	            this._colors = [val];
+	            this._assignCss(true);
+	        },
+	        enumerable: true,
+	        configurable: true
+	    });
 	    /**
 	     * @private
 	     */
 	    Button.prototype.ngAfterContentInit = function () {
-	        this._lastColor = this.color;
-	        if (this.color) {
-	            this._colors = [this.color];
-	        }
+	        this._init = true;
 	        this._readIcon(this._elementRef.nativeElement);
 	        this._assignCss(true);
-	    };
-	    /**
-	     * @private
-	     */
-	    Button.prototype.ngAfterContentChecked = function () {
-	        if (this._lastColor !== this.color) {
-	            this._assignCss(false);
-	            this._lastColor = this.color;
-	            this._colors = [this.color];
-	            this._assignCss(true);
-	        }
 	    };
 	    /**
 	     * @private
@@ -46937,7 +47179,7 @@
 	     * @private
 	     */
 	    Button.prototype._setClass = function (type, assignCssClass) {
-	        if (type) {
+	        if (type && this._init) {
 	            this._renderer.setElementClass(this._elementRef.nativeElement, this._role + '-' + type, assignCssClass);
 	        }
 	    };
@@ -46952,8 +47194,54 @@
 	    };
 	    __decorate([
 	        core_1.Input(), 
-	        __metadata('design:type', String)
-	    ], Button.prototype, "color", void 0);
+	        __metadata('design:type', Boolean), 
+	        __metadata('design:paramtypes', [Boolean])
+	    ], Button.prototype, "large", null);
+	    __decorate([
+	        core_1.Input(), 
+	        __metadata('design:type', Boolean), 
+	        __metadata('design:paramtypes', [Boolean])
+	    ], Button.prototype, "small", null);
+	    __decorate([
+	        core_1.Input(), 
+	        __metadata('design:type', Boolean), 
+	        __metadata('design:paramtypes', [Boolean])
+	    ], Button.prototype, "default", null);
+	    __decorate([
+	        core_1.Input(), 
+	        __metadata('design:type', Boolean), 
+	        __metadata('design:paramtypes', [Boolean])
+	    ], Button.prototype, "outline", null);
+	    __decorate([
+	        core_1.Input(), 
+	        __metadata('design:type', Boolean), 
+	        __metadata('design:paramtypes', [Boolean])
+	    ], Button.prototype, "clear", null);
+	    __decorate([
+	        core_1.Input(), 
+	        __metadata('design:type', Boolean), 
+	        __metadata('design:paramtypes', [Boolean])
+	    ], Button.prototype, "solid", null);
+	    __decorate([
+	        core_1.Input(), 
+	        __metadata('design:type', Boolean), 
+	        __metadata('design:paramtypes', [Boolean])
+	    ], Button.prototype, "round", null);
+	    __decorate([
+	        core_1.Input(), 
+	        __metadata('design:type', Boolean), 
+	        __metadata('design:paramtypes', [Boolean])
+	    ], Button.prototype, "block", null);
+	    __decorate([
+	        core_1.Input(), 
+	        __metadata('design:type', Boolean), 
+	        __metadata('design:paramtypes', [Boolean])
+	    ], Button.prototype, "full", null);
+	    __decorate([
+	        core_1.Input(), 
+	        __metadata('design:type', String), 
+	        __metadata('design:paramtypes', [String])
+	    ], Button.prototype, "color", null);
 	    Button = __decorate([
 	        core_1.Component({
 	            selector: 'button:not([ion-item]),[button]',
@@ -46968,7 +47256,7 @@
 	    return Button;
 	})();
 	exports.Button = Button;
-	var BUTTON_SIZE_ATTRS = ['large', 'small'];
+	var BUTTON_SIZE_ATTRS = ['large', 'small', 'default'];
 	var BUTTON_STYLE_ATTRS = ['clear', 'outline', 'solid'];
 	var BUTTON_SHAPE_ATTRS = ['round', 'fab'];
 	var BUTTON_DISPLAY_ATTRS = ['block', 'full'];
@@ -47114,7 +47402,7 @@
 	        this._trnsDelay = config.get('pageTransitionDelay');
 	        this._sbEnabled = config.getBoolean('swipeBackEnabled') || false;
 	        this._sbThreshold = config.get('swipeBackThreshold') || 40;
-	        this.id = ++ctrlIds;
+	        this.id = (++ctrlIds).toString();
 	        // build a new injector for child ViewControllers to use
 	        this.providers = core_1.Injector.resolve([
 	            core_1.provide(NavController, { useValue: this })
@@ -47128,8 +47416,6 @@
 	     * @returns {Promise} Returns a promise when done
 	     */
 	    NavController.prototype.setRoot = function (page, params, opts) {
-	        if (params === void 0) { params = {}; }
-	        if (opts === void 0) { opts = {}; }
 	        return this.setPages([{ page: page, params: params }], opts);
 	    };
 	    /**
@@ -47137,7 +47423,7 @@
 	     *
 	     *
 	     *```typescript
-	     * import {Page, NavController} from 'ionic/ionic'
+	     * import {Page, NavController} from 'ionic-angular'
 	     * import {Detail} from '../detail/detail'
 	     * import {Info} from '../info/info'
 	     *
@@ -47158,7 +47444,7 @@
 	     *
 	     *
 	     *```typescript
-	     * import {Page, NavController} from 'ionic/ionic'
+	     * import {Page, NavController} from 'ionic-angular'
 	     * import {Detail} from '../detail/detail'
 	     *
 	     *  export class Home {
@@ -47178,7 +47464,7 @@
 	     *
 	     *
 	     *```typescript
-	     * import {Page, NavController} from 'ionic/ionic';
+	     * import {Page, NavController} from 'ionic-angular';
 	     * import {Info} from '../info/info';
 	     * import {List} from '../list/list';
 	     * import {Detail} from '../detail/detail';
@@ -47206,9 +47492,11 @@
 	     * @returns {Promise} Returns a promise when the pages are set
 	     */
 	    NavController.prototype.setPages = function (pages, opts) {
-	        if (opts === void 0) { opts = {}; }
 	        if (!pages || !pages.length) {
 	            return Promise.resolve(false);
+	        }
+	        if (util_1.isBlank(opts)) {
+	            opts = {};
 	        }
 	        // deprecated warning
 	        pages.forEach(function (pg) {
@@ -47244,7 +47532,6 @@
 	     * @private
 	     */
 	    NavController.prototype.setViews = function (components, opts) {
-	        if (opts === void 0) { opts = {}; }
 	        void 0;
 	        return this.setPages(components, opts);
 	    };
@@ -47314,8 +47601,6 @@
 	     * @returns {Promise} Returns a promise, which resolves when the transition has completed
 	     */
 	    NavController.prototype.push = function (page, params, opts) {
-	        if (params === void 0) { params = {}; }
-	        if (opts === void 0) { opts = {}; }
 	        return this.insertPages(-1, [{ page: page, params: params }], opts);
 	    };
 	    /**
@@ -47344,13 +47629,15 @@
 	     * @returns {Promise} Returns a promise, which resolves when the transition has completed
 	     */
 	    NavController.prototype.present = function (enteringView, opts) {
-	        if (opts === void 0) { opts = {}; }
 	        var rootNav = this.rootNav;
 	        if (rootNav['_tabs']) {
 	            // TODO: must have until this goes in
 	            // https://github.com/angular/angular/issues/5481
 	            void 0;
 	            return;
+	        }
+	        if (util_1.isBlank(opts)) {
+	            opts = {};
 	        }
 	        enteringView.setNav(rootNav);
 	        opts.keyboardClose = false;
@@ -47390,8 +47677,6 @@
 	     * @returns {Promise} Returns a promise when the page has been inserted into the navigation stack
 	     */
 	    NavController.prototype.insert = function (insertIndex, page, params, opts) {
-	        if (params === void 0) { params = {}; }
-	        if (opts === void 0) { opts = {}; }
 	        return this.insertPages(insertIndex, [{ page: page, params: params }], opts);
 	    };
 	    /**
@@ -47423,14 +47708,15 @@
 	     * @returns {Promise} Returns a promise when the pages have been inserted into the navigation stack
 	     */
 	    NavController.prototype.insertPages = function (insertIndex, insertPages, opts) {
-	        if (opts === void 0) { opts = {}; }
 	        var views = insertPages.map(function (p) { return new view_controller_1.ViewController(p.page, p.params); });
 	        return this._insertViews(insertIndex, views, opts);
 	    };
 	    NavController.prototype._insertViews = function (insertIndex, insertViews, opts) {
-	        if (opts === void 0) { opts = {}; }
 	        if (!insertViews || !insertViews.length) {
 	            return Promise.reject('invalid pages');
+	        }
+	        if (util_1.isBlank(opts)) {
+	            opts = {};
 	        }
 	        // insert the new page into the stack
 	        // returns the newly created entering view
@@ -47534,12 +47820,19 @@
 	     * @returns {Promise} Returns a promise when the transition is completed
 	     */
 	    NavController.prototype.pop = function (opts) {
-	        if (opts === void 0) { opts = {}; }
 	        // get the index of the active view
 	        // which will become the view to be leaving
 	        var activeView = this.getByState(STATE_TRANS_ENTER) ||
 	            this.getByState(STATE_INIT_ENTER) ||
 	            this.getActive();
+	        if (util_1.isBlank(opts)) {
+	            opts = {};
+	        }
+	        // if not set, by default climb up the nav controllers if
+	        // there isn't a previous view in this nav controller
+	        if (util_1.isBlank(opts.climbNav)) {
+	            opts.climbNav = true;
+	        }
 	        return this.remove(this.indexOf(activeView), 1, opts);
 	    };
 	    /**
@@ -47547,7 +47840,6 @@
 	     * @param {object} [opts={}] Any options you want to use pass to transtion
 	     */
 	    NavController.prototype.popToRoot = function (opts) {
-	        if (opts === void 0) { opts = {}; }
 	        return this.popTo(this.first(), opts);
 	    };
 	    /**
@@ -47556,7 +47848,6 @@
 	     * @param {object} [opts={}]  Any options you want to use pass to transtion
 	     */
 	    NavController.prototype.popTo = function (view, opts) {
-	        if (opts === void 0) { opts = {}; }
 	        var startIndex = this.indexOf(view);
 	        var activeView = this.getByState(STATE_TRANS_ENTER) ||
 	            this.getByState(STATE_INIT_ENTER) ||
@@ -47584,15 +47875,16 @@
 	     * @returns {Promise} Returns a promise when the page has been removed.
 	     */
 	    NavController.prototype.remove = function (startIndex, removeCount, opts) {
-	        var _this = this;
 	        if (startIndex === void 0) { startIndex = -1; }
 	        if (removeCount === void 0) { removeCount = 1; }
-	        if (opts === void 0) { opts = {}; }
 	        if (startIndex === -1) {
 	            startIndex = this._views.length - 1;
 	        }
 	        else if (startIndex < 0 || startIndex >= this._views.length) {
 	            return Promise.reject("remove index out of range");
+	        }
+	        if (util_1.isBlank(opts)) {
+	            opts = {};
 	        }
 	        // default the direction to "back"
 	        opts.direction = opts.direction || 'back';
@@ -47603,40 +47895,51 @@
 	            if (forcedActive) {
 	                // this scenario happens when a remove is going on
 	                // during a transition
-	                var resolve;
-	                var promise = new Promise(function (res) { resolve = res; });
-	                if (!opts.animation) {
-	                    opts.animation = forcedActive.getTransitionName(opts.direction);
-	                }
 	                if (this._trans) {
-	                    this._trans
-	                        .onFinish(function () {
-	                        opts.animate = false;
-	                        _this._transition(forcedActive, null, opts, function (hasCompleted) {
-	                            // transition has completed!!
-	                            resolve(hasCompleted);
-	                        });
-	                    }, false, true)
-	                        .stop();
+	                    this._trans.stop();
 	                    this._trans.destroy();
 	                    this._trans = null;
+	                    this._cleanup();
 	                }
-	                else {
-	                    resolve(false);
-	                }
-	                return promise;
+	                return Promise.resolve(false);
 	            }
 	        }
 	        if (leavingView) {
 	            // there is a view ready to leave, meaning that a transition needs
 	            // to happen and the previously active view is going to animate out
+	            // get the view thats ready to enter
+	            var enteringView = this.getByState(STATE_INIT_ENTER);
+	            if (!enteringView) {
+	                // oh knows! no entering view to go to!
+	                // if there is no previous view that would enter in this nav stack
+	                // and the option is set to climb up the nav parent looking
+	                // for the next nav we could transition to instead
+	                if (opts.climbNav) {
+	                    var parentNav = this.parent;
+	                    while (parentNav) {
+	                        if (!parentNav['_tabs']) {
+	                            // Tabs can be a parent, but it is not a collection of views
+	                            // only we're looking for an actual NavController w/ stack of views
+	                            leavingView.willLeave();
+	                            return parentNav.pop(opts).then(function (rtnVal) {
+	                                leavingView.didLeave();
+	                                return rtnVal;
+	                            });
+	                        }
+	                        parentNav = parentNav.parent;
+	                    }
+	                }
+	                // there's no previous view and there's no valid parent nav
+	                // to climb to so this shouldn't actually remove the leaving
+	                // view because there's nothing that would enter, eww
+	                leavingView.state = STATE_ACTIVE;
+	                return Promise.resolve(false);
+	            }
 	            var resolve;
 	            var promise = new Promise(function (res) { resolve = res; });
 	            if (!opts.animation) {
 	                opts.animation = leavingView.getTransitionName(opts.direction);
 	            }
-	            // get the view thats ready to enter
-	            var enteringView = this.getByState(STATE_INIT_ENTER);
 	            // start the transition, fire resolve when done...
 	            this._transition(enteringView, leavingView, opts, function (hasCompleted) {
 	                // transition has completed!!
@@ -47756,8 +48059,10 @@
 	        }
 	        // lets time this sucker, ready go
 	        var wtfScope = instrumentation_1.wtfStartTimeRange('NavController#_transition', (enteringView && enteringView.name));
-	        if (this.config.get('animate') === false ||
-	            (this._views.length === 1 && !this._init)) {
+	        if (util_1.isBlank(opts)) {
+	            opts = {};
+	        }
+	        if (this.config.get('animate') === false || (this._views.length === 1 && !this._init)) {
 	            opts.animate = false;
 	        }
 	        if (!leavingView) {
@@ -47829,7 +48134,6 @@
 	     */
 	    NavController.prototype._postRender = function (transId, enteringView, leavingView, isAlreadyTransitioning, opts, done) {
 	        // called after _render has completed and the view is compiled/loaded
-	        var _this = this;
 	        if (enteringView.state === STATE_INACTIVE) {
 	            // this entering view is already set to inactive, so this
 	            // transition must be canceled, so don't continue
@@ -47849,20 +48153,36 @@
 	                // the previous transition was still going when this one started
 	                // so to be safe, only update showing the entering/leaving
 	                // don't hide the others when they could still be transitioning
-	                enteringView.domCache(true, this._renderer);
-	                leavingView.domCache(true, this._renderer);
+	                enteringView.domShow(true, this._renderer);
+	                leavingView.domShow(true, this._renderer);
 	            }
 	            else {
 	                // there are no other transitions happening but this one
 	                // only entering/leaving should show, all others hidden
-	                this._views.forEach(function (view) {
-	                    var shouldShow = (view === enteringView) || (view === leavingView);
-	                    view.domCache(shouldShow, _this._renderer);
-	                });
+	                // also if a view is an overlay or the previous view is an
+	                // overlay then always show the overlay and the view before it
+	                var view;
+	                var shouldShow;
+	                for (var i = 0, ii = this._views.length; i < ii; i++) {
+	                    view = this._views[i];
+	                    shouldShow = (view === enteringView) ||
+	                        (view === leavingView) ||
+	                        view.isOverlay ||
+	                        (i < ii - 1 ? this._views[i + 1].isOverlay : false);
+	                    view.domShow(shouldShow, this._renderer);
+	                }
 	            }
 	            // call each view's lifecycle events
-	            enteringView.willEnter();
-	            leavingView.willLeave();
+	            if (leavingView.fireOtherLifecycles) {
+	                // only fire entering lifecycle if the leaving
+	                // view hasn't explicitly set not to
+	                enteringView.willEnter();
+	            }
+	            if (enteringView.fireOtherLifecycles) {
+	                // only fire leaving lifecycle if the entering
+	                // view hasn't explicitly set not to
+	                leavingView.willLeave();
+	            }
 	        }
 	        else {
 	            // this view is being preloaded, don't call lifecycle events
@@ -47914,11 +48234,11 @@
 	                transAnimation.before.addClass(enteringView.viewType);
 	            }
 	            // create a callback for when the animation is done
-	            transAnimation.onFinish(function (hasCompleted) {
+	            transAnimation.onFinish(function (trans) {
 	                // transition animation has ended
 	                // destroy the animation and it's element references
-	                transAnimation.destroy();
-	                _this._afterTrans(enteringView, leavingView, opts, hasCompleted, done);
+	                trans.destroy();
+	                _this._afterTrans(enteringView, leavingView, opts, trans.hasCompleted, done);
 	            });
 	            // cool, let's do this, start the transition
 	            if (opts.progressAnimation) {
@@ -47944,8 +48264,16 @@
 	        // run inside of the zone again
 	        this._zone.run(function () {
 	            if (!opts.preload && hasCompleted) {
-	                enteringView.didEnter();
-	                leavingView.didLeave();
+	                if (leavingView.fireOtherLifecycles) {
+	                    // only fire entering lifecycle if the leaving
+	                    // view hasn't explicitly set not to
+	                    enteringView.didEnter();
+	                }
+	                if (enteringView.fireOtherLifecycles) {
+	                    // only fire leaving lifecycle if the entering
+	                    // view hasn't explicitly set not to
+	                    leavingView.didLeave();
+	                }
 	            }
 	            if (enteringView.state === STATE_INACTIVE) {
 	                // this entering view is already set to inactive, so this
@@ -47993,11 +48321,20 @@
 	                this._cleanup();
 	                // make sure only this entering view and PREVIOUS view are the
 	                // only two views that are not display:none
+	                // do not make any changes to the stack's current visibility
+	                // if there is an overlay somewhere in the stack
 	                leavingView = this.getPrevious(enteringView);
-	                this._views.forEach(function (view) {
-	                    var shouldShow = (view === enteringView) || (view === leavingView);
-	                    view.domCache(shouldShow, _this._renderer);
-	                });
+	                if (this.hasOverlay()) {
+	                    // ensure the entering view is showing
+	                    enteringView.domShow(true, this._renderer);
+	                }
+	                else {
+	                    // only possibly hide a view if there are no overlays in the stack
+	                    this._views.forEach(function (view) {
+	                        var shouldShow = (view === enteringView) || (view === leavingView);
+	                        view.domShow(shouldShow, _this._renderer);
+	                    });
+	                }
 	                // this check only needs to happen once, which will add the css
 	                // class to the nav when it's finished its first transition
 	                if (!this._init) {
@@ -48056,6 +48393,22 @@
 	            _this._views.splice(_this.indexOf(view), 1);
 	            view.destroy();
 	        });
+	        // if any z-index goes under 0, then reset them all
+	        var shouldResetZIndex = this._views.some(function (v) { return v.zIndex < 0; });
+	        if (shouldResetZIndex) {
+	            this._views.forEach(function (view) {
+	                view.setZIndex(view.zIndex + INIT_ZINDEX + 1, _this._renderer);
+	            });
+	        }
+	    };
+	    /**
+	     * @private
+	     */
+	    NavController.prototype.ngOnDestroy = function () {
+	        for (var i = this._views.length - 1; i >= 0; i--) {
+	            this._views[i].destroy();
+	        }
+	        this._views = [];
 	    };
 	    /**
 	     * @private
@@ -48090,6 +48443,7 @@
 	                if (!hostViewRef.destroyed && index !== -1) {
 	                    viewContainer.remove(index);
 	                }
+	                view.setInstance(null);
 	            });
 	            // a new ComponentRef has been created
 	            // set the ComponentRef's instance to this ViewController
@@ -48244,6 +48598,18 @@
 	    };
 	    /**
 	     * @private
+	     * @returns {boolean}
+	     */
+	    NavController.prototype.hasOverlay = function () {
+	        for (var i = this._views.length - 1; i >= 0; i--) {
+	            if (this._views[i].isOverlay) {
+	                return true;
+	            }
+	        }
+	        return false;
+	    };
+	    /**
+	     * @private
 	     * @returns {ViewController}
 	     */
 	    NavController.prototype.getByState = function (state) {
@@ -48372,7 +48738,7 @@
 	var STATE_REMOVE = 'remove';
 	var STATE_REMOVE_AFTER_TRANS = 'remove_after_trans';
 	var STATE_FORCE_ACTIVE = 'force_active';
-	var INIT_ZINDEX = 10;
+	var INIT_ZINDEX = 100;
 	var ctrlIds = -1;
 
 
@@ -48491,7 +48857,11 @@
 	    function Animation(ele, opts) {
 	        if (opts === void 0) { opts = {}; }
 	        this._wChg = false;
+	        this._rv = false;
 	        this._lastUpd = 0;
+	        this.isPlaying = false;
+	        this.hasTween = false;
+	        this.hasCompleted = false;
 	        this._reset();
 	        this.element(ele);
 	        this._opts = util_1.assign({
@@ -48511,8 +48881,6 @@
 	        this._pFns = [];
 	        this._fFns = [];
 	        this._fOnceFns = [];
-	        this._clearAsync();
-	        this.isPlaying = this.hasTween = this._rv = false;
 	        this._easing = this._dur = null;
 	    };
 	    Animation.prototype.element = function (ele) {
@@ -48524,7 +48892,7 @@
 	                }
 	            }
 	            else if (typeof ele === 'string') {
-	                ele = doc.querySelector(ele);
+	                ele = document.querySelectorAll(ele);
 	                for (i = 0; i < ele.length; i++) {
 	                    this._addEle(ele[i]);
 	                }
@@ -48607,7 +48975,7 @@
 	            unit: '',
 	        };
 	        if (typeof val === 'string' && val.indexOf(' ') < 0) {
-	            var r = val.match(cssValueRegex);
+	            var r = val.match(CSS_VALUE_REGEX);
 	            var num = parseFloat(r[1]);
 	            if (!isNaN(num)) {
 	                fxState.num = num;
@@ -48690,11 +49058,12 @@
 	        // and that it has at least one FROM/TO effect
 	        // and that the FROM/TO effect can tween numeric values
 	        self.hasTween = false;
+	        self.hasCompleted = false;
 	        // fire off all the onPlays
 	        for (i = 0; i < self._pFns.length; i++) {
 	            self._pFns[i]();
 	        }
-	        this.isPlaying = true;
+	        self.isPlaying = true;
 	        // this is the top level animation and is in full control
 	        // of when the async play() should actually kick off
 	        // if there is no duration then it'll set the TO property immediately
@@ -48705,13 +49074,14 @@
 	        // will recursively stage all child elements
 	        self._before();
 	        // ensure all past transition end events have been cleared
-	        this._clearAsync();
+	        self._clearAsync();
 	        if (duration > 30) {
 	            // this animation has a duration, so it should animate
 	            // place all the elements with their FROM properties
 	            // set the FROM properties
 	            self._progress(0);
-	            self._willChange(true);
+	            // add the will-change or translateZ properties when applicable
+	            self._willChg(true);
 	            // set the async TRANSITION END event
 	            // and run onFinishes when the transition ends
 	            self._asyncEnd(duration, true);
@@ -48740,7 +49110,7 @@
 	            self._after();
 	            // since there was no animation, it's done
 	            // fire off all the onFinishes
-	            self._onFinish(true);
+	            self._didFinish(true);
 	        }
 	    };
 	    Animation.prototype.stop = function (opts) {
@@ -48767,7 +49137,7 @@
 	            self._after();
 	            // since there was no animation, it's done
 	            // fire off all the onFinishes
-	            self._onFinish(false);
+	            self._didFinish(false);
 	        }
 	    };
 	    Animation.prototype._asyncEnd = function (duration, shouldComplete) {
@@ -48778,21 +49148,50 @@
 	            self._clearAsync();
 	            // set the after styles
 	            self._after();
-	            self._willChange(false);
-	            self._onFinish(shouldComplete);
+	            // remove will change properties
+	            self._willChg(false);
+	            // transition finished
+	            self._didFinish(shouldComplete);
+	        }
+	        function onTransitionFallback() {
+	            void 0;
+	            // oh noz! the transition end event didn't fire in time!
+	            // instead the fallback timer when first
+	            // clear the other async end events from firing
+	            self._tmr = 0;
+	            self._clearAsync();
+	            // too late to have a smooth animation, just finish it
+	            self._setTrans(0, true);
+	            // ensure the ending progress step gets rendered
+	            self._progress(1);
+	            // set the after styles
+	            self._after();
+	            // remove will change properties
+	            self._willChg(false);
+	            // transition finished
+	            self._didFinish(shouldComplete);
 	        }
 	        // set the TRANSITION END event on one of the transition elements
 	        self._unregTrans = dom_1.transitionEnd(self._transEl(), onTransitionEnd);
-	        // set a fallback timeout if the transition end event never fires
-	        self._tmr = setTimeout(onTransitionEnd, duration + 300);
+	        // set a fallback timeout if the transition end event never fires, or is too slow
+	        // transition end fallback: (animation duration + XXms)
+	        self._tmr = setTimeout(onTransitionFallback, duration + 400);
 	    };
 	    Animation.prototype._clearAsync = function () {
 	        this._unregTrans && this._unregTrans();
-	        clearTimeout(this._tmr);
+	        if (this._tmr) {
+	            clearTimeout(this._tmr);
+	            this._tmr = 0;
+	        }
 	    };
 	    Animation.prototype._progress = function (stepValue) {
 	        // bread 'n butter
-	        var i, prop, fx, val, transforms, tweenEffect;
+	        var i;
+	        var prop;
+	        var fx;
+	        var val;
+	        var transforms;
+	        var tweenEffect;
 	        for (i = 0; i < this._c.length; i++) {
 	            this._c[i]._progress(stepValue);
 	        }
@@ -48850,7 +49249,8 @@
 	        }
 	    };
 	    Animation.prototype._setTrans = function (duration, forcedLinearEasing) {
-	        var i, easing;
+	        var i;
+	        var easing;
 	        // set the TRANSITION properties inline on the element
 	        for (i = 0; i < this._c.length; i++) {
 	            this._c[i]._setTrans(duration, forcedLinearEasing);
@@ -48867,10 +49267,12 @@
 	            }
 	        }
 	    };
-	    Animation.prototype._willChange = function (addWillChange) {
-	        var i, wc, prop;
+	    Animation.prototype._willChg = function (addWillChange) {
+	        var i;
+	        var wc;
+	        var prop;
 	        for (i = 0; i < this._c.length; i++) {
-	            this._c[i]._willChange(addWillChange);
+	            this._c[i]._willChg(addWillChange);
 	        }
 	        if (this._wChg) {
 	            wc = [];
@@ -48889,7 +49291,10 @@
 	    Animation.prototype._before = function () {
 	        // before the RENDER_DELAY
 	        // before the animations have started
-	        var i, j, prop, ele;
+	        var i;
+	        var j;
+	        var prop;
+	        var ele;
 	        // stage all of the child animations
 	        for (i = 0; i < this._c.length; i++) {
 	            this._c[i]._before();
@@ -48914,7 +49319,10 @@
 	    };
 	    Animation.prototype._after = function () {
 	        // after the animations have finished
-	        var i, j, prop, ele;
+	        var i;
+	        var j;
+	        var prop;
+	        var ele;
 	        for (i = 0; i < this._c.length; i++) {
 	            this._c[i]._after();
 	        }
@@ -48993,8 +49401,8 @@
 	            // the progress was already left off at the point that is finished
 	            // for example, the left menu was dragged all the way open already
 	            this._after();
-	            this._willChange(false);
-	            this._onFinish(shouldComplete);
+	            this._willChg(false);
+	            this._didFinish(shouldComplete);
 	        }
 	        else {
 	            // the stepValue was left off at a point when it needs to finish transition still
@@ -49023,14 +49431,15 @@
 	        }
 	        return this;
 	    };
-	    Animation.prototype._onFinish = function (hasCompleted) {
+	    Animation.prototype._didFinish = function (hasCompleted) {
 	        this.isPlaying = false;
+	        this.hasCompleted = hasCompleted;
 	        var i;
 	        for (i = 0; i < this._fFns.length; i++) {
-	            this._fFns[i](hasCompleted);
+	            this._fFns[i](this);
 	        }
 	        for (i = 0; i < this._fOnceFns.length; i++) {
-	            this._fOnceFns[i](hasCompleted);
+	            this._fOnceFns[i](this);
 	        }
 	        this._fOnceFns = [];
 	    };
@@ -49043,7 +49452,8 @@
 	        return this;
 	    };
 	    Animation.prototype.destroy = function (removeElement) {
-	        var i, ele;
+	        var i;
+	        var ele;
 	        for (i = 0; i < this._c.length; i++) {
 	            this._c[i].destroy(removeElement);
 	        }
@@ -49053,11 +49463,13 @@
 	                ele.parentNode && ele.parentNode.removeChild(ele);
 	            }
 	        }
+	        this._clearAsync();
 	        this._reset();
 	    };
 	    Animation.prototype._transEl = function () {
 	        // get the lowest level element that has an Animation
-	        var i, targetEl;
+	        var i;
+	        var targetEl;
 	        for (i = 0; i < this._c.length; i++) {
 	            targetEl = this._c[i]._transEl();
 	            if (targetEl) {
@@ -49085,14 +49497,13 @@
 	    return Animation;
 	})();
 	exports.Animation = Animation;
-	var doc = document;
 	var TRANSFORMS = {
 	    'translateX': 1, 'translateY': 1, 'translateZ': 1,
 	    'scale': 1, 'scaleX': 1, 'scaleY': 1, 'scaleZ': 1,
 	    'rotate': 1, 'rotateX': 1, 'rotateY': 1, 'rotateZ': 1,
 	    'skewX': 1, 'skewY': 1, 'perspective': 1
 	};
-	var cssValueRegex = /(^-?\d*\.?\d*)(.*)/;
+	var CSS_VALUE_REGEX = /(^-?\d*\.?\d*)(.*)/;
 	var AnimationRegistry = {};
 
 
@@ -49305,15 +49716,15 @@
 	/**
 	 * @name Content
 	 * @description
-	 * The Content component provides an easy to use content area that can be configured to use Ionic's custom Scroll View, or the built in overflow scrolling of the browser.
+	 * The Content component provides an easy to use content area with some useful
+	 * methods to control the scrollable area.
 	 *
-	 * While we recommend using the custom Scroll features in Ionic in most cases, sometimes (for performance reasons) only the browser's native overflow scrolling will suffice, and so we've made it easy to toggle between the Ionic scroll implementation and overflow scrolling.
-	 *
-	 * You can implement pull-to-refresh with the [Refresher](../../scroll/Refresher) component.
+	 * The content area can also implement pull-to-refresh with the
+	 * [Refresher](../../scroll/Refresher) component.
 	 *
 	 * @usage
 	 * ```html
-	 * <ion-content id="myContent">
+	 * <ion-content>
 	 *   Add your content here!
 	 * </ion-content>
 	 * ```
@@ -49321,10 +49732,6 @@
 	 */
 	var Content = (function (_super) {
 	    __extends(Content, _super);
-	    /**
-	     * @param {elementRef} elementRef  A reference to the component's DOM element.
-	     * @param {config} config  The config object to change content's default settings.
-	     */
 	    function Content(_elementRef, _config, _app, _zone, viewCtrl) {
 	        _super.call(this, _elementRef);
 	        this._elementRef = _elementRef;
@@ -49343,12 +49750,11 @@
 	    Content.prototype.ngOnInit = function () {
 	        var self = this;
 	        self.scrollElement = self._elementRef.nativeElement.children[0];
-	        self._onScroll = function (ev) {
-	            self._app.setScrolling();
-	        };
 	        if (self._config.get('tapPolyfill') === true) {
 	            self._zone.runOutsideAngular(function () {
-	                self.scrollElement.addEventListener('scroll', self._onScroll);
+	                self._scLsn = self.addScrollListener(function () {
+	                    self._app.setScrolling();
+	                });
 	            });
 	        }
 	    };
@@ -49356,7 +49762,8 @@
 	     * @private
 	     */
 	    Content.prototype.ngOnDestroy = function () {
-	        this.scrollElement.removeEventListener('scroll', this._onScroll);
+	        this._scLsn && this._scLsn();
+	        this.scrollElement = this._scLsn = null;
 	    };
 	    /**
 	     * @private
@@ -49374,7 +49781,7 @@
 	     *   ngAfterViewInit() {
 	     *     // Here 'my-content' is the ID of my ion-content
 	     *     this.content = this.app.getComponent('my-content');
-	     *     this.content.addScrollEventListener(this.myScroll);
+	     *     this.content.addScrollListener(this.myScroll);
 	     *   }
 	     *     myScroll() {
 	     *      console.info('They see me scrolling...');
@@ -49384,21 +49791,60 @@
 	     * @param {Function} handler  The method you want perform when scrolling
 	     * @returns {Function} A function that removes the scroll handler.
 	     */
-	    Content.prototype.addScrollEventListener = function (handler) {
+	    Content.prototype.addScrollListener = function (handler) {
+	        return this._addListener('scroll', handler);
+	    };
+	    /**
+	     * @private
+	     */
+	    Content.prototype.addTouchStartListener = function (handler) {
+	        return this._addListener('touchstart', handler);
+	    };
+	    /**
+	     * @private
+	     */
+	    Content.prototype.addTouchMoveListener = function (handler) {
+	        return this._addListener('touchmove', handler);
+	    };
+	    /**
+	     * @private
+	     */
+	    Content.prototype.addTouchEndListener = function (handler) {
+	        return this._addListener('touchend', handler);
+	    };
+	    /**
+	     * @private
+	     */
+	    Content.prototype.addMouseDownListener = function (handler) {
+	        return this._addListener('mousedown', handler);
+	    };
+	    /**
+	     * @private
+	     */
+	    Content.prototype.addMouseUpListener = function (handler) {
+	        return this._addListener('mouseup', handler);
+	    };
+	    /**
+	     * @private
+	     */
+	    Content.prototype.addMouseMoveListener = function (handler) {
+	        return this._addListener('mousemove', handler);
+	    };
+	    Content.prototype._addListener = function (type, handler) {
 	        var _this = this;
 	        if (!this.scrollElement) {
 	            return;
 	        }
 	        // ensure we're not creating duplicates
-	        this.scrollElement.removeEventListener('scroll', handler);
-	        this.scrollElement.addEventListener('scroll', handler);
+	        this.scrollElement.removeEventListener(type, handler);
+	        this.scrollElement.addEventListener(type, handler);
 	        return function () {
-	            _this.scrollElement.removeEventListener('scroll', handler);
+	            _this.scrollElement.removeEventListener(type, handler);
 	        };
 	    };
 	    /**
+	     * @private
 	     * Call a method when scrolling has stopped
-	     *
 	     * @param {Function} callback The method you want perform when scrolling has ended
 	     */
 	    Content.prototype.onScrollEnd = function (callback) {
@@ -49425,43 +49871,8 @@
 	        }
 	        setTimeout(next, 100);
 	    };
-	    /**
-	     * @private
-	     * Adds the specified touchmove handler to the content's scroll element.
-	     *
-	     * ```ts
-	     * @Page({
-	     *   template: `<ion-content id="my-content"></ion-content>`
-	     * )}
-	     * export class MyPage{
-	     *    constructor(app: IonicApp){
-	     *        this.app = app;
-	     *    }
-	     *   // Need to wait until the component has been initialized
-	     *   ngAfterViewInit() {
-	     *     // Here 'my-content' is the ID of my ion-content
-	     *     this.content = this.app.getComponent('my-content');
-	     *     this.content.addTouchMoveListener(this.touchHandler);
-	     *   }
-	     *    touchHandler() {
-	     *      console.log("I'm touching all the magazines!!");
-	     *    }
-	     * }
-	     * ```
-	     * @param {Function} handler  The method you want to perform when touchmove is firing
-	     * @returns {Function} A function that removes the touchmove handler.
-	     */
-	    Content.prototype.addTouchMoveListener = function (handler) {
-	        var _this = this;
-	        if (!this.scrollElement) {
-	            return;
-	        }
-	        // ensure we're not creating duplicates
-	        this.scrollElement.removeEventListener('touchmove', handler);
-	        this.scrollElement.addEventListener('touchmove', handler);
-	        return function () {
-	            _this.scrollElement.removeEventListener('touchmove', handler);
-	        };
+	    Content.prototype.onScrollElementTransitionEnd = function (callback) {
+	        dom_1.transitionEnd(this.scrollElement, callback);
 	    };
 	    /**
 	     * Scroll to the specified position.
@@ -49533,6 +49944,29 @@
 	    };
 	    /**
 	     * @private
+	     */
+	    Content.prototype.getScrollTop = function () {
+	        return this.getNativeElement().scrollTop;
+	    };
+	    /**
+	     * @private
+	     */
+	    Content.prototype.addCssClass = function (className) {
+	        this.getNativeElement().classList.add(className);
+	    };
+	    /**
+	     * @private
+	     */
+	    Content.prototype.removeCssClass = function (className) {
+	        this.getNativeElement().classList.remove(className);
+	    };
+	    /**
+	     * @private
+	     */
+	    Content.prototype.setScrollElementStyle = function (prop, val) {
+	        this.scrollElement.style[prop] = val;
+	    };
+	    /**
 	     * Returns the content and scroll elements' dimensions.
 	     * @returns {object} dimensions  The content and scroll elements' dimensions
 	     * {number} dimensions.contentHeight  content offsetHeight
@@ -49583,7 +50017,8 @@
 	            selector: 'ion-content',
 	            template: '<scroll-content>' +
 	                '<ng-content></ng-content>' +
-	                '</scroll-content>'
+	                '</scroll-content>' +
+	                '<ng-content select="ion-refresher"></ng-content>'
 	        }),
 	        __param(4, core_1.Optional()), 
 	        __metadata('design:paramtypes', [core_1.ElementRef, config_1.Config, app_1.IonicApp, core_1.NgZone, view_controller_1.ViewController])
@@ -49710,413 +50145,1099 @@
 	    return function (target, key) { decorator(target, key, paramIndex); }
 	};
 	var core_1 = __webpack_require__(7);
-	var common_1 = __webpack_require__(172);
 	var content_1 = __webpack_require__(310);
-	var icon_1 = __webpack_require__(299);
+	/**
+	 * @name InfiniteScroll
+	 * @description
+	 * The Infinite Scroll allows you to perform an action when the user
+	 * scrolls a specified distance from the bottom of the page.
+	 *
+	 * The expression assigned to the `infinite` event is called when
+	 * the user scrolls to the specified distance. When this expression
+	 * has finished its tasks, it should call the `complete()` method
+	 * on the infinite scroll instance.
+	 *
+	 * @usage
+	 * ```html
+	 * <ion-content>
+	 *
+	 *  <ion-list>
+	 *    <ion-item *ngFor="#i of items">{{i}}</ion-item>
+	 *  </ion-list>
+	 *
+	 *  <ion-infinite-scroll (infinite)="doInfinite($event)">
+	 *    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+	 *  </ion-infinite-scroll>
+	 *
+	 * </ion-content>
+	 * ```
+	 *
+	 * ```ts
+	 * @Page({...})
+	 * export class NewsFeedPage {
+	 *
+	 *   constructor() {
+	 *     this.items = [];
+	 *     for (var i = 0; i < 30; i++) {
+	 *       this.items.push( this.items.length );
+	 *     }
+	 *   }
+	 *
+	 *   doInfinite(infiniteScroll) {
+	 *     console.log('Begin async operation');
+	 *
+	 *     setTimeout(() => {
+	 *       for (var i = 0; i < 30; i++) {
+	 *         this.items.push( this.items.length );
+	 *       }
+	 *
+	 *       console.log('Async operation has ended');
+	 *       infiniteScroll.complete();
+	 *     }, 500);
+	 *   }
+	 *
+	 * }
+	 * ```
+	 *
+	 *
+	 * ## Infinite Scroll Content
+	 *
+	 * By default, Ionic uses the infinite scroll spinner that looks
+	 * best for the platform the user is on. However, you can change the
+	 * default spinner or add text by adding properties to the
+	 * `ion-infinite-scroll-content` component.
+	 *
+	 *  ```html
+	 *  <ion-content>
+	 *
+	 *    <ion-infinite-scroll (infinite)="doInfinite($event)">
+	 *      <ion-infinite-scroll-content
+	 *        loadingSpinner="bubbles"
+	 *        loadingText="Loading more data...">
+	 *      </ion-infinite-scroll-content>
+	 *    </ion-infinite-scroll>
+	 *
+	 *  </ion-content>
+	 *  ```
+	 *
+	 *
+	 * ## Further Customizing Infinite Scroll Content
+	 *
+	 * The `ion-infinite-scroll` component holds the infinite scroll logic.
+	 * It requires a child component in order to display the content.
+	 * Ionic uses `ion-infinite-scroll-content` by default. This component
+	 * displays the infinite scroll and changes the look depending
+	 * on the infinite scroll's state. Separating these components allows
+	 * developers to create their own infinite scroll content components.
+	 * You could replace our default content with custom SVG or CSS animations.
+	 *
+	 * @demo /docs/v2/demos/infinite-scroll/
+	 *
+	 */
+	var InfiniteScroll = (function () {
+	    function InfiniteScroll(_content, _zone, _elementRef) {
+	        this._content = _content;
+	        this._zone = _zone;
+	        this._elementRef = _elementRef;
+	        this._lastCheck = 0;
+	        this._highestY = 0;
+	        this._thr = '15%';
+	        this._thrPx = 0;
+	        this._thrPc = 0.15;
+	        this._init = false;
+	        this.state = STATE_ENABLED;
+	        /**
+	         * @output {event} The expression to call when the scroll reaches
+	         * the threshold distance. From within your infinite handler,
+	         * you must call the infinite scroll's `complete()` method when
+	         * your async operation has completed.
+	         */
+	        this.infinite = new core_1.EventEmitter();
+	        _content.addCssClass('has-infinite-scroll');
+	    }
+	    Object.defineProperty(InfiniteScroll.prototype, "threshold", {
+	        /**
+	         * @input {string} The threshold distance from the bottom
+	         * of the content to call the `infinite` output event when scrolled.
+	         * The threshold value can be either a percent, or
+	         * in pixels. For example, use the value of `10%` for the `infinite`
+	         * output event to get called when the user has scrolled 10%
+	         * from the bottom of the page. Use the value `100px` when the
+	         * scroll is within 100 pixels from the bottom of the page.
+	         * Default is `15%`.
+	         */
+	        get: function () {
+	            return this._thr;
+	        },
+	        set: function (val) {
+	            this._thr = val;
+	            if (val.indexOf('%') > -1) {
+	                this._thrPx = 0;
+	                this._thrPc = (parseFloat(val) / 100);
+	            }
+	            else {
+	                this._thrPx = parseFloat(val);
+	                this._thrPc = 0;
+	            }
+	        },
+	        enumerable: true,
+	        configurable: true
+	    });
+	    InfiniteScroll.prototype._onScroll = function (ev) {
+	        var _this = this;
+	        if (this.state === STATE_LOADING || this.state === STATE_DISABLED) {
+	            return 1;
+	        }
+	        var now = Date.now();
+	        if (this._lastCheck + 32 > now) {
+	            // no need to check less than every XXms
+	            return 2;
+	        }
+	        this._lastCheck = now;
+	        var infiniteHeight = this._elementRef.nativeElement.scrollHeight;
+	        if (!infiniteHeight) {
+	            // if there is no height of this element then do nothing
+	            return 3;
+	        }
+	        var d = this._content.getContentDimensions();
+	        if (d.scrollTop <= this._highestY) {
+	            // don't bother if scrollY is less than the highest Y seen
+	            return 4;
+	        }
+	        this._highestY = d.scrollTop;
+	        var reloadY = d.contentHeight;
+	        if (this._thrPc) {
+	            reloadY += (reloadY * this._thrPc);
+	        }
+	        else {
+	            reloadY += this._thrPx;
+	        }
+	        var distanceFromInfinite = ((d.scrollHeight - infiniteHeight) - d.scrollTop) - reloadY;
+	        if (distanceFromInfinite < 0) {
+	            this._zone.run(function () {
+	                void 0;
+	                _this.state = STATE_LOADING;
+	                _this.infinite.emit(_this);
+	            });
+	            return 5;
+	        }
+	        return 6;
+	    };
+	    /**
+	     * Call `complete()` within the `infinite` output event handler when
+	     * your async operation has completed. For example, the `loading`
+	     * state is while the app is performing an asynchronous operation,
+	     * such as receiving more data from an AJAX request to add more items
+	     * to a data list. Once the data has been received and UI updated, you
+	     * then call this method to signify that the loading has completed.
+	     * This method will change the infinite scroll's state from `loading`
+	     * to `enabled`.
+	     */
+	    InfiniteScroll.prototype.complete = function () {
+	        this.state = STATE_ENABLED;
+	    };
+	    /**
+	     * Call `enable(false)` to disable the infinite scroll from actively
+	     * trying to receive new data while scrolling. This method is useful
+	     * when it is known that there is no more data that can be added, and
+	     * the infinite scroll is no longer needed.
+	     * @param {boolean} shouldEnable  If the infinite scroll should be enabled or not. Setting to `false` will remove scroll event listeners and hide the display.
+	     */
+	    InfiniteScroll.prototype.enable = function (shouldEnable) {
+	        this.state = (shouldEnable ? STATE_ENABLED : STATE_DISABLED);
+	        this._setListeners(shouldEnable);
+	    };
+	    InfiniteScroll.prototype._setListeners = function (shouldListen) {
+	        var _this = this;
+	        if (this._init) {
+	            if (shouldListen) {
+	                if (!this._scLsn) {
+	                    this._zone.runOutsideAngular(function () {
+	                        _this._scLsn = _this._content.addScrollListener(_this._onScroll.bind(_this));
+	                    });
+	                }
+	            }
+	            else {
+	                this._scLsn && this._scLsn();
+	                this._scLsn = null;
+	            }
+	        }
+	    };
+	    /**
+	     * @private
+	     */
+	    InfiniteScroll.prototype.ngAfterContentInit = function () {
+	        this._init = true;
+	        this._setListeners(this.state !== STATE_DISABLED);
+	    };
+	    /**
+	     * @private
+	     */
+	    InfiniteScroll.prototype.ngOnDestroy = function () {
+	        this._setListeners(false);
+	    };
+	    __decorate([
+	        core_1.Input(), 
+	        __metadata('design:type', String)
+	    ], InfiniteScroll.prototype, "threshold", null);
+	    __decorate([
+	        core_1.Output(), 
+	        __metadata('design:type', core_1.EventEmitter)
+	    ], InfiniteScroll.prototype, "infinite", void 0);
+	    InfiniteScroll = __decorate([
+	        core_1.Directive({
+	            selector: 'ion-infinite-scroll'
+	        }),
+	        __param(0, core_1.Host()), 
+	        __metadata('design:paramtypes', [content_1.Content, core_1.NgZone, core_1.ElementRef])
+	    ], InfiniteScroll);
+	    return InfiniteScroll;
+	})();
+	exports.InfiniteScroll = InfiniteScroll;
+	var STATE_ENABLED = 'enabled';
+	var STATE_DISABLED = 'disabled';
+	var STATE_LOADING = 'loading';
+
+
+/***/ },
+/* 313 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var core_1 = __webpack_require__(7);
+	var common_1 = __webpack_require__(172);
+	var config_1 = __webpack_require__(161);
+	var infinite_scroll_1 = __webpack_require__(312);
+	var spinner_1 = __webpack_require__(314);
+	/**
+	 * @private
+	 */
+	var InfiniteScrollContent = (function () {
+	    function InfiniteScrollContent(inf, _config) {
+	        this.inf = inf;
+	        this._config = _config;
+	    }
+	    /**
+	     * @private
+	     */
+	    InfiniteScrollContent.prototype.ngOnInit = function () {
+	        if (!this.loadingSpinner) {
+	            this.loadingSpinner = this._config.get('infiniteLoadingSpinner', this._config.get('spinner', 'ios'));
+	        }
+	    };
+	    __decorate([
+	        core_1.Input(), 
+	        __metadata('design:type', String)
+	    ], InfiniteScrollContent.prototype, "loadingSpinner", void 0);
+	    __decorate([
+	        core_1.Input(), 
+	        __metadata('design:type', String)
+	    ], InfiniteScrollContent.prototype, "loadingText", void 0);
+	    InfiniteScrollContent = __decorate([
+	        core_1.Component({
+	            selector: 'ion-infinite-scroll-content',
+	            template: '<div class="infinite-loading">' +
+	                '<div class="infinite-loading-spinner" *ngIf="loadingSpinner">' +
+	                '<ion-spinner [name]="loadingSpinner"></ion-spinner>' +
+	                '</div>' +
+	                '<div class="infinite-loading-text" [innerHTML]="loadingText" *ngIf="loadingText"></div>' +
+	                '</div>',
+	            directives: [common_1.NgIf, spinner_1.Spinner],
+	            host: {
+	                '[attr.state]': 'inf.state'
+	            }
+	        }), 
+	        __metadata('design:paramtypes', [infinite_scroll_1.InfiniteScroll, config_1.Config])
+	    ], InfiniteScrollContent);
+	    return InfiniteScrollContent;
+	})();
+	exports.InfiniteScrollContent = InfiniteScrollContent;
+
+
+/***/ },
+/* 314 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var core_1 = __webpack_require__(7);
+	var common_1 = __webpack_require__(172);
+	var config_1 = __webpack_require__(161);
+	/**
+	 * @name Spinner
+	 * @description
+	 * The `ion-spinner` component provides a variety of animated SVG spinners.
+	 * Spinners enables you to give users feedback that the app is actively
+	 * processing/thinking/waiting/chillin’ out, or whatever you’d like it to indicate.
+	 * By default, the `ion-refresher` feature uses this spinner component while it's
+	 * the refresher is in the `refreshing` state.
+	 *
+	 * Ionic offers a handful of spinners out of the box, and by default, it will use
+	 * the appropriate spinner for the platform on which it’s running.
+	 *
+	 * <table class="table spinner-table">
+	 *  <tr>
+	 *    <th>
+	 *      <code>ios</code>
+	 *    </th>
+	 *    <td>
+	 *      <ion-spinner name="ios"></ion-spinner>
+	 *    </td>
+	 *  </tr>
+	 *  <tr>
+	 *    <th>
+	 *      <code>ios-small</code>
+	 *    </th>
+	 *    <td>
+	 *      <ion-spinner name="ios-small"></ion-spinner>
+	 *    </td>
+	 *  </tr>
+	 *  <tr>
+	 *    <th>
+	 *      <code>bubbles</code>
+	 *    </th>
+	 *    <td>
+	 *      <ion-spinner name="bubbles"></ion-spinner>
+	 *    </td>
+	 *  </tr>
+	 *  <tr>
+	 *    <th>
+	 *      <code>circles</code>
+	 *    </th>
+	 *    <td>
+	 *      <ion-spinner name="circles"></ion-spinner>
+	 *    </td>
+	 *  </tr>
+	 *  <tr>
+	 *    <th>
+	 *      <code>crescent</code>
+	 *    </th>
+	 *    <td>
+	 *      <ion-spinner name="crescent"></ion-spinner>
+	 *    </td>
+	 *  </tr>
+	 *  <tr>
+	 *    <th>
+	 *      <code>dots</code>
+	 *    </th>
+	 *    <td>
+	 *      <ion-spinner name="dots"></ion-spinner>
+	 *    </td>
+	 *  </tr>
+	 * </table>
+	 *
+	 * @usage
+	 * The following code would use the default spinner for the platform it's
+	 * running from. If it's neither iOS or Android, it'll default to use `ios`.
+	 *
+	 * ```html
+	 * <ion-spinner></ion-spinner>
+	 * ```
+	 *
+	 * By setting the `name` property, you can specify which predefined spinner to
+	 * use, no matter what the platform is.
+	 *
+	 * ```html
+	 * <ion-spinner name="bubbles"></ion-spinner>
+	 * ```
+	 *
+	 * ## Styling SVG with CSS
+	 * One cool thing about SVG is its ability to be styled with CSS! One thing to note
+	 * is that some of the CSS properties on an SVG element have different names. For
+	 * example, SVG uses the term `stroke` instead of `border`, and `fill` instead
+	 * of `background-color`.
+	 *
+	 * ```css
+	 * ion-spinner svg {
+	 *   width: 28px;
+	 *   height: 28px;
+	 *   stroke: #444;
+	 *   fill: #222;
+	 * }
+	 * ```
+	 */
+	var Spinner = (function () {
+	    function Spinner(_config) {
+	        this._config = _config;
+	        this._dur = null;
+	        /**
+	         * @input {string} If the animation is paused or not. Defaults to `false`.
+	         */
+	        this.paused = false;
+	    }
+	    Object.defineProperty(Spinner.prototype, "name", {
+	        /**
+	         * @input {string} SVG spinner name.
+	         */
+	        get: function () {
+	            return this._name;
+	        },
+	        set: function (val) {
+	            this._name = val;
+	            this.load();
+	        },
+	        enumerable: true,
+	        configurable: true
+	    });
+	    Object.defineProperty(Spinner.prototype, "duration", {
+	        /**
+	         * @input {string} How long it takes it to do one loop.
+	         */
+	        get: function () {
+	            return this._dur;
+	        },
+	        set: function (val) {
+	            this._dur = val;
+	            this.load();
+	        },
+	        enumerable: true,
+	        configurable: true
+	    });
+	    Spinner.prototype.ngOnInit = function () {
+	        this._init = true;
+	        this.load();
+	    };
+	    Spinner.prototype.load = function () {
+	        if (this._init) {
+	            this._l = [];
+	            this._c = [];
+	            var name = this._name || this._config.get('spinner', 'ios');
+	            var spinner = SPINNERS[name];
+	            if (spinner) {
+	                this._applied = 'spinner-' + name;
+	                if (spinner.lines) {
+	                    for (var i = 0, l = spinner.lines; i < l; i++) {
+	                        this._l.push(this._loadEle(spinner, i, l));
+	                    }
+	                }
+	                else if (spinner.circles) {
+	                    for (var i = 0, l = spinner.circles; i < l; i++) {
+	                        this._c.push(this._loadEle(spinner, i, l));
+	                    }
+	                }
+	            }
+	        }
+	    };
+	    Spinner.prototype._loadEle = function (spinner, index, total) {
+	        var duration = this._dur || spinner.dur;
+	        var data = spinner.fn(duration, index, total);
+	        data.style.animationDuration = duration + 'ms';
+	        return data;
+	    };
+	    __decorate([
+	        core_1.Input(), 
+	        __metadata('design:type', String)
+	    ], Spinner.prototype, "name", null);
+	    __decorate([
+	        core_1.Input(), 
+	        __metadata('design:type', Number)
+	    ], Spinner.prototype, "duration", null);
+	    __decorate([
+	        core_1.Input(), 
+	        __metadata('design:type', Boolean)
+	    ], Spinner.prototype, "paused", void 0);
+	    Spinner = __decorate([
+	        core_1.Component({
+	            selector: 'ion-spinner',
+	            template: '<svg viewBox="0 0 64 64" *ngFor="#i of _c" [ngStyle]="i.style">' +
+	                '<circle [attr.r]="i.r" transform="translate(32,32)"></circle>' +
+	                '</svg>' +
+	                '<svg viewBox="0 0 64 64" *ngFor="#i of _l" [ngStyle]="i.style">' +
+	                '<line [attr.y1]="i.y1" [attr.y2]="i.y2" transform="translate(32,32)"></line>' +
+	                '</svg>',
+	            directives: [common_1.NgStyle],
+	            host: {
+	                '[class]': '_applied',
+	                '[class.spinner-paused]': 'paused'
+	            }
+	        }), 
+	        __metadata('design:paramtypes', [config_1.Config])
+	    ], Spinner);
+	    return Spinner;
+	})();
+	exports.Spinner = Spinner;
+	var SPINNERS = {
+	    ios: {
+	        dur: 1000,
+	        lines: 12,
+	        fn: function (dur, index, total) {
+	            return {
+	                y1: 17,
+	                y2: 29,
+	                style: {
+	                    transform: 'rotate(' + (30 * index + (index < 6 ? 180 : -180)) + 'deg)',
+	                    animationDelay: -(dur - ((dur / total) * index)) + 'ms'
+	                }
+	            };
+	        }
+	    },
+	    'ios-small': {
+	        dur: 1000,
+	        lines: 12,
+	        fn: function (dur, index, total) {
+	            return {
+	                y1: 12,
+	                y2: 20,
+	                style: {
+	                    transform: 'rotate(' + (30 * index + (index < 6 ? 180 : -180)) + 'deg)',
+	                    animationDelay: -(dur - ((dur / total) * index)) + 'ms'
+	                }
+	            };
+	        }
+	    },
+	    bubbles: {
+	        dur: 1000,
+	        circles: 9,
+	        fn: function (dur, index, total) {
+	            return {
+	                r: 5,
+	                style: {
+	                    top: 9 * Math.sin(2 * Math.PI * index / total),
+	                    left: 9 * Math.cos(2 * Math.PI * index / total),
+	                    animationDelay: -(dur - ((dur / total) * index)) + 'ms'
+	                }
+	            };
+	        }
+	    },
+	    circles: {
+	        dur: 1000,
+	        circles: 8,
+	        fn: function (dur, index, total) {
+	            return {
+	                r: 5,
+	                style: {
+	                    top: 9 * Math.sin(2 * Math.PI * index / total),
+	                    left: 9 * Math.cos(2 * Math.PI * index / total),
+	                    animationDelay: -(dur - ((dur / total) * index)) + 'ms'
+	                }
+	            };
+	        }
+	    },
+	    crescent: {
+	        dur: 750,
+	        circles: 1,
+	        fn: function (dur) {
+	            return {
+	                r: 26,
+	                style: {}
+	            };
+	        }
+	    },
+	    dots: {
+	        dur: 750,
+	        circles: 3,
+	        fn: function (dur, index, total) {
+	            return {
+	                r: 6,
+	                style: {
+	                    left: (9 - (9 * index)),
+	                    animationDelay: -(110 * index) + 'ms'
+	                }
+	            };
+	        }
+	    }
+	};
+
+
+/***/ },
+/* 315 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var __param = (this && this.__param) || function (paramIndex, decorator) {
+	    return function (target, key) { decorator(target, key, paramIndex); }
+	};
+	var core_1 = __webpack_require__(7);
+	var content_1 = __webpack_require__(310);
 	var util_1 = __webpack_require__(163);
 	var dom_1 = __webpack_require__(164);
 	/**
 	 * @name Refresher
 	 * @description
-	 * Allows you to add pull-to-refresh to an Content component.
-	 * Place it as the first child of your Content or Scroll element.
+	 * The Refresher provides pull-to-refresh functionality on a content component.
+	 * Place the `ion-refresher` as the first child of your `ion-content` element.
 	 *
-	 * When refreshing is complete, call `refresher.complete()` from your controller.
+	 * Pages can then listen to the refresher's various output events. The
+	 * `refresh` output event is fired when the user has pulled down far
+	 * enough to kick off the refreshing process. Once the async operation
+	 * has completed and the refreshing should end, call `complete()`.
 	 *
-	 *  @usage
+	 * @usage
+	 * ```html
+	 * <ion-content>
+	 *
+	 *   <ion-refresher (refresh)="doRefresh($event)">
+	 *     <ion-refresher-content></ion-refresher-content>
+	 *   </ion-refresher>
+	 *
+	 * </ion-content>
+	 * ```
+	 *
+	 * ```ts
+	 * @Page({...})
+	 * export class NewsFeedPage {
+	 *
+	 *   doRefresh(refresher) {
+	 *     console.log('Begin async operation', refresher);
+	 *
+	 *     setTimeout(() => {
+	 *       console.log('Async operation has ended');
+	 *       refresher.complete();
+	 *     }, 2000);
+	 *   }
+	 *
+	 * }
+	 * ```
+	 *
+	 *
+	 * ## Refresher Content
+	 *
+	 * By default, Ionic provides the pulling icon and refreshing spinner that
+	 * looks best for the platform the user is on. However, you can change the
+	 * default icon and spinner, along with adding text for each state by
+	 * adding properties to the child `ion-refresher-content` component.
+	 *
 	 *  ```html
 	 *  <ion-content>
-	 *    <ion-refresher (start)="doStart($event)"
-	 *                   (refresh)="doRefresh($event)"
-	 *                   (pulling)="doPulling($event)">
+	 *
+	 *    <ion-refresher (refresh)="doRefresh($event)">
+	 *      <ion-refresher-content
+	 *        pullingIcon="arrow-dropdown"
+	 *        pullingText="Pull to refresh"
+	 *        refreshingSpinner="circles"
+	 *        refreshingText="Refreshing...">
+	 *      </ion-refresher-content>
 	 *    </ion-refresher>
 	 *
 	 *  </ion-content>
-
 	 *  ```
 	 *
-	 *  ```ts
-	 *  export class MyClass {
 	 *
-	 *    doRefresh(refresher) {
-	 *      console.log('Doing Refresh', refresher)
+	 * ## Further Customizing Refresher Content
 	 *
-	 *      setTimeout(() => {
-	 *        refresher.complete();
-	 *        console.log("Complete");
-	 *      }, 5000);
-	 *    }
+	 * The `ion-refresher` component holds the refresh logic.
+	 * It requires a child component in order to display the content.
+	 * Ionic uses `ion-refresher-content` by default. This component
+	 * displays the refresher and changes the look depending
+	 * on the refresher's state. Separating these components
+	 * allows developers to create their own refresher content
+	 * components. You could replace our default content with
+	 * custom SVG or CSS animations.
 	 *
-	 *    doStart(refresher) {
-	 *      console.log('Doing Start', refresher);
-	 *    }
-	 *
-	 *    doPulling(refresher) {
-	 *      console.log('Pulling', refresher);
-	 *    }
-	 *
-	 *  }
-	 *  ```
-	 *  @demo /docs/v2/demos/refresher/
+	 * @demo /docs/v2/demos/refresher/
 	 *
 	 */
 	var Refresher = (function () {
-	    function Refresher(_content, _element) {
+	    function Refresher(_content, _zone, elementRef) {
 	        this._content = _content;
+	        this._zone = _zone;
+	        this._appliedStyles = false;
+	        this._lastStart = 0;
+	        this._lastCheck = 0;
+	        this._isEnabled = true;
 	        /**
-	         * @private
+	         * The current state which the refresher is in. The refresher's states include:
+	         *
+	         * - `inactive` - The refresher is not being pulled down or refreshing and is currently hidden.
+	         * - `pulling` - The user is actively pulling down the refresher, but has not reached the point yet that if the user lets go, it'll refresh.
+	         * - `cancelling` - The user pulled down the refresher and let go, but did not pull down far enough to kick off the `refreshing` state. After letting go, the refresher is in the `cancelling` state while it is closing, and will go back to the `inactive` state once closed.
+	         * - `ready` - The user has pulled down the refresher far enough that if they let go, it'll begin the `refreshing` state.
+	         * - `refreshing` - The refresher is actively waiting on the async operation to end. Once the refresh handler calls `complete()` it will begin the `completing` state.
+	         * - `completing` - The `refreshing` state has finished and the refresher is in the process of closing itself. Once closed, the refresher will go back to the `inactive` state.
 	         */
-	        this.isDragging = false;
+	        this.state = STATE_INACTIVE;
 	        /**
-	         * @private
+	         * The Y coordinate of where the user started to the pull down the content.
 	         */
-	        this.isOverscrolling = false;
+	        this.startY = null;
 	        /**
-	         * @private
+	         * The current touch or mouse event's Y coordinate.
 	         */
-	        this.dragOffset = 0;
+	        this.currentY = null;
 	        /**
-	         * @private
+	         * The distance between the start of the pull and the current touch or
+	         * mouse event's Y coordinate.
 	         */
-	        this.lastOverscroll = 0;
+	        this.deltaY = null;
 	        /**
-	         * @private
+	         * A number representing how far down the user has pulled.
+	         * The number `0` represents the user hasn't pulled down at all. The
+	         * number `1`, and anything greater than `1`, represents that the user
+	         * has pulled far enough down that when they let go then the refresh will
+	         * happen. If they let go and the number is less than `1`, then the
+	         * refresh will not happen, and the content will return to it's original
+	         * position.
 	         */
-	        this.ptrThreshold = 0;
+	        this.progress = 0;
 	        /**
-	         * @private
+	         * @input {number} The min distance the user must pull down until the
+	         * refresher can go into the `refreshing` state. Default is `60`.
 	         */
-	        this.activated = false;
+	        this.pullMin = 60;
 	        /**
-	         * @private
+	         * @input {number} The maximum distance of the pull until the refresher
+	         * will automatically go into the `refreshing` state. By default, the pull
+	         * maximum will be the result of `pullMin + 60`.
 	         */
-	        this.scrollTime = 500;
+	        this.pullMax = null;
 	        /**
-	         * @private
+	         * @input {number} How many milliseconds it takes to close the refresher. Default is `280`.
 	         */
-	        this.canOverscroll = true;
+	        this.closeDuration = 280;
 	        /**
-	         * @output {event} When you are pulling down
+	         * @input {number} How many milliseconds it takes the refresher to to snap back to the `refreshing` state. Default is `280`.
 	         */
-	        this.pulling = new core_1.EventEmitter();
+	        this.snapbackDuration = 280;
 	        /**
-	         * @output {event} When you are refreshing
+	         * @output {event} When the user lets go and has pulled down far enough, which would be
+	         * farther than the `pullMin`, then your refresh hander if fired and the state is
+	         * updated to `refreshing`. From within your refresh handler, you must call the
+	         * `complete()` method when your async operation has completed.
 	         */
 	        this.refresh = new core_1.EventEmitter();
 	        /**
-	         * @output {event} When you start pulling down
+	         * @output {event} While the user is pulling down the content and exposing the refresher.
+	         */
+	        this.pulling = new core_1.EventEmitter();
+	        /**
+	         * @output {event} When the user begins to start pulling down.
 	         */
 	        this.start = new core_1.EventEmitter();
-	        this._ele = _element.nativeElement;
-	        this._ele.classList.add('content');
+	        _content.addCssClass('has-refresher');
+	        // deprecated warning
+	        var ele = elementRef.nativeElement;
+	        var deprecatedAttrs = ['pullingIcon', 'pullingText', 'refreshingIcon', 'refreshingText', 'spinner'];
+	        deprecatedAttrs.forEach(function (attrName) {
+	            if (ele.hasAttribute(attrName)) {
+	                void 0;
+	            }
+	        });
+	        if (!ele.children.length) {
+	            void 0;
+	        }
 	    }
+	    Object.defineProperty(Refresher.prototype, "enabled", {
+	        /**
+	         * @input {boolean} If the refresher is enabled or not. Default is `true`.
+	         */
+	        get: function () {
+	            return this._isEnabled;
+	        },
+	        set: function (val) {
+	            this._isEnabled = util_1.isTrueProperty(val);
+	            this._setListeners(this._isEnabled);
+	        },
+	        enumerable: true,
+	        configurable: true
+	    });
+	    Refresher.prototype._onStart = function (ev) {
+	        // if multitouch then get out immediately
+	        if (ev.touches && ev.touches.length > 1) {
+	            return 1;
+	        }
+	        var coord = dom_1.pointerCoord(ev);
+	        void 0;
+	        var now = Date.now();
+	        if (this._lastStart + 100 > now) {
+	            return 2;
+	        }
+	        this._lastStart = now;
+	        if (ev.type === 'mousedown' && !this._mMove) {
+	            this._mMove = this._content.addMouseMoveListener(this._onMove.bind(this));
+	        }
+	        this.startY = this.currentY = coord.y;
+	        this.progress = 0;
+	        if (!this.pullMax) {
+	            this.pullMax = (this.pullMin + 60);
+	        }
+	    };
+	    Refresher.prototype._onMove = function (ev) {
+	        var _this = this;
+	        // this method can get called like a bazillion times per second,
+	        // so it's built to be as efficient as possible, and does its
+	        // best to do any DOM read/writes only when absolutely necessary
+	        void 0;
+	        // if multitouch then get out immediately
+	        if (ev.touches && ev.touches.length > 1) {
+	            return 1;
+	        }
+	        // do nothing if it's actively refreshing
+	        // or it's in the process of closing
+	        // or this was never a startY
+	        if (this.startY === null || this.state === STATE_REFRESHING || this.state === STATE_CANCELLING || this.state === STATE_COMPLETING) {
+	            return 2;
+	        }
+	        // if we just updated stuff less than 16ms ago
+	        // then don't check again, just chillout plz
+	        var now = Date.now();
+	        if (this._lastCheck + 16 > now) {
+	            return 3;
+	        }
+	        // remember the last time we checked all this
+	        this._lastCheck = now;
+	        // get the current pointer coordinates
+	        var coord = dom_1.pointerCoord(ev);
+	        this.currentY = coord.y;
+	        // it's now possible they could be pulling down the content
+	        // how far have they pulled so far?
+	        this.deltaY = (coord.y - this.startY);
+	        // don't bother if they're scrolling up
+	        // and have not already started dragging
+	        if (this.deltaY <= 0) {
+	            // the current Y is higher than the starting Y
+	            // so they scrolled up enough to be ignored
+	            this.progress = 0;
+	            if (this.state !== STATE_INACTIVE) {
+	                this._zone.run(function () {
+	                    _this.state = STATE_INACTIVE;
+	                });
+	            }
+	            if (this._appliedStyles) {
+	                // reset the styles only if they were applied
+	                this._setCss(0, '', false, '');
+	                return 5;
+	            }
+	            return 6;
+	        }
+	        if (this.state === STATE_INACTIVE) {
+	            // this refresh is not already actively pulling down
+	            // get the content's scrollTop
+	            var scrollHostScrollTop = this._content.getContentDimensions().scrollTop;
+	            // if the scrollTop is greater than zero then it's
+	            // not possible to pull the content down yet
+	            if (scrollHostScrollTop > 0) {
+	                this.progress = 0;
+	                this.startY = null;
+	                return 7;
+	            }
+	            // content scrolled all the way to the top, and dragging down
+	            this.state = STATE_PULLING;
+	        }
+	        // prevent native scroll events
+	        ev.preventDefault();
+	        // the refresher is actively pulling at this point
+	        // move the scroll element within the content element
+	        this._setCss(this.deltaY, '0ms', true, '');
+	        if (!this.deltaY) {
+	            // don't continue if there's no delta yet
+	            this.progress = 0;
+	            return 8;
+	        }
+	        // so far so good, let's run this all back within zone now
+	        this._zone.run(function () {
+	            _this._onMoveInZone();
+	        });
+	    };
+	    Refresher.prototype._onMoveInZone = function () {
+	        // set pull progress
+	        this.progress = (this.deltaY / this.pullMin);
+	        // emit "start" if it hasn't started yet
+	        if (!this._didStart) {
+	            this._didStart = true;
+	            this.start.emit(this);
+	        }
+	        // emit "pulling" on every move
+	        this.pulling.emit(this);
+	        // do nothing if the delta is less than the pull threshold
+	        if (this.deltaY < this.pullMin) {
+	            // ensure it stays in the pulling state, cuz its not ready yet
+	            this.state = STATE_PULLING;
+	            return 2;
+	        }
+	        if (this.deltaY > this.pullMax) {
+	            // they pulled farther than the max, so kick off the refresh
+	            this._beginRefresh();
+	            return 3;
+	        }
+	        // pulled farther than the pull min!!
+	        // it is now in the `ready` state!!
+	        // if they let go then it'll refresh, kerpow!!
+	        this.state = STATE_READY;
+	        return 4;
+	    };
+	    Refresher.prototype._onEnd = function (ev) {
+	        // only run in a zone when absolutely necessary
+	        var _this = this;
+	        if (this.state === STATE_READY) {
+	            this._zone.run(function () {
+	                // they pulled down far enough, so it's ready to refresh
+	                _this._beginRefresh();
+	            });
+	        }
+	        else if (this.state === STATE_PULLING) {
+	            this._zone.run(function () {
+	                // they were pulling down, but didn't pull down far enough
+	                // set the content back to it's original location
+	                // and close the refresher
+	                // set that the refresh is actively cancelling
+	                _this.cancel();
+	            });
+	        }
+	        // reset on any touchend/mouseup
+	        this.startY = null;
+	        if (this._mMove) {
+	            // we don't want to always listen to mousemoves
+	            // remove it if we're still listening
+	            this._mMove();
+	            this._mMove = null;
+	        }
+	    };
+	    Refresher.prototype._beginRefresh = function () {
+	        // assumes we're already back in a zone
+	        // they pulled down far enough, so it's ready to refresh
+	        this.state = STATE_REFRESHING;
+	        // place the content in a hangout position while it thinks
+	        this._setCss(this.pullMin, (this.snapbackDuration + 'ms'), true, '');
+	        // emit "refresh" because it was pulled down far enough
+	        // and they let go to begin refreshing
+	        this.refresh.emit(this);
+	    };
+	    /**
+	     * Call `complete()` when your async operation has completed.
+	     * For example, the `refreshing` state is while the app is performing
+	     * an asynchronous operation, such as receiving more data from an
+	     * AJAX request. Once the data has been received, you then call this
+	     * method to signify that the refreshing has completed and to close
+	     * the refresher. This method also changes the refresher's state from
+	     * `refreshing` to `completing`.
+	     */
+	    Refresher.prototype.complete = function () {
+	        this._close(STATE_COMPLETING, '120ms');
+	    };
+	    /**
+	     * Changes the refresher's state from `refreshing` to `cancelling`.
+	     */
+	    Refresher.prototype.cancel = function () {
+	        this._close(STATE_CANCELLING, '');
+	    };
+	    Refresher.prototype._close = function (state, delay) {
+	        var timer;
+	        function close(ev) {
+	            // closing is done, return to inactive state
+	            if (ev) {
+	                clearTimeout(timer);
+	            }
+	            this.state = STATE_INACTIVE;
+	            this.progress = 0;
+	            this._didStart = this.startY = this.currentY = this.deltaY = null;
+	            this._setCss(0, '0ms', false, '');
+	        }
+	        // create fallback timer incase something goes wrong with transitionEnd event
+	        timer = setTimeout(close.bind(this), 600);
+	        // create transition end event on the content's scroll element
+	        this._content.onScrollElementTransitionEnd(close.bind(this));
+	        // reset set the styles on the scroll element
+	        // set that the refresh is actively cancelling/completing
+	        this.state = state;
+	        this._setCss(0, '', true, delay);
+	        if (this._mMove) {
+	            // always remove the mousemove event
+	            this._mMove();
+	            this._mMove = null;
+	        }
+	    };
+	    Refresher.prototype._setCss = function (y, duration, overflowVisible, delay) {
+	        this._appliedStyles = (y > 0);
+	        var content = this._content;
+	        content.setScrollElementStyle(dom_1.CSS.transform, ((y > 0) ? 'translateY(' + y + 'px) translateZ(0px)' : 'translateZ(0px)'));
+	        content.setScrollElementStyle(dom_1.CSS.transitionDuration, duration);
+	        content.setScrollElementStyle(dom_1.CSS.transitionDelay, delay);
+	        content.setScrollElementStyle('overflow', (overflowVisible ? 'hidden' : ''));
+	    };
+	    Refresher.prototype._setListeners = function (shouldListen) {
+	        var self = this;
+	        var content = self._content;
+	        if (shouldListen) {
+	            // add listener outside of zone
+	            // touch handlers
+	            self._zone.runOutsideAngular(function () {
+	                if (!self._tStart) {
+	                    self._tStart = content.addTouchStartListener(self._onStart.bind(self));
+	                }
+	                if (!self._tMove) {
+	                    self._tMove = content.addTouchMoveListener(self._onMove.bind(self));
+	                }
+	                if (!self._tEnd) {
+	                    self._tEnd = content.addTouchEndListener(self._onEnd.bind(self));
+	                }
+	                // mouse handlers
+	                // mousemove does not get added until mousedown fires
+	                if (!self._mDown) {
+	                    self._mDown = content.addMouseDownListener(self._onStart.bind(self));
+	                }
+	                if (!self._mUp) {
+	                    self._mUp = content.addMouseUpListener(self._onEnd.bind(self));
+	                }
+	            });
+	        }
+	        else {
+	            // unregister event listeners from content element
+	            self._mDown && self._mDown();
+	            self._mMove && self._mMove();
+	            self._mUp && self._mUp();
+	            self._tStart && self._tStart();
+	            self._tMove && self._tMove();
+	            self._tEnd && self._tEnd();
+	            self._mDown = self._mMove = self._mUp = self._tStart = self._tMove = self._tEnd = null;
+	        }
+	    };
 	    /**
 	     * @private
 	     */
 	    Refresher.prototype.ngOnInit = function () {
-	        var sp = this._content.getNativeElement();
-	        var sc = this._content.scrollElement;
-	        this.startY = null;
-	        this.deltaY = null;
-	        this.scrollHost = sp;
-	        this.scrollChild = sc;
-	        util_1.defaults(this, {
-	            pullingIcon: 'md-arrow-down',
-	            refreshingIcon: 'ionic'
-	        });
-	        this.showSpinner = !util_1.isDefined(this.refreshingIcon) && this.spinner != 'none';
-	        this.showIcon = util_1.isDefined(this.refreshingIcon);
-	        this._touchMoveListener = this._handleTouchMove.bind(this);
-	        this._touchEndListener = this._handleTouchEnd.bind(this);
-	        this._handleScrollListener = this._handleScroll.bind(this);
-	        sc.addEventListener('touchmove', this._touchMoveListener);
-	        sc.addEventListener('touchend', this._touchEndListener);
-	        sc.addEventListener('scroll', this._handleScrollListener);
+	        // bind event listeners
+	        // save the unregister listener functions to use onDestroy
+	        this._setListeners(this._isEnabled);
 	    };
 	    /**
 	     * @private
 	     */
 	    Refresher.prototype.ngOnDestroy = function () {
-	        var sc = this._content.scrollElement;
-	        sc.removeEventListener('touchmove', this._touchMoveListener);
-	        sc.removeEventListener('touchend', this._touchEndListener);
-	        sc.removeEventListener('scroll', this._handleScrollListener);
-	    };
-	    /**
-	     * @private
-	     * @param {TODO} val  TODO
-	     */
-	    Refresher.prototype.overscroll = function (val) {
-	        this.scrollChild.style[dom_1.CSS.transform] = 'translateY(' + val + 'px)';
-	        this.lastOverscroll = val;
-	    };
-	    /**
-	     * @private
-	     * @param {TODO} target  TODO
-	     * @param {TODO} newScrollTop  TODO
-	     */
-	    Refresher.prototype.nativescroll = function (target, newScrollTop) {
-	        // creates a scroll event that bubbles, can be cancelled, and with its view
-	        // and detail property initialized to window and 1, respectively
-	        target.scrollTop = newScrollTop;
-	        var e = document.createEvent("UIEvents");
-	        e.initUIEvent("scroll", true, true, window, 1);
-	        target.dispatchEvent(e);
-	    };
-	    /**
-	     * @private
-	     * @param {TODO} enabled  TODO
-	     */
-	    Refresher.prototype.setScrollLock = function (enabled) {
-	        var _this = this;
-	        // set the scrollbar to be position:fixed in preparation to overscroll
-	        // or remove it so the app can be natively scrolled
-	        if (enabled) {
-	            dom_1.raf(function () {
-	                _this.scrollChild.classList.add('overscroll');
-	                _this.show();
-	            });
-	        }
-	        else {
-	            dom_1.raf(function () {
-	                _this.scrollChild.classList.remove('overscroll');
-	                _this.hide();
-	                _this.deactivate();
-	            });
-	        }
-	    };
-	    /**
-	     * @private
-	     */
-	    Refresher.prototype.activate = function () {
-	        //this.ele.classList.add('active');
-	        this.isActive = true;
-	        this.start.emit(this);
-	    };
-	    /**
-	     * @private
-	     */
-	    Refresher.prototype.deactivate = function () {
-	        var _this = this;
-	        // give tail 150ms to finish
-	        setTimeout(function () {
-	            _this.isActive = false;
-	            _this.isRefreshing = false;
-	            _this.isRefreshingTail = false;
-	            // deactivateCallback
-	            if (_this.activated)
-	                _this.activated = false;
-	        }, 150);
-	    };
-	    /**
-	     * @private
-	     */
-	    Refresher.prototype.startRefresh = function () {
-	        // startCallback
-	        this.isRefreshing = true;
-	        this.refresh.emit(this);
-	    };
-	    /**
-	     * @private
-	     */
-	    Refresher.prototype.show = function () {
-	        // showCallback
-	        this._ele.classList.remove('invisible');
-	    };
-	    /**
-	     * @private
-	     */
-	    Refresher.prototype.hide = function () {
-	        // showCallback
-	        this._ele.classList.add('invisible');
-	    };
-	    /**
-	     * @private
-	     */
-	    Refresher.prototype.tail = function () {
-	        // tailCallback
-	        this._ele.classList.add('refreshing-tail');
-	    };
-	    /**
-	     * @private
-	     */
-	    Refresher.prototype.complete = function () {
-	        var _this = this;
-	        setTimeout(function () {
-	            dom_1.raf(_this.tail.bind(_this));
-	            // scroll back to home during tail animation
-	            _this.scrollTo(0, _this.scrollTime, _this.deactivate.bind(_this));
-	            // return to native scrolling after tail animation has time to finish
-	            setTimeout(function () {
-	                if (_this.isOverscrolling) {
-	                    _this.isOverscrolling = false;
-	                    _this.setScrollLock(false);
-	                }
-	            }, _this.scrollTime);
-	        }, this.scrollTime);
-	    };
-	    /**
-	     * @private
-	     * @param {TODO} Y  TODO
-	     * @param {TODO} duration  TODO
-	     * @param {Function} callback  TODO
-	     */
-	    Refresher.prototype.scrollTo = function (Y, duration, callback) {
-	        // scroll animation loop w/ easing
-	        // credit https://gist.github.com/dezinezync/5487119
-	        var start = Date.now(), from = this.lastOverscroll;
-	        if (from === Y) {
-	            callback && callback();
-	            return; /* Prevent scrolling to the Y point if already there */
-	        }
-	        // decelerating to zero velocity
-	        function easeOutCubic(t) {
-	            return (--t) * t * t + 1;
-	        }
-	        // scroll loop
-	        function scroll() {
-	            var currentTime = Date.now(), time = Math.min(1, ((currentTime - start) / duration)), 
-	            // where .5 would be 50% of time on a linear scale easedT gives a
-	            // fraction based on the easing method
-	            easedT = easeOutCubic(time);
-	            this.overscroll(Math.round((easedT * (Y - from)) + from));
-	            if (time < 1) {
-	                dom_1.raf(scroll.bind(this));
-	            }
-	            else {
-	                if (Y < 5 && Y > -5) {
-	                    this.isOverscrolling = false;
-	                    this.setScrollLock(false);
-	                }
-	                callback && callback();
-	            }
-	        }
-	        // start scroll loop
-	        dom_1.raf(scroll.bind(this));
-	    };
-	    /**
-	     * @private
-	     * TODO
-	     * @param {Event} e  TODO
-	     */
-	    Refresher.prototype._handleTouchMove = function (e) {
-	        //console.debug('TOUCHMOVE', e);
-	        // if multitouch or regular scroll event, get out immediately
-	        if (!this.canOverscroll || e.touches.length > 1) {
-	            return;
-	        }
-	        //if this is a new drag, keep track of where we start
-	        if (this.startY === null) {
-	            this.startY = parseInt(e.touches[0].screenY, 10);
-	        }
-	        // how far have we dragged so far?
-	        this.deltaY = parseInt(e.touches[0].screenY, 10) - this.startY;
-	        // if we've dragged up and back down in to native scroll territory
-	        if (this.deltaY - this.dragOffset <= 0 || this.scrollHost.scrollTop !== 0) {
-	            if (this.isOverscrolling) {
-	                this.isOverscrolling = false;
-	                this.setScrollLock(false);
-	            }
-	            if (this.isDragging) {
-	                this.nativescroll(this.scrollHost, Math.round(this.deltaY - this.dragOffset) * -1);
-	            }
-	            // if we're not at overscroll 0 yet, 0 out
-	            if (this.lastOverscroll !== 0) {
-	                this.overscroll(0);
-	            }
-	            return;
-	        }
-	        else if (this.deltaY > 0 && this.scrollHost.scrollTop === 0 && !this.isOverscrolling) {
-	            // starting overscroll, but drag started below scrollTop 0, so we need to offset the position
-	            this.dragOffset = this.deltaY;
-	        }
-	        // prevent native scroll events while overscrolling
-	        e.preventDefault();
-	        // if not overscrolling yet, initiate overscrolling
-	        if (!this.isOverscrolling) {
-	            this.isOverscrolling = true;
-	            this.setScrollLock(true);
-	        }
-	        this.isDragging = true;
-	        // overscroll according to the user's drag so far
-	        this.overscroll(Math.round((this.deltaY - this.dragOffset) / 3));
-	        // Pass the refresher to the EventEmitter
-	        this.pulling.emit(this);
-	        // update the icon accordingly
-	        if (!this.activated && this.lastOverscroll > this.ptrThreshold) {
-	            this.activated = true;
-	            dom_1.raf(this.activate.bind(this));
-	        }
-	        else if (this.activated && this.lastOverscroll < this.ptrThreshold) {
-	            this.activated = false;
-	            dom_1.raf(this.deactivate.bind(this));
-	        }
-	    };
-	    /**
-	     * @private
-	     * TODO
-	     * @param {Event} e  TODO
-	     */
-	    Refresher.prototype._handleTouchEnd = function (e) {
-	        void 0;
-	        // if this wasn't an overscroll, get out immediately
-	        if (!this.canOverscroll && !this.isDragging) {
-	            return;
-	        }
-	        // reset Y
-	        this.startY = null;
-	        // the user has overscrolled but went back to native scrolling
-	        if (!this.isDragging) {
-	            this.dragOffset = 0;
-	            this.isOverscrolling = false;
-	            this.setScrollLock(false);
-	        }
-	        else {
-	            this.isDragging = false;
-	            this.dragOffset = 0;
-	            // the user has scroll far enough to trigger a refresh
-	            if (this.lastOverscroll > this.ptrThreshold) {
-	                this.startRefresh();
-	                this.scrollTo(this.ptrThreshold, this.scrollTime);
-	            }
-	            else {
-	                this.scrollTo(0, this.scrollTime, this.deactivate.bind(this));
-	                this.isOverscrolling = false;
-	            }
-	        }
-	    };
-	    /**
-	     * @private
-	     * TODO
-	     * @param {Event} e  TODO
-	     */
-	    Refresher.prototype._handleScroll = function (e) {
-	        void 0;
+	        this._setListeners(false);
 	    };
 	    __decorate([
 	        core_1.Input(), 
-	        __metadata('design:type', String)
-	    ], Refresher.prototype, "pullingIcon", void 0);
+	        __metadata('design:type', Number)
+	    ], Refresher.prototype, "pullMin", void 0);
 	    __decorate([
 	        core_1.Input(), 
-	        __metadata('design:type', String)
-	    ], Refresher.prototype, "pullingText", void 0);
+	        __metadata('design:type', Number)
+	    ], Refresher.prototype, "pullMax", void 0);
 	    __decorate([
 	        core_1.Input(), 
-	        __metadata('design:type', String)
-	    ], Refresher.prototype, "refreshingIcon", void 0);
+	        __metadata('design:type', Number)
+	    ], Refresher.prototype, "closeDuration", void 0);
 	    __decorate([
 	        core_1.Input(), 
-	        __metadata('design:type', String)
-	    ], Refresher.prototype, "refreshingText", void 0);
+	        __metadata('design:type', Number)
+	    ], Refresher.prototype, "snapbackDuration", void 0);
 	    __decorate([
 	        core_1.Input(), 
-	        __metadata('design:type', String)
-	    ], Refresher.prototype, "spinner", void 0);
-	    __decorate([
-	        core_1.Output(), 
-	        __metadata('design:type', core_1.EventEmitter)
-	    ], Refresher.prototype, "pulling", void 0);
+	        __metadata('design:type', Boolean)
+	    ], Refresher.prototype, "enabled", null);
 	    __decorate([
 	        core_1.Output(), 
 	        __metadata('design:type', core_1.EventEmitter)
@@ -50124,37 +51245,115 @@
 	    __decorate([
 	        core_1.Output(), 
 	        __metadata('design:type', core_1.EventEmitter)
+	    ], Refresher.prototype, "pulling", void 0);
+	    __decorate([
+	        core_1.Output(), 
+	        __metadata('design:type', core_1.EventEmitter)
 	    ], Refresher.prototype, "start", void 0);
 	    Refresher = __decorate([
-	        core_1.Component({
+	        core_1.Directive({
 	            selector: 'ion-refresher',
 	            host: {
-	                '[class.active]': 'isActive',
-	                '[class.refreshing]': 'isRefreshing',
-	                '[class.refreshingTail]': 'isRefreshingTail'
-	            },
-	            template: '<div class="refresher-content" [class.refresher-with-text]="pullingText || refreshingText">' +
-	                '<div class="icon-pulling">' +
-	                '<ion-icon [name]="pullingIcon"></ion-icon>' +
-	                '</div>' +
-	                '<div class="text-pulling" [innerHTML]="pullingText" *ngIf="pullingText"></div>' +
-	                '<div class="icon-refreshing">' +
-	                '<ion-icon [name]="refreshingIcon"></ion-icon>' +
-	                '</div>' +
-	                '<div class="text-refreshing" [innerHTML]="refreshingText" *ngIf="refreshingText"></div>' +
-	                '</div>',
-	            directives: [common_1.NgIf, common_1.NgClass, icon_1.Icon]
+	                '[class.refresher-active]': 'state !== "inactive"'
+	            }
 	        }),
 	        __param(0, core_1.Host()), 
-	        __metadata('design:paramtypes', [content_1.Content, core_1.ElementRef])
+	        __metadata('design:paramtypes', [content_1.Content, core_1.NgZone, core_1.ElementRef])
 	    ], Refresher);
 	    return Refresher;
 	})();
 	exports.Refresher = Refresher;
+	var STATE_INACTIVE = 'inactive';
+	var STATE_PULLING = 'pulling';
+	var STATE_READY = 'ready';
+	var STATE_REFRESHING = 'refreshing';
+	var STATE_CANCELLING = 'cancelling';
+	var STATE_COMPLETING = 'completing';
 
 
 /***/ },
-/* 313 */
+/* 316 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var core_1 = __webpack_require__(7);
+	var common_1 = __webpack_require__(172);
+	var config_1 = __webpack_require__(161);
+	var icon_1 = __webpack_require__(299);
+	var refresher_1 = __webpack_require__(315);
+	var spinner_1 = __webpack_require__(314);
+	/**
+	 * @private
+	 */
+	var RefresherContent = (function () {
+	    function RefresherContent(r, _config) {
+	        this.r = r;
+	        this._config = _config;
+	    }
+	    /**
+	     * @private
+	     */
+	    RefresherContent.prototype.ngOnInit = function () {
+	        if (!this.pullingIcon) {
+	            this.pullingIcon = this._config.get('refresherPullingIcon', 'arrow-down');
+	        }
+	        if (!this.refreshingSpinner) {
+	            this.refreshingSpinner = this._config.get('refresherRefreshingSpinner', this._config.get('spinner', 'ios'));
+	        }
+	    };
+	    __decorate([
+	        core_1.Input(), 
+	        __metadata('design:type', String)
+	    ], RefresherContent.prototype, "pullingIcon", void 0);
+	    __decorate([
+	        core_1.Input(), 
+	        __metadata('design:type', String)
+	    ], RefresherContent.prototype, "pullingText", void 0);
+	    __decorate([
+	        core_1.Input(), 
+	        __metadata('design:type', String)
+	    ], RefresherContent.prototype, "refreshingSpinner", void 0);
+	    __decorate([
+	        core_1.Input(), 
+	        __metadata('design:type', String)
+	    ], RefresherContent.prototype, "refreshingText", void 0);
+	    RefresherContent = __decorate([
+	        core_1.Component({
+	            selector: 'ion-refresher-content',
+	            template: '<div class="refresher-pulling">' +
+	                '<div class="refresher-pulling-icon" *ngIf="pullingIcon">' +
+	                '<ion-icon [name]="pullingIcon"></ion-icon>' +
+	                '</div>' +
+	                '<div class="refresher-pulling-text" [innerHTML]="pullingText" *ngIf="pullingText"></div>' +
+	                '</div>' +
+	                '<div class="refresher-refreshing">' +
+	                '<div class="refresher-refreshing-icon">' +
+	                '<ion-spinner [name]="refreshingSpinner"></ion-spinner>' +
+	                '</div>' +
+	                '<div class="refresher-refreshing-text" [innerHTML]="refreshingText" *ngIf="refreshingText"></div>' +
+	                '</div>',
+	            directives: [common_1.NgIf, icon_1.Icon, spinner_1.Spinner],
+	            host: {
+	                '[attr.state]': 'r.state'
+	            }
+	        }), 
+	        __metadata('design:paramtypes', [refresher_1.Refresher, config_1.Config])
+	    ], RefresherContent);
+	    return RefresherContent;
+	})();
+	exports.RefresherContent = RefresherContent;
+
+
+/***/ },
+/* 317 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __extends = (this && this.__extends) || function (d, b) {
@@ -50182,7 +51381,7 @@
 	var util_1 = __webpack_require__(293);
 	var dom_1 = __webpack_require__(164);
 	var util_2 = __webpack_require__(163);
-	var swiper_widget_1 = __webpack_require__(314);
+	var swiper_widget_1 = __webpack_require__(318);
 	/**
 	 * @name Slides
 	 * @description
@@ -50192,7 +51391,7 @@
 	 * ```ts
 	 * @Page({
 	 *  template: `
-	 *     <ion-slides pager (change)="onSlideChanged($event)" (move)="onSlideMove($event)" loop="true" autoplay="true">
+	 *     <ion-slides pager (change)="onSlideChanged($event)" (move)="onSlideMove($event)">
 	 *      <ion-slide>
 	 *        <h3>Thank you for choosing the Awesome App!</h3>
 	 *        <p>
@@ -50735,7 +51934,7 @@
 
 
 /***/ },
-/* 314 */
+/* 318 */
 /***/ function(module, exports) {
 
 	/**
@@ -54695,7 +55894,7 @@
 
 
 /***/ },
-/* 315 */
+/* 319 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __extends = (this && this.__extends) || function (d, b) {
@@ -54719,8 +55918,8 @@
 	var common_1 = __webpack_require__(172);
 	var app_1 = __webpack_require__(168);
 	var config_1 = __webpack_require__(161);
-	var tab_button_1 = __webpack_require__(316);
-	var tab_highlight_1 = __webpack_require__(318);
+	var tab_button_1 = __webpack_require__(320);
+	var tab_highlight_1 = __webpack_require__(322);
 	var ion_1 = __webpack_require__(287);
 	var platform_1 = __webpack_require__(162);
 	var nav_controller_1 = __webpack_require__(302);
@@ -54765,7 +55964,7 @@
 	        this._tabs = [];
 	        this._onReady = null;
 	        /**
-	         * @input {any} expression you want to evaluate when the tabs change
+	         * @input {any} Expression to evaluate when the tab changes.
 	         */
 	        this.change = new core_1.EventEmitter();
 	        this.parent = parent;
@@ -54789,7 +55988,11 @@
 	    Tabs.prototype.ngAfterViewInit = function () {
 	        var _this = this;
 	        this._setConfig('tabbarPlacement', 'bottom');
+	        this._setConfig('tabbarLayout', 'icon-top');
 	        this._setConfig('tabbarIcons', 'top');
+	        if (this.tabbarIcons) {
+	            void 0;
+	        }
 	        if (this._useHighlight) {
 	            this._platform.onResize(function () {
 	                _this._highlight.select(_this.getSelected());
@@ -54807,7 +56010,7 @@
 	    Tabs.prototype.ngAfterContentInit = function () {
 	        var _this = this;
 	        var selectedIndex = this.selectedIndex ? parseInt(this.selectedIndex, 10) : 0;
-	        var preloadTabs = (util_1.isUndefined(this.preloadTabs) ? this._config.getBoolean('preloadTabs') : util_1.isTrueProperty(this.preloadTabs));
+	        var preloadTabs = (util_1.isBlank(this.preloadTabs) ? this._config.getBoolean('preloadTabs') : util_1.isTrueProperty(this.preloadTabs));
 	        this._tabs.forEach(function (tab, index) {
 	            if (index === selectedIndex) {
 	                _this.select(tab);
@@ -54822,8 +56025,8 @@
 	     */
 	    Tabs.prototype._setConfig = function (attrKey, fallback) {
 	        var val = this[attrKey];
-	        if (util_1.isUndefined(val)) {
-	            val = this._config.get(attrKey);
+	        if (util_1.isBlank(val)) {
+	            val = this._config.get(attrKey, fallback);
 	        }
 	        this._renderer.setElementAttribute(this._elementRef.nativeElement, attrKey, val);
 	    };
@@ -54969,6 +56172,10 @@
 	    __decorate([
 	        core_1.Input(), 
 	        __metadata('design:type', String)
+	    ], Tabs.prototype, "tabbarLayout", void 0);
+	    __decorate([
+	        core_1.Input(), 
+	        __metadata('design:type', String)
 	    ], Tabs.prototype, "tabbarPlacement", void 0);
 	    __decorate([
 	        core_1.Output(), 
@@ -55036,7 +56243,7 @@
 
 
 /***/ },
-/* 316 */
+/* 320 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __extends = (this && this.__extends) || function (d, b) {
@@ -55054,7 +56261,7 @@
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	var core_1 = __webpack_require__(7);
-	var tab_1 = __webpack_require__(317);
+	var tab_1 = __webpack_require__(321);
 	var ion_1 = __webpack_require__(287);
 	var config_1 = __webpack_require__(161);
 	/**
@@ -55066,11 +56273,13 @@
 	        _super.call(this, elementRef);
 	        this.select = new core_1.EventEmitter();
 	        this.disHover = (config.get('hoverCSS') === false);
+	        this._layout = config.get('tabbarLayout');
 	    }
 	    TabButton.prototype.ngOnInit = function () {
 	        this.tab.btn = this;
+	        this._layout = this.tab.parent.tabbarLayout || this._layout;
 	        this.hasTitle = !!this.tab.tabTitle;
-	        this.hasIcon = !!this.tab.tabIcon;
+	        this.hasIcon = !!this.tab.tabIcon && this._layout != 'icon-hide';
 	        this.hasTitleOnly = (this.hasTitle && !this.hasIcon);
 	        this.hasIconOnly = (this.hasIcon && !this.hasTitle);
 	        this.hasBadge = !!this.tab.tabBadge;
@@ -55115,7 +56324,7 @@
 
 
 /***/ },
-/* 317 */
+/* 321 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __extends = (this && this.__extends) || function (d, b) {
@@ -55141,7 +56350,7 @@
 	var config_1 = __webpack_require__(161);
 	var keyboard_1 = __webpack_require__(276);
 	var nav_controller_1 = __webpack_require__(302);
-	var tabs_1 = __webpack_require__(315);
+	var tabs_1 = __webpack_require__(319);
 	/**
 	 * @name Tab
 	 * @description
@@ -55242,7 +56451,7 @@
 	     */
 	    Tab.prototype.preload = function (wait) {
 	        var _this = this;
-	        this._loadTimer = setTimeout(function () {
+	        this._loadTmr = setTimeout(function () {
 	            if (!_this._loaded) {
 	                void 0;
 	                _this.load({
@@ -55305,7 +56514,8 @@
 	     * @private
 	     */
 	    Tab.prototype.ngOnDestroy = function () {
-	        clearTimeout(this._loadTimer);
+	        clearTimeout(this._loadTmr);
+	        _super.prototype.ngOnDestroy.call(this);
 	    };
 	    __decorate([
 	        core_2.Input(), 
@@ -55355,7 +56565,7 @@
 
 
 /***/ },
-/* 318 */
+/* 322 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -55402,7 +56612,7 @@
 
 
 /***/ },
-/* 319 */
+/* 323 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __extends = (this && this.__extends) || function (d, b) {
@@ -55424,18 +56634,19 @@
 	};
 	var core_1 = __webpack_require__(7);
 	var ion_1 = __webpack_require__(287);
-	var virtual_1 = __webpack_require__(320);
-	var item_sliding_gesture_1 = __webpack_require__(321);
-	var util_1 = __webpack_require__(293);
+	var item_sliding_gesture_1 = __webpack_require__(324);
 	/**
-	 * The List is a widely used interface element in almost any mobile app, and can include
-	 * content ranging from basic text all the way to buttons, toggles, icons, and thumbnails.
+	 * The List is a widely used interface element in almost any mobile app,
+	 * and can include content ranging from basic text all the way to
+	 * buttons, toggles, icons, and thumbnails.
 	 *
-	 * Both the list, which contains items, and the list items themselves can be any HTML
-	 * element.
+	 * Both the list, which contains items, and the list items themselves
+	 * can be any HTML element.
 	 *
 	 * Using the List and Item components make it easy to support various
-	 * interaction modes such as swipe to edit, drag to reorder, and removing items.
+	 * interaction modes such as swipe to edit, drag to reorder, and
+	 * removing items.
+	 *
 	 * @demo /docs/v2/demos/list/
 	 * @see {@link /docs/v2/components#lists List Component Docs}
 	 *
@@ -55451,35 +56662,9 @@
 	    /**
 	     * @private
 	     */
-	    List.prototype.ngOnInit = function () {
-	        if (util_1.isDefined(this.virtual)) {
-	            void 0;
-	            void 0;
-	            void 0;
-	            this._initVirtualScrolling();
-	        }
-	    };
-	    /**
-	     * @private
-	     */
 	    List.prototype.ngOnDestroy = function () {
-	        this.ele = null;
-	        this.slidingGesture && this.slidingGesture.unlisten();
-	    };
-	    /**
-	     * @private
-	     */
-	    List.prototype._initVirtualScrolling = function () {
-	        if (!this.content) {
-	            return;
-	        }
-	        this._virtualScrollingManager = new virtual_1.ListVirtualScroll(this);
-	    };
-	    /**
-	     * @private
-	     */
-	    List.prototype.setItemTemplate = function (item) {
-	        this.itemTemplate = item;
+	        this.slidingGesture && this.slidingGesture.destroy();
+	        this.ele = this.slidingGesture = null;
 	    };
 	    /**
 	     * Enable sliding items if your page has them
@@ -55534,18 +56719,6 @@
 	    List.prototype.closeSlidingItems = function () {
 	        this.slidingGesture && this.slidingGesture.closeOpened();
 	    };
-	    __decorate([
-	        core_1.Input(), 
-	        __metadata('design:type', Object)
-	    ], List.prototype, "items", void 0);
-	    __decorate([
-	        core_1.Input(), 
-	        __metadata('design:type', Object)
-	    ], List.prototype, "virtual", void 0);
-	    __decorate([
-	        core_1.Input(), 
-	        __metadata('design:type', Object)
-	    ], List.prototype, "content", void 0);
 	    List = __decorate([
 	        core_1.Directive({
 	            selector: 'ion-list'
@@ -55588,101 +56761,7 @@
 
 
 /***/ },
-/* 320 */
-/***/ function(module, exports) {
-
-	var ListVirtualScroll = (function () {
-	    function ListVirtualScroll(list) {
-	        var _this = this;
-	        this.itemHeight = 60;
-	        this.shownItems = {};
-	        this.enteringItems = [];
-	        this.leavingItems = [];
-	        this.list = list;
-	        this.content = this.list.content;
-	        this.viewportHeight = this.content.height();
-	        this.viewContainer = this.list.itemTemplate.viewContainer;
-	        // Compute the initial sizes
-	        setTimeout(function () {
-	            _this.resize();
-	            // Simulate the first event to start layout
-	            _this._handleVirtualScroll({
-	                target: _this.content.scrollElement
-	            });
-	        });
-	        this.content.addScrollEventListener(function (event) {
-	            _this._handleVirtualScroll(event);
-	        });
-	    }
-	    ListVirtualScroll.prototype.resize = function () {
-	        this.viewportHeight = this.content.height();
-	        this.viewportScrollHeight = this.content.scrollElement.scrollHeight;
-	        this.virtualHeight = this.list.items.length * this.itemHeight;
-	        this.itemsPerScreen = this.viewportHeight / this.itemHeight;
-	        void 0;
-	    };
-	    ListVirtualScroll.prototype._handleVirtualScroll = function (event) {
-	        var item;
-	        var shownItemRef;
-	        var st = event.target.scrollTop;
-	        var sh = event.target.scrollHeight;
-	        var topIndex = Math.floor(st / this.itemHeight);
-	        var bottomIndex = Math.floor((st / this.itemHeight) + this.itemsPerScreen);
-	        var items = this.list.items;
-	        // Key iterate the shown items map
-	        // and compare the index to our index range,
-	        // pushing the items to remove to our leaving
-	        // list if they're ouside this range.
-	        for (var i in this.shownItems) {
-	            if (i < topIndex || i > bottomIndex) {
-	                this.leavingItems.push(this.shownItems[i]);
-	                delete this.shownItems[i];
-	            }
-	        }
-	        var realIndex = 0;
-	        // Iterate the set of items that will be rendered, using the
-	        // index from the actual items list as the map for the
-	        // virtual items we draw
-	        for (var i = topIndex, realIndex_1 = 0; i < bottomIndex && i < items.length; i++, realIndex_1++) {
-	            item = items[i];
-	            void 0;
-	            shownItemRef = this.shownItems[i];
-	            // Is this a new item?
-	            if (!shownItemRef) {
-	                var itemView = this.viewContainer.create(this.list.itemTemplate.protoViewRef, realIndex_1);
-	                itemView.setLocal('\$implicit', item);
-	                itemView.setLocal('\$item', item);
-	                shownItemRef = new VirtualItemRef(item, i, realIndex_1, itemView);
-	                this.shownItems[i] = shownItemRef;
-	                this.enteringItems.push(shownItemRef);
-	            }
-	        }
-	        while (this.leavingItems.length) {
-	            var itemRef = this.leavingItems.pop();
-	            void 0;
-	            this.viewContainer.remove(itemRef.realIndex);
-	        }
-	        void 0;
-	        void 0;
-	    };
-	    ListVirtualScroll.prototype.cellAtIndex = function (index) {
-	    };
-	    return ListVirtualScroll;
-	})();
-	exports.ListVirtualScroll = ListVirtualScroll;
-	var VirtualItemRef = (function () {
-	    function VirtualItemRef(item, index, realIndex, view) {
-	        this.item = item;
-	        this.index = index;
-	        this.realIndex = realIndex;
-	        this.view = view;
-	    }
-	    return VirtualItemRef;
-	})();
-
-
-/***/ },
-/* 321 */
+/* 324 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __extends = (this && this.__extends) || function (d, b) {
@@ -55904,7 +56983,7 @@
 
 
 /***/ },
-/* 322 */
+/* 325 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -55921,7 +57000,7 @@
 	var button_1 = __webpack_require__(301);
 	var form_1 = __webpack_require__(167);
 	var icon_1 = __webpack_require__(299);
-	var label_1 = __webpack_require__(323);
+	var label_1 = __webpack_require__(326);
 	/**
 	 * @name Item
 	 * @description
@@ -56033,7 +57112,9 @@
 	         */
 	        set: function (buttons) {
 	            buttons.toArray().forEach(function (button) {
-	                if (!button.isItem) {
+	                // Don't add the item-button class if the user specifies
+	                // a different size button
+	                if (!button.isItem && !button._size) {
 	                    button.addClass('item-button');
 	                }
 	            });
@@ -56098,7 +57179,7 @@
 
 
 /***/ },
-/* 323 */
+/* 326 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -56117,10 +57198,8 @@
 	/**
 	 * @name Label
 	 * @description
-	 * Labels describe the data that the user should enter in to an input
-	 * element. You can give `ion-label` attributes to tell it how to
-	 * handle its display type, which is especially useful for an
-	 * `ion-item` which contains a text input.
+	 * Labels are placed inside of an `ion-item` element and can be used
+	 * to describe an `ion-input`, `ion-toggle`, `ion-checkbox`, and more.
 	 *
 	 * @property [fixed] - a persistant label that sits next the the input
 	 * @property [floating] - a label that will float about the input if the input is empty of looses focus
@@ -56135,7 +57214,7 @@
 	 *  </ion-item>
 	 *
 	 *  <ion-item>
-	 *    <ion-labe fixed>Website</ion-label>
+	 *    <ion-label fixed>Website</ion-label>
 	 *    <ion-input type="url"></ion-input>
 	 *  </ion-item>
 	 *
@@ -56149,6 +57228,15 @@
 	 *    <ion-input type="tel"></ion-input>
 	 *  </ion-item>
 	 *
+	 *  <ion-item>
+	 *    <ion-label>Toggle</ion-label>
+	 *    <ion-toggle></ion-toggle>
+	 *  </ion-item>
+	 *
+	 *  <ion-item>
+	 *    <ion-label>Checkbox</ion-label>
+	 *    <ion-checkbox></ion-checkbox>
+	 *  </ion-item>
 	 * ```
 	 *
 	 * @demo /docs/v2/demos/label/
@@ -56215,7 +57303,7 @@
 
 
 /***/ },
-/* 324 */
+/* 327 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -56231,7 +57319,7 @@
 	    return function (target, key) { decorator(target, key, paramIndex); }
 	};
 	var core_1 = __webpack_require__(7);
-	var list_1 = __webpack_require__(319);
+	var list_1 = __webpack_require__(323);
 	/**
 	 * @name ItemSliding
 	 *
@@ -56284,7 +57372,7 @@
 
 
 /***/ },
-/* 325 */
+/* 328 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -56302,13 +57390,16 @@
 	var core_1 = __webpack_require__(7);
 	var common_1 = __webpack_require__(172);
 	var form_1 = __webpack_require__(167);
-	var item_1 = __webpack_require__(322);
+	var item_1 = __webpack_require__(325);
 	var util_1 = __webpack_require__(163);
 	var CHECKBOX_VALUE_ACCESSOR = new core_1.Provider(common_1.NG_VALUE_ACCESSOR, { useExisting: core_1.forwardRef(function () { return Checkbox; }), multi: true });
 	/**
-	 * The checkbox is no different than the HTML checkbox input, except
-	 * it's styled accordingly to the the platform and design mode, such
-	 * as iOS or Material Design.
+	 * @name Checkbox
+	 * @module ionic
+	 *
+	 * @description
+	 * The Checkbox is a simple component styled based on the mode. It can be
+	 * placed in an `ion-item` or used as a stand-alone checkbox.
 	 *
 	 * See the [Angular 2 Docs](https://angular.io/docs/ts/latest/guide/forms.html)
 	 * for more info on forms and inputs.
@@ -56336,6 +57427,7 @@
 	 *
 	 *  </ion-list>
 	 * ```
+	 *
 	 * @demo /docs/v2/demos/checkbox/
 	 * @see {@link /docs/v2/components#checkbox Checkbox Component Docs}
 	 */
@@ -56345,6 +57437,10 @@
 	        this._item = _item;
 	        this._checked = false;
 	        this._disabled = false;
+	        /**
+	         * @output {Checkbox} expression to evaluate when the checkbox value changes
+	         */
+	        this.change = new core_1.EventEmitter();
 	        _form.register(this);
 	        if (_item) {
 	            this.id = 'chk-' + _item.registerInput('checkbox');
@@ -56379,8 +57475,11 @@
 	     * @private
 	     */
 	    Checkbox.prototype._setChecked = function (isChecked) {
-	        this._checked = isChecked;
-	        this._item && this._item.setCssClass('item-checkbox-checked', isChecked);
+	        if (isChecked !== this._checked) {
+	            this._checked = isChecked;
+	            this.change.emit(this);
+	            this._item && this._item.setCssClass('item-checkbox-checked', isChecked);
+	        }
 	    };
 	    /**
 	     * @private
@@ -56422,7 +57521,12 @@
 	    /**
 	     * @private
 	     */
-	    Checkbox.prototype.onChange = function (_) { };
+	    Checkbox.prototype.onChange = function (isChecked) {
+	        // used when this input does not have an ngModel or ngControl
+	        void 0;
+	        this._setChecked(isChecked);
+	        this.onTouched();
+	    };
 	    /**
 	     * @private
 	     */
@@ -56434,6 +57538,10 @@
 	        this._form.deregister(this);
 	    };
 	    __decorate([
+	        core_1.Output(), 
+	        __metadata('design:type', core_1.EventEmitter)
+	    ], Checkbox.prototype, "change", void 0);
+	    __decorate([
 	        core_1.HostListener('click', ['$event']), 
 	        __metadata('design:type', Function), 
 	        __metadata('design:paramtypes', [Object]), 
@@ -56441,11 +57549,11 @@
 	    ], Checkbox.prototype, "_click", null);
 	    __decorate([
 	        core_1.Input(), 
-	        __metadata('design:type', Object)
+	        __metadata('design:type', Boolean)
 	    ], Checkbox.prototype, "checked", null);
 	    __decorate([
 	        core_1.Input(), 
-	        __metadata('design:type', Object)
+	        __metadata('design:type', Boolean)
 	    ], Checkbox.prototype, "disabled", null);
 	    Checkbox = __decorate([
 	        core_1.Component({
@@ -56474,7 +57582,7 @@
 
 
 /***/ },
-/* 326 */
+/* 329 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -56491,12 +57599,12 @@
 	};
 	var core_1 = __webpack_require__(7);
 	var common_1 = __webpack_require__(172);
-	var alert_1 = __webpack_require__(327);
+	var alert_1 = __webpack_require__(330);
 	var form_1 = __webpack_require__(167);
-	var item_1 = __webpack_require__(322);
+	var item_1 = __webpack_require__(325);
 	var util_1 = __webpack_require__(163);
 	var nav_controller_1 = __webpack_require__(302);
-	var option_1 = __webpack_require__(328);
+	var option_1 = __webpack_require__(331);
 	var SELECT_VALUE_ACCESSOR = new core_1.Provider(common_1.NG_VALUE_ACCESSOR, { useExisting: core_1.forwardRef(function () { return Select; }), multi: true });
 	/**
 	 * @name Select
@@ -56597,6 +57705,7 @@
 	        this._values = [];
 	        this._texts = [];
 	        this._text = '';
+	        this._isOpen = false;
 	        /**
 	         * @private
 	         * @input {string}  The text of the cancel button. Defatuls to `Cancel`
@@ -56634,13 +57743,22 @@
 	            void 0;
 	        }
 	    }
-	    /**
-	     * @private
-	     */
 	    Select.prototype._click = function (ev) {
-	        var _this = this;
+	        if (ev.detail === 0) {
+	            // do not continue if the click event came from a form submit
+	            return;
+	        }
 	        ev.preventDefault();
 	        ev.stopPropagation();
+	        this._open();
+	    };
+	    Select.prototype._keyup = function (ev) {
+	        if (!this._isOpen) {
+	            this._open();
+	        }
+	    };
+	    Select.prototype._open = function () {
+	        var _this = this;
 	        if (this._disabled)
 	            return;
 	        void 0;
@@ -56686,6 +57804,10 @@
 	            }
 	        });
 	        this._nav.present(alert, alertOptions);
+	        this._isOpen = true;
+	        alert.onDismiss(function () {
+	            _this._isOpen = false;
+	        });
 	    };
 	    Object.defineProperty(Select.prototype, "multiple", {
 	        /**
@@ -56735,7 +57857,9 @@
 	        if (this._options) {
 	            this._options.toArray().forEach(function (option) {
 	                // check this option if the option's value is in the values array
-	                option.checked = (_this._values.indexOf(option.value) > -1);
+	                option.checked = _this._values.some(function (selectValue) {
+	                    return util_1.isCheckedProperty(selectValue, option.value);
+	                });
 	                if (option.checked) {
 	                    _this._texts.push(option.text);
 	                }
@@ -56792,7 +57916,13 @@
 	    /**
 	     * @private
 	     */
-	    Select.prototype.onChange = function (_) { };
+	    Select.prototype.onChange = function (val) {
+	        // onChange used when there is not an ngControl
+	        void 0;
+	        this._values = (Array.isArray(val) ? val : util_1.isBlank(val) ? [] : [val]);
+	        this._updOpts();
+	        this.onTouched();
+	    };
 	    /**
 	     * @private
 	     */
@@ -56834,6 +57964,12 @@
 	        __metadata('design:returntype', void 0)
 	    ], Select.prototype, "_click", null);
 	    __decorate([
+	        core_1.HostListener('keyup.space', ['$event']), 
+	        __metadata('design:type', Function), 
+	        __metadata('design:paramtypes', [Object]), 
+	        __metadata('design:returntype', void 0)
+	    ], Select.prototype, "_keyup", null);
+	    __decorate([
 	        core_1.Input(), 
 	        __metadata('design:type', Object)
 	    ], Select.prototype, "multiple", null);
@@ -56874,7 +58010,7 @@
 
 
 /***/ },
-/* 327 */
+/* 330 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __extends = (this && this.__extends) || function (d, b) {
@@ -56902,31 +58038,44 @@
 	/**
 	 * @name Alert
 	 * @description
-	 * An Alert is a dialog that presents users with either information, or used
-	 * to receive information from the user using inputs. An alert appears on top
+	 * An Alert is a dialog that presents users with information or collects
+	 * information from the user using inputs. An alert appears on top
 	 * of the app's content, and must be manually dismissed by the user before
-	 * they can resume interaction with the app.
+	 * they can resume interaction with the app. It can also optionally have a
+	 * `title`, `subTitle` and `message`.
 	 *
-	 * An alert is created from an array of `buttons` and optionally an array of
-	 * `inputs`. Each button includes properties for its `text`, and optionally a
-	 * `handler`. If a handler returns `false` then the alert will not be dismissed.
-	 * An alert can also optionally have a `title`, `subTitle` and `message`.
+	 * You can pass all of the alert's options in the first argument of
+	 * the create method: `Alert.create(opts)`. Otherwise the alert's instance
+	 * has methods to add options, such as `setTitle()` or `addButton()`.
 	 *
-	 * All buttons will show up in the order they have been added to the `buttons`
-	 * array, from left to right. Note: The right most button (the last one in the
-	 * array) is the main button.
+	 *
+	 * ### Alert Buttons
+	 *
+	 * In the array of `buttons`, each button includes properties for its `text`,
+	 * and optionally a `handler`. If a handler returns `false` then the alert
+	 * will not automatically be dismissed when the button is clicked. All
+	 * buttons will show  up in the order they have been added to the `buttons`
+	 * array, from left to right. Note: The right most button (the last one in
+	 * the array) is the main button.
 	 *
 	 * Optionally, a `role` property can be added to a button, such as `cancel`.
-	 * If a `cancel` role is on one of the buttons, then if the alert is dismissed
-	 * by tapping the backdrop, then it will fire the handler from the button
-	 * with a cancel role.
+	 * If a `cancel` role is on one of the buttons, then if the alert is
+	 * dismissed by tapping the backdrop, then it will fire the handler from
+	 * the button with a cancel role.
 	 *
-	 * Alerts can also include inputs whos data can be passed back to the app.
-	 * Inputs can be used to prompt users for information.
 	 *
-	 * Its shorthand is to add all the alert's options from within the
-	 * `Alert.create(opts)` first argument. Otherwise the alert's instance
-	 * has methods to add options, such as `setTitle()` or `addButton()`.
+	 * ### Alert Inputs
+	 *
+	 * Alerts can also include several different inputs whose data can be passed
+	 * back to the app. Inputs can be used as a simple way to prompt users for
+	 * information. Radios, checkboxes and text inputs are all accepted, but they
+	 * cannot be mixed. For example, an alert could have all radio button inputs,
+	 * or all checkbox inputs, but the same alert cannot mix radio and checkbox
+	 * inputs. Do note however, different types of "text"" inputs can be mixed,
+	 * such as `url`, `email`, `text`, etc. If you require a complex form UI
+	 * which doesn't fit within the guidelines of an alert then we recommend
+	 * building the form within a modal instead.
+	 *
 	 *
 	 * @usage
 	 * ```ts
@@ -57013,9 +58162,14 @@
 	        if (opts === void 0) { opts = {}; }
 	        opts.inputs = opts.inputs || [];
 	        opts.buttons = opts.buttons || [];
-	        opts.enableBackdropDismiss = util_1.isDefined(opts.enableBackdropDismiss) ? !!opts.enableBackdropDismiss : true;
+	        opts.enableBackdropDismiss = util_1.isPresent(opts.enableBackdropDismiss) ? !!opts.enableBackdropDismiss : true;
 	        _super.call(this, AlertCmp, opts);
 	        this.viewType = 'alert';
+	        this.isOverlay = true;
+	        // by default, alerts should not fire lifecycle events of other views
+	        // for example, when an alert enters, the current active view should
+	        // not fire its lifecycle events because it's not conceptually leaving
+	        this.fireOtherLifecycles = false;
 	    }
 	    /**
 	    * @private
@@ -57112,10 +58266,10 @@
 	        var _this = this;
 	        // normalize the data
 	        var data = this.d;
-	        if (data.body) {
+	        if (data['body']) {
 	            // deprecated warning
 	            void 0;
-	            data.message = data.body;
+	            data.message = data['body'];
 	        }
 	        data.buttons = data.buttons.map(function (button) {
 	            if (typeof button === 'string') {
@@ -57126,43 +58280,52 @@
 	        data.inputs = data.inputs.map(function (input, index) {
 	            return {
 	                type: input.type || 'text',
-	                name: util_1.isDefined(input.name) ? input.name : index,
-	                placeholder: util_1.isDefined(input.placeholder) ? input.placeholder : '',
-	                value: util_1.isDefined(input.value) ? input.value : '',
+	                name: util_1.isPresent(input.name) ? input.name : index,
+	                placeholder: util_1.isPresent(input.placeholder) ? input.placeholder : '',
+	                value: util_1.isPresent(input.value) ? input.value : '',
 	                label: input.label,
 	                checked: !!input.checked,
 	                id: 'alert-input-' + _this.id + '-' + index
 	            };
 	        });
-	        this.inputType = (data.inputs.length ? data.inputs[0].type : null);
+	        // An alert can be created with several different inputs. Radios,
+	        // checkboxes and inputs are all accepted, but they cannot be mixed.
+	        var inputTypes = [];
+	        data.inputs.forEach(function (input) {
+	            if (inputTypes.indexOf(input.type) < 0) {
+	                inputTypes.push(input.type);
+	            }
+	        });
+	        if (inputTypes.length > 1 && (inputTypes.indexOf('checkbox') > -1 || inputTypes.indexOf('radio') > -1)) {
+	            void 0;
+	        }
+	        this.inputType = inputTypes.length ? inputTypes[0] : null;
 	        var checkedInput = this.d.inputs.find(function (input) { return input.checked; });
 	        if (checkedInput) {
 	            this.activeId = checkedInput.id;
 	        }
-	        var self = this;
-	        self.keyUp = function (ev) {
+	    };
+	    AlertCmp.prototype._keyUp = function (ev) {
+	        if (this._viewCtrl.isLast()) {
 	            if (ev.keyCode === 13) {
 	                void 0;
-	                var button = self.d.buttons[self.d.buttons.length - 1];
-	                self.btnClick(button);
+	                var button = this.d.buttons[this.d.buttons.length - 1];
+	                this.btnClick(button);
 	            }
 	            else if (ev.keyCode === 27) {
 	                void 0;
-	                self.bdClick();
+	                this.bdClick();
 	            }
-	        };
-	        document.addEventListener('keyup', this.keyUp);
+	        }
 	    };
 	    AlertCmp.prototype.onPageDidEnter = function () {
 	        var activeElement = document.activeElement;
-	        if (activeElement) {
+	        if (document.activeElement) {
 	            activeElement.blur();
 	        }
-	        if (this.d.inputs.length) {
-	            var firstInput = this._elementRef.nativeElement.querySelector('input');
-	            if (firstInput) {
-	                firstInput.focus();
-	            }
+	        var focusableEle = this._elementRef.nativeElement.querySelector('input,button');
+	        if (focusableEle) {
+	            focusableEle.focus();
 	        }
 	    };
 	    AlertCmp.prototype.btnClick = function (button, dismissDelay) {
@@ -57225,12 +58388,12 @@
 	        });
 	        return values;
 	    };
-	    AlertCmp.prototype.onPageWillLeave = function () {
-	        document.removeEventListener('keyup', this.keyUp);
-	    };
-	    AlertCmp.prototype.ngOnDestroy = function () {
-	        document.removeEventListener('keyup', this.keyUp);
-	    };
+	    __decorate([
+	        core_1.HostListener('body:keyup', ['$event']), 
+	        __metadata('design:type', Function), 
+	        __metadata('design:paramtypes', [KeyboardEvent]), 
+	        __metadata('design:returntype', void 0)
+	    ], AlertCmp.prototype, "_keyUp", null);
 	    AlertCmp = __decorate([
 	        core_1.Component({
 	            selector: 'ion-alert',
@@ -57244,22 +58407,22 @@
 	                '<div *ngIf="d.inputs.length" [ngSwitch]="inputType">' +
 	                '<template ngSwitchWhen="radio">' +
 	                '<div class="alert-radio-group" role="radiogroup" [attr.aria-labelledby]="hdrId" [attr.aria-activedescendant]="activeId">' +
-	                '<div *ngFor="#i of d.inputs" (click)="rbClick(i)" [attr.aria-checked]="i.checked" [attr.id]="i.id" class="alert-tappable alert-radio" tappable role="radio">' +
+	                '<button *ngFor="#i of d.inputs" (click)="rbClick(i)" [attr.aria-checked]="i.checked" [attr.id]="i.id" class="alert-tappable alert-radio" role="radio">' +
 	                '<div class="alert-radio-icon"></div>' +
 	                '<div class="alert-radio-label">' +
 	                '{{i.label}}' +
 	                '</div>' +
-	                '</div>' +
+	                '</button>' +
 	                '</div>' +
 	                '</template>' +
 	                '<template ngSwitchWhen="checkbox">' +
 	                '<div class="alert-checkbox-group">' +
-	                '<div *ngFor="#i of d.inputs" (click)="cbClick(i)" [attr.aria-checked]="i.checked" class="alert-tappable alert-checkbox" tappable role="checkbox">' +
+	                '<button *ngFor="#i of d.inputs" (click)="cbClick(i)" [attr.aria-checked]="i.checked" class="alert-tappable alert-checkbox" role="checkbox">' +
 	                '<div class="alert-checkbox-icon"><div class="alert-checkbox-inner"></div></div>' +
 	                '<div class="alert-checkbox-label">' +
 	                '{{i.label}}' +
 	                '</div>' +
-	                '</div>' +
+	                '</button>' +
 	                '</div>' +
 	                '</template>' +
 	                '<template ngSwitchDefault>' +
@@ -57363,11 +58526,47 @@
 	    return AlertMdPopOut;
 	})(transition_1.Transition);
 	transition_1.Transition.register('alert-md-pop-out', AlertMdPopOut);
+	var AlertWpPopIn = (function (_super) {
+	    __extends(AlertWpPopIn, _super);
+	    function AlertWpPopIn(enteringView, leavingView, opts) {
+	        _super.call(this, opts);
+	        var ele = enteringView.pageRef().nativeElement;
+	        var backdrop = new animation_1.Animation(ele.querySelector('.backdrop'));
+	        var wrapper = new animation_1.Animation(ele.querySelector('.alert-wrapper'));
+	        wrapper.fromTo('opacity', '0.01', '1').fromTo('scale', '1.3', '1');
+	        backdrop.fromTo('opacity', '0.01', '0.5');
+	        this
+	            .easing('cubic-bezier(0,0 0.05,1)')
+	            .duration(200)
+	            .add(backdrop)
+	            .add(wrapper);
+	    }
+	    return AlertWpPopIn;
+	})(transition_1.Transition);
+	transition_1.Transition.register('alert-wp-pop-in', AlertWpPopIn);
+	var AlertWpPopOut = (function (_super) {
+	    __extends(AlertWpPopOut, _super);
+	    function AlertWpPopOut(enteringView, leavingView, opts) {
+	        _super.call(this, opts);
+	        var ele = leavingView.pageRef().nativeElement;
+	        var backdrop = new animation_1.Animation(ele.querySelector('.backdrop'));
+	        var wrapper = new animation_1.Animation(ele.querySelector('.alert-wrapper'));
+	        wrapper.fromTo('opacity', '1', '0').fromTo('scale', '1', '1.3');
+	        backdrop.fromTo('opacity', '0.5', '0');
+	        this
+	            .easing('ease-out')
+	            .duration(150)
+	            .add(backdrop)
+	            .add(wrapper);
+	    }
+	    return AlertWpPopOut;
+	})(transition_1.Transition);
+	transition_1.Transition.register('alert-wp-pop-out', AlertWpPopOut);
 	var alertIds = -1;
 
 
 /***/ },
-/* 328 */
+/* 331 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -57415,7 +58614,7 @@
 	         * @input {any} The value of the option
 	         */
 	        get: function () {
-	            if (util_1.isDefined(this._value)) {
+	            if (util_1.isPresent(this._value)) {
 	                return this._value;
 	            }
 	            return this.text;
@@ -57460,7 +58659,7 @@
 
 
 /***/ },
-/* 329 */
+/* 332 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -57479,7 +58678,7 @@
 	var common_1 = __webpack_require__(172);
 	var form_1 = __webpack_require__(167);
 	var util_1 = __webpack_require__(163);
-	var item_1 = __webpack_require__(322);
+	var item_1 = __webpack_require__(325);
 	var dom_1 = __webpack_require__(164);
 	var TOGGLE_VALUE_ACCESSOR = new core_1.Provider(common_1.NG_VALUE_ACCESSOR, { useExisting: core_1.forwardRef(function () { return Toggle; }), multi: true });
 	/**
@@ -57531,6 +58730,10 @@
 	        this._disabled = false;
 	        this._activated = false;
 	        this._msPrv = 0;
+	        /**
+	         * @output {Toggle} expression to evaluate when the toggle value changes
+	         */
+	        this.change = new core_1.EventEmitter();
 	        this._form.register(this);
 	        if (_item) {
 	            this.id = 'tgl-' + _item.registerInput('toggle');
@@ -57608,8 +58811,11 @@
 	     * @private
 	     */
 	    Toggle.prototype._setChecked = function (isChecked) {
-	        this._checked = isChecked;
-	        this._item && this._item.setCssClass('item-toggle-checked', isChecked);
+	        if (isChecked !== this._checked) {
+	            this._checked = isChecked;
+	            this.change.emit(this);
+	            this._item && this._item.setCssClass('item-toggle-checked', isChecked);
+	        }
 	    };
 	    /**
 	     * @private
@@ -57648,7 +58854,12 @@
 	    /**
 	     * @private
 	     */
-	    Toggle.prototype.onChange = function (_) { };
+	    Toggle.prototype.onChange = function (isChecked) {
+	        // used when this input does not have an ngModel or ngControl
+	        void 0;
+	        this._setChecked(isChecked);
+	        this.onTouched();
+	    };
 	    /**
 	     * @private
 	     */
@@ -57673,12 +58884,16 @@
 	        }
 	    };
 	    __decorate([
+	        core_1.Output(), 
+	        __metadata('design:type', core_1.EventEmitter)
+	    ], Toggle.prototype, "change", void 0);
+	    __decorate([
 	        core_1.Input(), 
-	        __metadata('design:type', Object)
+	        __metadata('design:type', Boolean)
 	    ], Toggle.prototype, "checked", null);
 	    __decorate([
 	        core_1.Input(), 
-	        __metadata('design:type', Object)
+	        __metadata('design:type', Boolean)
 	    ], Toggle.prototype, "disabled", null);
 	    Toggle = __decorate([
 	        core_1.Component({
@@ -57714,7 +58929,7 @@
 
 
 /***/ },
-/* 330 */
+/* 333 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __extends = (this && this.__extends) || function (d, b) {
@@ -57740,10 +58955,10 @@
 	var config_1 = __webpack_require__(161);
 	var content_1 = __webpack_require__(310);
 	var form_1 = __webpack_require__(167);
-	var input_base_1 = __webpack_require__(331);
+	var input_base_1 = __webpack_require__(334);
 	var app_1 = __webpack_require__(168);
-	var item_1 = __webpack_require__(322);
-	var native_input_1 = __webpack_require__(332);
+	var item_1 = __webpack_require__(325);
+	var native_input_1 = __webpack_require__(335);
 	var nav_controller_1 = __webpack_require__(302);
 	var platform_1 = __webpack_require__(162);
 	/**
@@ -57773,7 +58988,7 @@
 	 *  </ion-item>
 	 *
 	 *  <ion-item>
-	 *    <ion-labe fixed>Website</ion-label>
+	 *    <ion-label fixed>Website</ion-label>
 	 *    <ion-input type="url"></ion-input>
 	 *  </ion-item>
 	 *
@@ -57805,7 +59020,7 @@
 	            template: '<input [type]="type" [(ngModel)]="_value" [placeholder]="placeholder" class="text-input">' +
 	                '<input [type]="type" aria-hidden="true" next-input *ngIf="_useAssist">' +
 	                '<button clear *ngIf="clearInput && value" class="text-input-clear-icon" (click)="clearTextInput()" (mousedown)="clearTextInput()"></button>' +
-	                '<div (touchstart)="pointerStart($event)" (touchend)="pointerEnd($event)" (mousedown)="pointerStart($event)" (mouseup)="pointerEnd($event)" class="input-cover" *ngIf="_useAssist"></div>',
+	                '<div (touchstart)="pointerStart($event)" (touchend)="pointerEnd($event)" (mousedown)="pointerStart($event)" (mouseup)="pointerEnd($event)" class="input-cover" tappable *ngIf="_useAssist"></div>',
 	            directives: [
 	                common_1.NgIf,
 	                native_input_1.NextInput,
@@ -57897,7 +59112,7 @@
 
 
 /***/ },
-/* 331 */
+/* 334 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -57912,7 +59127,7 @@
 	var core_1 = __webpack_require__(7);
 	var util_1 = __webpack_require__(163);
 	var dom_1 = __webpack_require__(164);
-	var native_input_1 = __webpack_require__(332);
+	var native_input_1 = __webpack_require__(335);
 	var InputBase = (function () {
 	    function InputBase(config, _form, _item, _app, _platform, _elementRef, _scrollView, _nav, ngControl) {
 	        this._form = _form;
@@ -57929,6 +59144,9 @@
 	        this.placeholder = '';
 	        this._useAssist = config.get('scrollAssist');
 	        this._keyboardHeight = config.get('keyboardHeight');
+	        this._autoFocusAssist = config.get('autoFocusAssist', 'delay');
+	        this._autoComplete = config.get('autocomplete', 'off');
+	        this._autoCorrect = config.get('autocorrect', 'off');
 	        if (ngControl) {
 	            ngControl.valueAccessor = this;
 	        }
@@ -58043,8 +59261,36 @@
 	            });
 	            this.checkHasValue(nativeInput.getValue());
 	            this.disabled = this._disabled;
+	            var ionInputEle = this._elementRef.nativeElement;
+	            var nativeInputEle = nativeInput.element();
 	            // copy ion-input attributes to the native input element
-	            dom_1.copyInputAttributes(this._elementRef.nativeElement, nativeInput.element());
+	            dom_1.copyInputAttributes(ionInputEle, nativeInputEle);
+	            if (ionInputEle.hasAttribute('autofocus')) {
+	                // the ion-input element has the autofocus attributes
+	                ionInputEle.removeAttribute('autofocus');
+	                if (this._autoFocusAssist === 'immediate') {
+	                    // config says to immediate focus on the input
+	                    // works best on android devices
+	                    nativeInputEle.focus();
+	                }
+	                else if (this._autoFocusAssist === 'delay') {
+	                    // config says to chill out a bit and focus on the input after transitions
+	                    // works best on desktop
+	                    setTimeout(function () {
+	                        nativeInputEle.focus();
+	                    }, 650);
+	                }
+	            }
+	            // by default set autocomplete="off" unless specified by the input
+	            if (ionInputEle.hasAttribute('autocomplete')) {
+	                this._autoComplete = ionInputEle.getAttribute('autocomplete');
+	            }
+	            nativeInputEle.setAttribute('autocomplete', this._autoComplete);
+	            // by default set autocomplete="off" unless specified by the input
+	            if (ionInputEle.hasAttribute('autocorrect')) {
+	                this._autoCorrect = ionInputEle.getAttribute('autocorrect');
+	            }
+	            nativeInputEle.setAttribute('autocorrect', this._autoCorrect);
 	        },
 	        enumerable: true,
 	        configurable: true
@@ -58238,7 +59484,7 @@
 	        if (this._useAssist && this._scrollView) {
 	            setTimeout(function () {
 	                _this.deregScrollMove();
-	                _this._deregScroll = _this._scrollView.addScrollEventListener(_this._scrollMove);
+	                _this._deregScroll = _this._scrollView.addScrollListener(_this._scrollMove);
 	            }, 80);
 	        }
 	    };
@@ -58400,7 +59646,7 @@
 
 
 /***/ },
-/* 332 */
+/* 335 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -58594,7 +59840,7 @@
 
 
 /***/ },
-/* 333 */
+/* 336 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -58656,7 +59902,7 @@
 	        this._renderer = _renderer;
 	        this._elementRef = _elementRef;
 	        /**
-	         * @output {any} expression to evaluate when a segment button has been clicked
+	         * @output {SegmentButton} expression to evaluate when a segment button has been clicked
 	         */
 	        this.select = new core_1.EventEmitter();
 	    }
@@ -58672,7 +59918,7 @@
 	     * @private
 	     */
 	    SegmentButton.prototype.ngOnInit = function () {
-	        if (!util_1.isDefined(this.value)) {
+	        if (!util_1.isPresent(this.value)) {
 	            void 0;
 	        }
 	    };
@@ -58783,7 +60029,7 @@
 	     * Write a new value to the element.
 	     */
 	    Segment.prototype.writeValue = function (value) {
-	        this.value = util_1.isDefined(value) ? value : '';
+	        this.value = util_1.isPresent(value) ? value : '';
 	        if (this._buttons) {
 	            var buttons = this._buttons.toArray();
 	            for (var _i = 0; _i < buttons.length; _i++) {
@@ -58805,7 +60051,7 @@
 	                _this.onChange(selectedButton.value);
 	                _this.change.emit(selectedButton);
 	            });
-	            if (util_1.isDefined(this.value)) {
+	            if (util_1.isPresent(this.value)) {
 	                button.isActive = (button.value === this.value);
 	            }
 	        }
@@ -58841,7 +60087,7 @@
 
 
 /***/ },
-/* 334 */
+/* 337 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -58859,8 +60105,8 @@
 	var core_1 = __webpack_require__(7);
 	var form_1 = __webpack_require__(167);
 	var util_1 = __webpack_require__(163);
-	var item_1 = __webpack_require__(322);
-	var radio_group_1 = __webpack_require__(335);
+	var item_1 = __webpack_require__(325);
+	var radio_group_1 = __webpack_require__(338);
 	/**
 	 * @description
 	 * A radio button with a unique value. Note that all `<ion-radio>`
@@ -58892,7 +60138,7 @@
 	        this._disabled = false;
 	        this._value = null;
 	        /**
-	         * @output {any} expression to be evaluated when clicked
+	         * @output {any} expression to be evaluated when selected
 	         */
 	        this.select = new core_1.EventEmitter();
 	        _form.register(this);
@@ -58966,8 +60212,8 @@
 	     * @private
 	     */
 	    RadioButton.prototype.ngOnInit = function () {
-	        if (this._group && util_1.isDefined(this._group.value) && this._group.value === this.value) {
-	            this.checked = true;
+	        if (this._group && util_1.isPresent(this._group.value)) {
+	            this.checked = util_1.isCheckedProperty(this._group.value, this.value);
 	        }
 	    };
 	    /**
@@ -58987,11 +60233,11 @@
 	    ], RadioButton.prototype, "value", null);
 	    __decorate([
 	        core_1.Input(), 
-	        __metadata('design:type', Object)
+	        __metadata('design:type', Boolean)
 	    ], RadioButton.prototype, "checked", null);
 	    __decorate([
 	        core_1.Input(), 
-	        __metadata('design:type', Object)
+	        __metadata('design:type', Boolean)
 	    ], RadioButton.prototype, "disabled", null);
 	    __decorate([
 	        core_1.HostListener('click', ['$event']), 
@@ -59026,7 +60272,7 @@
 
 
 /***/ },
-/* 335 */
+/* 338 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -59040,7 +60286,8 @@
 	};
 	var core_1 = __webpack_require__(7);
 	var common_1 = __webpack_require__(172);
-	var list_1 = __webpack_require__(319);
+	var list_1 = __webpack_require__(323);
+	var util_1 = __webpack_require__(163);
 	var RADIO_VALUE_ACCESSOR = new core_1.Provider(common_1.NG_VALUE_ACCESSOR, { useExisting: core_1.forwardRef(function () { return RadioGroup; }), multi: true });
 	/**
 	 * @name RadioGroup
@@ -59133,6 +60380,7 @@
 	        var _this = this;
 	        this._fn = fn;
 	        this.onChange = function (val) {
+	            // onChange used when there's an ngControl
 	            void 0;
 	            fn(val);
 	            _this.value = val;
@@ -59151,14 +60399,16 @@
 	    RadioGroup.prototype._update = function () {
 	        var _this = this;
 	        // loop through each of the radiobuttons
+	        var hasChecked = false;
 	        this._btns.forEach(function (radioButton) {
 	            // check this radiobutton if its value is
 	            // the same as the radiogroups value
-	            radioButton.checked = (radioButton.value === _this.value);
+	            radioButton.checked = util_1.isCheckedProperty(_this.value, radioButton.value) && !hasChecked;
 	            if (radioButton.checked) {
 	                // if this button is checked, then set it as
 	                // the radiogroup's active descendant
 	                _this._setActive(radioButton);
+	                hasChecked = true;
 	            }
 	        });
 	    };
@@ -59184,7 +60434,7 @@
 	    RadioGroup.prototype.remove = function (button) {
 	        var index = this._btns.indexOf(button);
 	        if (index > -1) {
-	            if (button.value === this.value) {
+	            if (button.value == this.value) {
 	                this.value = null;
 	            }
 	            this._btns.splice(index, 1);
@@ -59208,7 +60458,14 @@
 	    /**
 	     * @private
 	     */
-	    RadioGroup.prototype.onChange = function (_) { };
+	    RadioGroup.prototype.onChange = function (val) {
+	        // onChange used when there is not an ngControl
+	        void 0;
+	        this.value = val;
+	        this._update();
+	        this.onTouched();
+	        this.change.emit(val);
+	    };
 	    /**
 	     * @private
 	     */
@@ -59240,7 +60497,7 @@
 
 
 /***/ },
-/* 336 */
+/* 339 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __extends = (this && this.__extends) || function (d, b) {
@@ -59274,9 +60531,9 @@
 	    function SearchbarInput(_elementRef) {
 	        this._elementRef = _elementRef;
 	    }
-	    SearchbarInput.prototype.stopInput = function (event) {
-	        event.preventDefault();
-	        event.stopPropagation();
+	    SearchbarInput.prototype.stopInput = function (ev) {
+	        ev.preventDefault();
+	        ev.stopPropagation();
 	    };
 	    __decorate([
 	        core_1.HostListener('input', ['$event']), 
@@ -59301,7 +60558,12 @@
 	 *
 	 * @usage
 	 * ```html
-	 * <ion-searchbar [(ngModel)]="defaultSearch" (input)="triggerInput($event)" (cancel)="onCancelSearchbar($event)" (clear)="onClearSearchbar($event)"></ion-searchbar>
+	 * <ion-searchbar
+	 *   [(ngModel)]="myInput"
+	 *   [hideCancelButton]="shouldHideCancel"
+	 *   (input)="onInput($event)"
+	 *   (cancel)="onCancel($event)">
+	 * </ion-searchbar>
 	 * ```
 	 *
 	 * @demo /docs/v2/demos/searchbar/
@@ -59313,6 +60575,10 @@
 	        _super.call(this, _elementRef);
 	        this._elementRef = _elementRef;
 	        this._config = _config;
+	        /**
+	         * @input {number} How long, in milliseconds, to wait to trigger the `input` event after each keystroke. Default `250`.
+	         */
+	        this.debounce = 250;
 	        /**
 	         * @output {event} When the Searchbar input has changed including cleared
 	         */
@@ -59382,7 +60648,7 @@
 	    Searchbar.prototype.ngAfterViewInit = function () {
 	        // If the user passes an undefined variable to ngModel this will warn
 	        // and set the value to an empty string
-	        if (!util_1.isDefined(this.value)) {
+	        if (!util_1.isPresent(this.value)) {
 	            void 0;
 	            this.value = '';
 	            this.onChange(this.value);
@@ -59429,9 +60695,14 @@
 	     * Update the Searchbar input value when the input changes
 	     */
 	    Searchbar.prototype.inputChanged = function (ev) {
-	        this.value = ev.target.value;
-	        this.onChange(this.value);
-	        this.input.emit(this);
+	        var _this = this;
+	        var value = ev.target.value;
+	        clearTimeout(this._tmr);
+	        this._tmr = setTimeout(function () {
+	            _this.value = value;
+	            _this.onChange(value);
+	            _this.input.emit(_this);
+	        }, Math.round(this.debounce));
 	    };
 	    /**
 	     * @private
@@ -59518,6 +60789,10 @@
 	    ], Searchbar.prototype, "hideCancelButton", void 0);
 	    __decorate([
 	        core_1.Input(), 
+	        __metadata('design:type', Number)
+	    ], Searchbar.prototype, "debounce", void 0);
+	    __decorate([
+	        core_1.Input(), 
 	        __metadata('design:type', String)
 	    ], Searchbar.prototype, "placeholder", void 0);
 	    __decorate([
@@ -59555,12 +60830,16 @@
 	    Searchbar = __decorate([
 	        core_1.Component({
 	            selector: 'ion-searchbar',
+	            host: {
+	                '[class.searchbar-has-value]': 'value',
+	                '[class.searchbar-hide-cancel]': 'hideCancelButton'
+	            },
 	            template: '<div class="searchbar-input-container">' +
-	                '<button (click)="cancelSearchbar()" (mousedown)="cancelSearchbar()" clear dark class="searchbar-md-cancel">' +
+	                '<button (click)="cancelSearchbar()" (mousedown)="cancelSearchbar()" [hidden]="hideCancelButton" clear dark class="searchbar-md-cancel">' +
 	                '<ion-icon name="arrow-back"></ion-icon>' +
 	                '</button>' +
 	                '<div class="searchbar-search-icon"></div>' +
-	                '<input [value]="value" (keyup)="inputChanged($event)" (blur)="inputBlurred()" (focus)="inputFocused()" class="searchbar-input" type="search" [attr.placeholder]="placeholder" autocomplete="off">' +
+	                '<input [value]="value" (keyup)="inputChanged($event)" (blur)="inputBlurred()" (focus)="inputFocused()" class="searchbar-input" type="search" [attr.placeholder]="placeholder" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">' +
 	                '<button clear *ngIf="value" class="searchbar-clear-icon" (click)="clearInput()" (mousedown)="clearInput()"></button>' +
 	                '</div>' +
 	                '<button clear (click)="cancelSearchbar()" (mousedown)="cancelSearchbar()" [hidden]="hideCancelButton" class="searchbar-ios-cancel">{{cancelButtonText}}</button>',
@@ -59575,7 +60854,7 @@
 
 
 /***/ },
-/* 337 */
+/* 340 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __extends = (this && this.__extends) || function (d, b) {
@@ -59700,6 +60979,7 @@
 	    __extends(Nav, _super);
 	    function Nav(hostNavCtrl, viewCtrl, app, config, keyboard, elementRef, compiler, viewManager, zone, renderer) {
 	        _super.call(this, hostNavCtrl, app, config, keyboard, elementRef, 'contents', compiler, viewManager, zone, renderer);
+	        this._hasInit = false;
 	        if (viewCtrl) {
 	            // an ion-nav can also act as an ion-page within a parent ion-nav
 	            // this would happen when an ion-nav nests a child ion-nav.
@@ -59707,21 +60987,38 @@
 	            viewCtrl.setContentRef(elementRef);
 	        }
 	    }
+	    Object.defineProperty(Nav.prototype, "root", {
+	        /**
+	         * @input {Page} The Page component to load as the root page within this nav.
+	         */
+	        get: function () {
+	            return this._root;
+	        },
+	        set: function (page) {
+	            this._root = page;
+	            if (this._hasInit) {
+	                this.setRoot(page);
+	            }
+	        },
+	        enumerable: true,
+	        configurable: true
+	    });
 	    /**
 	     * @private
 	     */
 	    Nav.prototype.ngOnInit = function () {
-	        if (this.root) {
-	            if (typeof this.root !== 'function') {
+	        this._hasInit = true;
+	        if (this._root) {
+	            if (typeof this._root !== 'function') {
 	                throw 'The [root] property in <ion-nav> must be given a reference to a component class from within the constructor.';
 	            }
-	            this.push(this.root);
+	            this.push(this._root);
 	        }
 	    };
 	    __decorate([
 	        core_1.Input(), 
 	        __metadata('design:type', core_1.Type)
-	    ], Nav.prototype, "root", void 0);
+	    ], Nav.prototype, "root", null);
 	    Nav = __decorate([
 	        core_1.Component({
 	            selector: 'ion-nav',
@@ -59737,7 +61034,7 @@
 
 
 /***/ },
-/* 338 */
+/* 341 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -59898,7 +61195,7 @@
 
 
 /***/ },
-/* 339 */
+/* 342 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __extends = (this && this.__extends) || function (d, b) {
@@ -59920,7 +61217,7 @@
 	};
 	var core_1 = __webpack_require__(7);
 	var router_1 = __webpack_require__(117);
-	var nav_1 = __webpack_require__(337);
+	var nav_1 = __webpack_require__(340);
 	/**
 	 * @private
 	 */
@@ -59934,40 +61231,34 @@
 	        // method when the NavController has...changed its state
 	        _nav.registerRouter(this);
 	    }
-	    /**
-	     * @private
-	     * TODO
-	     * @param {ComponentInstruction} instruction  TODO
-	     */
 	    NavRouter.prototype.activate = function (nextInstruction) {
 	        var previousInstruction = this['_currentInstruction'];
 	        this['_currentInstruction'] = nextInstruction;
 	        var componentType = nextInstruction.componentType;
 	        var childRouter = this['_parentRouter'].childRouter(componentType);
 	        // prevent double navigations to the same view
-	        var lastView = this._nav.last();
-	        if (this._nav.isTransitioning() || lastView && lastView.componentType === componentType && lastView.data === nextInstruction.params) {
-	            return Promise.resolve();
+	        var instruction = new ResolvedInstruction(nextInstruction, null, null);
+	        var url;
+	        if (instruction) {
+	            url = instruction.toRootUrl();
+	            if (url === this._lastUrl) {
+	                return Promise.resolve();
+	            }
 	        }
+	        void 0;
 	        // tell the NavController which componentType, and it's params, to navigate to
 	        return this._nav.push(componentType, nextInstruction.params);
 	    };
 	    NavRouter.prototype.reuse = function (nextInstruction) {
 	        return Promise.resolve();
 	    };
-	    /**
-	     * Called by Ionic after a transition has completed.
-	     * @param {string} direction  The direction of the state change
-	     * @param {ViewController} viewCtrl  The entering ViewController
-	     */
 	    NavRouter.prototype.stateChange = function (direction, viewCtrl) {
 	        // stateChange is called by Ionic's NavController
 	        // type could be "push" or "pop"
 	        // viewCtrl is Ionic's ViewController class, which has the properties "componentType" and "params"
 	        // only do an update if there's an actual view change
-	        if (!viewCtrl || this._activeViewId === viewCtrl.id)
+	        if (!viewCtrl)
 	            return;
-	        this._activeViewId = viewCtrl.id;
 	        // get the best PathRecognizer for this view's componentType
 	        var pathRecognizer = this.getPathRecognizerByComponent(viewCtrl.componentType);
 	        if (pathRecognizer) {
@@ -59975,14 +61266,16 @@
 	            var componentInstruction = pathRecognizer.generate(viewCtrl.data);
 	            // create a ResolvedInstruction from the componentInstruction
 	            var instruction = new ResolvedInstruction(componentInstruction, null, null);
-	            this['_parentRouter'].navigateByInstruction(instruction);
+	            if (instruction) {
+	                var url = instruction.toRootUrl();
+	                if (url === this._lastUrl)
+	                    return;
+	                this._lastUrl = url;
+	                this['_parentRouter'].navigateByInstruction(instruction);
+	                void 0;
+	            }
 	        }
 	    };
-	    /**
-	     * TODO
-	     * @param {TODO} componentType  TODO
-	     * @returns {TODO} TODO
-	     */
 	    NavRouter.prototype.getPathRecognizerByComponent = function (componentType) {
 	        // given a componentType, figure out the best PathRecognizer to use
 	        var rules = this['_parentRouter'].registry._rules;
@@ -60022,7 +61315,7 @@
 
 
 /***/ },
-/* 340 */
+/* 343 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -60039,12 +61332,9 @@
 	/**
 	 * @name Id
 	 * @description
-	 * IdRef is an easy way to identify unique components in an app and access them
-	 * no matter where in the UI heirarchy you are. For example, this makes toggling
-	 * a global side menu feasible from any place in the application.
-	 *
-	 * See the [Menu section](http://ionicframework.com/docs/v2/components/#menus) of
-	 * the Component docs for an example of how Menus rely on ID's.
+	 * The `id` attribute is an easy way to identify unique components in an app and access them
+	 * no matter where in the UI hierarchy you are. For example, this makes toggling
+	 * a global side menu possible from any place in the application.
 	 *
 	 * @usage
 	 * To give any component an ID, simply set its `id` property:
@@ -60056,13 +61346,14 @@
 	 * service:
 	 * ```ts
 	 * constructor(app: IonicApp) {
-	 *    this.app = app
+	 *   this.app = app
 	 * }
-	 * ngAfterViewInit{
-	 *  var checkbox = this.app.getComponent("myCheckbox");
-	 *  if (checkbox.checked) {
-	 *    console.log('checkbox is checked');
-	 *  }
+	 *
+	 * ngAfterViewInit() {
+	 *   var checkbox = this.app.getComponent("myCheckbox");
+	 *   if (checkbox.checked) {
+	 *     console.log('checkbox is checked');
+	 *   }
 	 * }
 	 * ```
 	 *
@@ -60133,7 +61424,7 @@
 
 
 /***/ },
-/* 341 */
+/* 344 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __extends = (this && this.__extends) || function (d, b) {
@@ -60203,12 +61494,30 @@
 	 *
 	 * @name ShowWhen
 	 * @description
-	 * The `showWhen` attribute takes a string that represents a plaform or screen orientation.
+	 * The `showWhen` attribute takes a string that represents a platform or screen orientation.
 	 * The element the attribute is added to will only be shown when that platform or screen orientation is active.
 	 * Complements the [hideWhen attribute](../HideWhen).
 	 * @usage
 	 * ```html
-	 * <div showWhen="ios">I am only visible on iOS!</div>
+	 * <div showWhen="android">
+	 *  I am visible on Android!
+	 * </div>
+	 *
+	 * <div showWhen="ios">
+	 *  I am visible on iOS!
+	 * </div>
+	 *
+	 * <div showWhen="android,ios">
+	 *  I am visible on Android and iOS!
+	 * </div>
+	 *
+	 * <div showWhen="portrait">
+	 *  I am visible on Portrait!
+	 * </div>
+	 *
+	 * <div showWhen="landscape">
+	 *  I am visible on Landscape!
+	 * </div>
 	 * ```
 	 * @demo /docs/v2/demos/show-when/
 	 * @see {@link ../HideWhen HideWhen API Docs}
@@ -60249,8 +61558,27 @@
 	 * Complements the [showWhen attribute](../ShowWhen).
 	 * @usage
 	 * ```html
-	 * <div hideWhen="android">I am hidden on Android!</div>
+	 * <div hideWhen="android">
+	 *  I am hidden on Android!
+	 * </div>
+	 *
+	 * <div hideWhen="ios">
+	 *  I am hidden on iOS!
+	 * </div>
+	 *
+	 * <div hideWhen="android,ios">
+	 *  I am hidden on Android and iOS!
+	 * </div>
+	 *
+	 * <div hideWhen="portrait">
+	 *  I am hidden on Portrait!
+	 * </div>
+	 *
+	 * <div hideWhen="landscape">
+	 *  I am hidden on Landscape!
+	 * </div>
 	 * ```
+	 *
 	 * @demo /docs/v2/demos/hide-when/
 	 * @see {@link ../ShowWhen ShowWhen API Docs}
 	 */
@@ -60285,11 +61613,12 @@
 
 
 /***/ },
-/* 342 */
+/* 345 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var core_1 = __webpack_require__(7);
 	var browser_1 = __webpack_require__(169);
+	var app_1 = __webpack_require__(168);
 	var tap_click_1 = __webpack_require__(280);
 	var bootstrap_1 = __webpack_require__(6);
 	var directives_1 = __webpack_require__(284);
@@ -60305,7 +61634,7 @@
 	*
 	* @usage
 	* ```ts
-	* import {App} from 'ionic/ionic';
+	* import {App} from 'ionic-angular';
 	*
 	* @App({
 	*   templateUrl: 'app/app.html',
@@ -60318,7 +61647,7 @@
 	* ```
 	*
 	* @property {object} [config] - the app's {@link /docs/v2/api/config/Config/ Config} object.
-	* @property {boolean} [prodMode] - Enable Angular's production mode, which turns off assertions and other checks within the framework. Defaults to `false`.
+	* @property {boolean} [prodMode] - Enable Angular's production mode, which turns off assertions and other checks within the framework. Additionally, this config sets the return value of `isProd()` which is on the `IonicApp` instance. Defaults to `false`.
 	* @property {array}  [pipes] - any pipes for your app.
 	* @property {array}  [providers] - any providers for your app.
 	* @property {string} [template] - the template to use for the app root.
@@ -60347,6 +61676,8 @@
 	        }
 	        browser_1.bootstrap(cls, providers).then(function (appRef) {
 	            appRef.injector.get(tap_click_1.TapClick);
+	            var app = appRef.injector.get(app_1.IonicApp);
+	            app.setProd(args.prodMode);
 	        });
 	        return cls;
 	    };
@@ -60355,7 +61686,7 @@
 
 
 /***/ },
-/* 343 */
+/* 346 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var core_1 = __webpack_require__(7);
@@ -60394,7 +61725,7 @@
 	 * In this case, you would add `IONIC_DIRECTIVES` to your directives array.
 	 *
 	 * ```ts
-	 * import {IONIC_DIRECTIVES} from 'ionic/ionic';
+	 * import {IONIC_DIRECTIVES} from 'ionic-angular';
 	 * @Component({
 	 *   selector: 'my-component'
 	 *   template: `<div class="my-style">
@@ -60408,7 +61739,7 @@
 	 * Alternatively, you could:
 	 *
 	 * ```ts
-	 * import {Checkbox, Icon} from 'ionic/ionic'
+	 * import {Checkbox, Icon} from 'ionic-angular'
 	 * ```
 	 *
 	 * along with any other components and add them individually:
@@ -60446,59 +61777,62 @@
 
 
 /***/ },
-/* 344 */
+/* 347 */
 /***/ function(module, exports, __webpack_require__) {
 
 	function __export(m) {
 	    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 	}
 	__export(__webpack_require__(168));
-	__export(__webpack_require__(340));
-	__export(__webpack_require__(345));
-	__export(__webpack_require__(327));
+	__export(__webpack_require__(343));
+	__export(__webpack_require__(348));
+	__export(__webpack_require__(330));
 	__export(__webpack_require__(309));
 	__export(__webpack_require__(301));
-	__export(__webpack_require__(325));
+	__export(__webpack_require__(328));
 	__export(__webpack_require__(310));
 	__export(__webpack_require__(299));
-	__export(__webpack_require__(330));
-	__export(__webpack_require__(322));
-	__export(__webpack_require__(324));
+	__export(__webpack_require__(312));
+	__export(__webpack_require__(313));
+	__export(__webpack_require__(333));
+	__export(__webpack_require__(325));
+	__export(__webpack_require__(327));
 	__export(__webpack_require__(277));
 	__export(__webpack_require__(286));
-	__export(__webpack_require__(346));
+	__export(__webpack_require__(349));
 	__export(__webpack_require__(295));
 	__export(__webpack_require__(307));
+	__export(__webpack_require__(326));
 	__export(__webpack_require__(323));
-	__export(__webpack_require__(319));
-	__export(__webpack_require__(341));
-	__export(__webpack_require__(347));
-	__export(__webpack_require__(337));
+	__export(__webpack_require__(344));
+	__export(__webpack_require__(350));
+	__export(__webpack_require__(340));
 	__export(__webpack_require__(302));
 	__export(__webpack_require__(296));
 	__export(__webpack_require__(297));
-	__export(__webpack_require__(338));
-	__export(__webpack_require__(339));
+	__export(__webpack_require__(341));
+	__export(__webpack_require__(342));
 	__export(__webpack_require__(298));
-	__export(__webpack_require__(328));
+	__export(__webpack_require__(331));
 	__export(__webpack_require__(285));
-	__export(__webpack_require__(313));
-	__export(__webpack_require__(334));
-	__export(__webpack_require__(335));
-	__export(__webpack_require__(311));
-	__export(__webpack_require__(312));
-	__export(__webpack_require__(336));
-	__export(__webpack_require__(333));
-	__export(__webpack_require__(326));
-	__export(__webpack_require__(315));
 	__export(__webpack_require__(317));
-	__export(__webpack_require__(280));
+	__export(__webpack_require__(337));
+	__export(__webpack_require__(338));
+	__export(__webpack_require__(315));
+	__export(__webpack_require__(316));
+	__export(__webpack_require__(311));
+	__export(__webpack_require__(339));
+	__export(__webpack_require__(336));
 	__export(__webpack_require__(329));
+	__export(__webpack_require__(319));
+	__export(__webpack_require__(321));
+	__export(__webpack_require__(280));
+	__export(__webpack_require__(332));
 	__export(__webpack_require__(300));
 
 
 /***/ },
-/* 345 */
+/* 348 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __extends = (this && this.__extends) || function (d, b) {
@@ -60530,7 +61864,7 @@
 	 * An Action Sheet is a dialog that lets the user choose from a set of
 	 * options. It appears on top of the app's content, and must be manually
 	 * dismissed by the user before they can resume interaction with the app.
-	 * Dangerous (destructive) options are made obvious. There are easy
+	 * Dangerous (destructive) options are made obvious in `ios` mode. There are easy
 	 * ways to cancel out of the action sheet, such as tapping the backdrop or
 	 * hitting the escape key on desktop.
 	 *
@@ -60540,17 +61874,17 @@
 	 * action sheet can also optionally have a `title` and a `subTitle`.
 	 *
 	 * A button's `role` property can either be `destructive` or `cancel`. Buttons
-	 * without a role property will have a default look for its platform. Buttons
+	 * without a role property will have the default look for the platform. Buttons
 	 * with the `cancel` role will always load as the bottom button, no matter where
-	 * it shows up in the array. All other buttons will show up in the order they
+	 * they are in the array. All other buttons will be displayed in the order they
 	 * have been added to the `buttons` array. Note: We recommend that `destructive`
-	 * buttons show be the first button in the array, making it the button on top.
+	 * buttons are always the first button in the array, making them the top button.
 	 * Additionally, if the action sheet is dismissed by tapping the backdrop, then
 	 * it will fire the handler from the button with the cancel role.
 	 *
-	 * Its shorthand is to add all the action sheet's options from within the
-	 * `ActionSheet.create(opts)` first argument. Otherwise the action sheet's
-	 * instance has methods to add options, such as `setTitle()` or `addButton()`.
+	 * You can pass all of the action sheet's options in the first argument of
+	 * the create method: `ActionSheet.create(opts)`. Otherwise the action sheet's
+	 * instance has methods to add options, like `setTitle()` or `addButton()`.
 	 *
 	 * @usage
 	 * ```ts
@@ -60597,9 +61931,14 @@
 	    function ActionSheet(opts) {
 	        if (opts === void 0) { opts = {}; }
 	        opts.buttons = opts.buttons || [];
-	        opts.enableBackdropDismiss = util_1.isDefined(opts.enableBackdropDismiss) ? !!opts.enableBackdropDismiss : true;
+	        opts.enableBackdropDismiss = util_1.isPresent(opts.enableBackdropDismiss) ? !!opts.enableBackdropDismiss : true;
 	        _super.call(this, ActionSheetCmp, opts);
 	        this.viewType = 'action-sheet';
+	        this.isOverlay = true;
+	        // by default, actionsheets should not fire lifecycle events of other views
+	        // for example, when an actionsheets enters, the current active view should
+	        // not fire its lifecycle events because it's not conceptually leaving
+	        this.fireOtherLifecycles = false;
 	    }
 	    /**
 	    * @private
@@ -60627,6 +61966,28 @@
 	        this.data.buttons.push(button);
 	    };
 	    /**
+	     * Open an action sheet with the following options
+	     *
+	     * | Option                | Type       | Description                                                     |
+	     * |-----------------------|------------|-----------------------------------------------------------------|
+	     * | title                 |`string`    | The title for the actionsheet                                   |
+	     * | subTitle              |`string`    | The sub-title for the actionsheet                               |
+	     * | cssClass              |`string`    | An additional class for custom styles                           |
+	     * | enableBackdropDismiss |`boolean`   | If the actionsheet should close when the user taps the backdrop |
+	     * | buttons               |`array<any>`| An array of buttons to display                                  |
+	     *
+	     * For the buttons:
+	     *
+	     * | Option   | Type     | Description                                                                                                                                      |
+	     * |----------|----------|--------------------------------------------------------------------------------------------------------------------------------------------------|
+	     * | text     | `string` | The buttons text                                                                                                                                 |
+	     * | icon     | `icon`   | The buttons icons                                                                                                                                |
+	     * | handler  | `any`    | An express the button shoule evaluate                                                                                                            |
+	     * | cssClass | `string` | An additional class for custom styles                                                                                                            |
+	     * | role     | `string` | How the button should be displayed, `destructive` or `cancel`. If not role is provided, it will display the button without any additional styles |
+	     *
+	     *
+	     *
 	     * @param {object} opts Action sheet options
 	     */
 	    ActionSheet.create = function (opts) {
@@ -60640,12 +62001,20 @@
 	* @private
 	*/
 	var ActionSheetCmp = (function () {
-	    function ActionSheetCmp(_viewCtrl, _config, elementRef, params, renderer) {
+	    function ActionSheetCmp(_viewCtrl, _config, _elementRef, params, renderer) {
 	        this._viewCtrl = _viewCtrl;
 	        this._config = _config;
+	        this._elementRef = _elementRef;
 	        this.d = params.data;
 	        if (this.d.cssClass) {
-	            renderer.setElementClass(elementRef.nativeElement, this.d.cssClass, true);
+	            renderer.setElementClass(_elementRef.nativeElement, this.d.cssClass, true);
+	        }
+	        this.id = (++actionSheetIds);
+	        if (this.d.title) {
+	            this.hdrId = 'acst-hdr-' + this.id;
+	        }
+	        if (this.d.subTitle) {
+	            this.descId = 'acst-subhdr-' + this.id;
 	        }
 	    }
 	    ActionSheetCmp.prototype.onPageLoaded = function () {
@@ -60675,14 +62044,24 @@
 	            }
 	        });
 	        this.d.buttons = buttons;
-	        var self = this;
-	        self.keyUp = function (ev) {
+	    };
+	    ActionSheetCmp.prototype.onPageDidEnter = function () {
+	        var activeElement = document.activeElement;
+	        if (document.activeElement) {
+	            activeElement.blur();
+	        }
+	        var focusableEle = this._elementRef.nativeElement.querySelector('button');
+	        if (focusableEle) {
+	            focusableEle.focus();
+	        }
+	    };
+	    ActionSheetCmp.prototype._keyUp = function (ev) {
+	        if (this._viewCtrl.isLast()) {
 	            if (ev.keyCode === 27) {
 	                void 0;
-	                self.bdClick();
+	                this.bdClick();
 	            }
-	        };
-	        document.addEventListener('keyup', this.keyUp);
+	        }
 	    };
 	    ActionSheetCmp.prototype.click = function (button, dismissDelay) {
 	        var _this = this;
@@ -60713,12 +62092,12 @@
 	    ActionSheetCmp.prototype.dismiss = function (role) {
 	        return this._viewCtrl.dismiss(null, role);
 	    };
-	    ActionSheetCmp.prototype.onPageWillLeave = function () {
-	        document.removeEventListener('keyup', this.keyUp);
-	    };
-	    ActionSheetCmp.prototype.ngOnDestroy = function () {
-	        document.removeEventListener('keyup', this.keyUp);
-	    };
+	    __decorate([
+	        core_1.HostListener('body:keyup', ['$event']), 
+	        __metadata('design:type', Function), 
+	        __metadata('design:paramtypes', [KeyboardEvent]), 
+	        __metadata('design:returntype', void 0)
+	    ], ActionSheetCmp.prototype, "_keyUp", null);
 	    ActionSheetCmp = __decorate([
 	        core_1.Component({
 	            selector: 'ion-action-sheet',
@@ -60726,8 +62105,8 @@
 	                '<div class="action-sheet-wrapper">' +
 	                '<div class="action-sheet-container">' +
 	                '<div class="action-sheet-group">' +
-	                '<div class="action-sheet-title" *ngIf="d.title">{{d.title}}</div>' +
-	                '<div class="action-sheet-sub-title" *ngIf="d.subTitle">{{d.subTitle}}</div>' +
+	                '<div class="action-sheet-title" id="{{hdrId}}" *ngIf="d.title">{{d.title}}</div>' +
+	                '<div class="action-sheet-sub-title" id="{{descId}}" *ngIf="d.subTitle">{{d.subTitle}}</div>' +
 	                '<button (click)="click(b)" *ngFor="#b of d.buttons" class="action-sheet-button disable-hover" [ngClass]="b.cssClass">' +
 	                '<ion-icon [name]="b.icon" *ngIf="b.icon" class="action-sheet-icon"></ion-icon> ' +
 	                '{{b.text}}' +
@@ -60744,7 +62123,9 @@
 	                '</div>' +
 	                '</div>',
 	            host: {
-	                'role': 'dialog'
+	                'role': 'dialog',
+	                '[attr.aria-labelledby]': 'hdrId',
+	                '[attr.aria-describedby]': 'descId'
 	            },
 	            directives: [common_1.NgFor, common_1.NgIf, icon_1.Icon]
 	        }), 
@@ -60789,7 +62170,7 @@
 	        var wrapper = new animation_1.Animation(ele.querySelector('.action-sheet-wrapper'));
 	        backdrop.fromTo('opacity', 0.01, 0.26);
 	        wrapper.fromTo('translateY', '100%', '0%');
-	        this.easing('cubic-bezier(.36,.66,.04,1)').duration(450).add(backdrop).add(wrapper);
+	        this.easing('cubic-bezier(.36,.66,.04,1)').duration(400).add(backdrop).add(wrapper);
 	    }
 	    return ActionSheetMdSlideIn;
 	})(transition_1.Transition);
@@ -60808,10 +62189,39 @@
 	    return ActionSheetMdSlideOut;
 	})(transition_1.Transition);
 	transition_1.Transition.register('action-sheet-md-slide-out', ActionSheetMdSlideOut);
+	var ActionSheetWpSlideIn = (function (_super) {
+	    __extends(ActionSheetWpSlideIn, _super);
+	    function ActionSheetWpSlideIn(enteringView, leavingView, opts) {
+	        _super.call(this, opts);
+	        var ele = enteringView.pageRef().nativeElement;
+	        var backdrop = new animation_1.Animation(ele.querySelector('.backdrop'));
+	        var wrapper = new animation_1.Animation(ele.querySelector('.action-sheet-wrapper'));
+	        backdrop.fromTo('opacity', 0.01, 0.16);
+	        wrapper.fromTo('translateY', '100%', '0%');
+	        this.easing('cubic-bezier(.36,.66,.04,1)').duration(400).add(backdrop).add(wrapper);
+	    }
+	    return ActionSheetWpSlideIn;
+	})(transition_1.Transition);
+	transition_1.Transition.register('action-sheet-wp-slide-in', ActionSheetWpSlideIn);
+	var ActionSheetWpSlideOut = (function (_super) {
+	    __extends(ActionSheetWpSlideOut, _super);
+	    function ActionSheetWpSlideOut(enteringView, leavingView, opts) {
+	        _super.call(this, opts);
+	        var ele = leavingView.pageRef().nativeElement;
+	        var backdrop = new animation_1.Animation(ele.querySelector('.backdrop'));
+	        var wrapper = new animation_1.Animation(ele.querySelector('.action-sheet-wrapper'));
+	        backdrop.fromTo('opacity', 0.1, 0);
+	        wrapper.fromTo('translateY', '0%', '100%');
+	        this.easing('cubic-bezier(.36,.66,.04,1)').duration(450).add(backdrop).add(wrapper);
+	    }
+	    return ActionSheetWpSlideOut;
+	})(transition_1.Transition);
+	transition_1.Transition.register('action-sheet-wp-slide-out', ActionSheetWpSlideOut);
+	var actionSheetIds = -1;
 
 
 /***/ },
-/* 346 */
+/* 349 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __extends = (this && this.__extends) || function (d, b) {
@@ -60822,11 +62232,11 @@
 	var menu_controller_1 = __webpack_require__(277);
 	var animation_1 = __webpack_require__(306);
 	/**
+	 * @private
 	 * Menu Type
 	 * Base class which is extended by the various types. Each
 	 * type will provide their own animations for open and close
 	 * and registers itself with Menu.
-	 * @private
 	 */
 	var MenuType = (function () {
 	    function MenuType() {
@@ -60868,6 +62278,7 @@
 	})();
 	exports.MenuType = MenuType;
 	/**
+	 * @private
 	 * Menu Reveal Type
 	 * The content slides over to reveal the menu underneath.
 	 * The menu itself, which is under the content, does not move.
@@ -60888,6 +62299,7 @@
 	})(MenuType);
 	menu_controller_1.MenuController.registerType('reveal', MenuRevealType);
 	/**
+	 * @private
 	 * Menu Push Type
 	 * The content slides over to reveal the menu underneath.
 	 * The menu itself also slides over to reveal its bad self.
@@ -60921,6 +62333,7 @@
 	})(MenuType);
 	menu_controller_1.MenuController.registerType('push', MenuPushType);
 	/**
+	 * @private
 	 * Menu Overlay Type
 	 * The menu slides over the content. The content
 	 * itself, which is under the menu, does not move.
@@ -60956,7 +62369,7 @@
 
 
 /***/ },
-/* 347 */
+/* 350 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __extends = (this && this.__extends) || function (d, b) {
@@ -60993,7 +62406,7 @@
 	 *
 	 * @usage
 	 * ```ts
-	 * import {Page, Modal, NavController, NavParams} from 'ionic/ionic';
+	 * import {Page, Modal, NavController, NavParams} from 'ionic-angular';
 	 *
 	 * @Page(...)
 	 * class HomePage {
@@ -61025,7 +62438,7 @@
 	 * modal.
 	 *
 	 * ```ts
-	 * import {Page, Modal, NavController} from 'ionic/ionic';
+	 * import {Page, Modal, NavController, ViewController} from 'ionic-angular';
 	 *
 	 * @Page(...)
 	 * class HomePage {
@@ -61072,6 +62485,7 @@
 	        if (data === void 0) { data = {}; }
 	        _super.call(this, componentType, data);
 	        this.viewType = 'modal';
+	        this.isOverlay = true;
 	    }
 	    /**
 	    * @private
@@ -61165,19 +62579,19 @@
 
 
 /***/ },
-/* 348 */
+/* 351 */
 /***/ function(module, exports, __webpack_require__) {
 
 	function __export(m) {
 	    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 	}
-	__export(__webpack_require__(349));
-	__export(__webpack_require__(350));
-	__export(__webpack_require__(351));
+	__export(__webpack_require__(352));
+	__export(__webpack_require__(353));
+	__export(__webpack_require__(354));
 
 
 /***/ },
-/* 349 */
+/* 352 */
 /***/ function(module, exports) {
 
 	/**
@@ -61255,7 +62669,7 @@
 
 
 /***/ },
-/* 350 */
+/* 353 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __extends = (this && this.__extends) || function (d, b) {
@@ -61263,7 +62677,7 @@
 	    function __() { this.constructor = d; }
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
-	var storage_1 = __webpack_require__(349);
+	var storage_1 = __webpack_require__(352);
 	/**
 	 * @name LocalStorage
 	 * @description
@@ -61278,7 +62692,7 @@
 	 *
 	 * @usage
 	 * ```ts
-	 * import {Page, Storage, LocalStorage} from 'ionic/ionic';
+	 * import {Page, Storage, LocalStorage} from 'ionic-angular';
 	 * @Page({
 	 *   template: `<ion-content></ion-content>`
 	 * });
@@ -61350,7 +62764,7 @@
 
 
 /***/ },
-/* 351 */
+/* 354 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __extends = (this && this.__extends) || function (d, b) {
@@ -61358,7 +62772,7 @@
 	    function __() { this.constructor = d; }
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
-	var storage_1 = __webpack_require__(349);
+	var storage_1 = __webpack_require__(352);
 	var util_1 = __webpack_require__(163);
 	var DB_NAME = '__ionicstorage';
 	var win = window;
@@ -61380,7 +62794,7 @@
 	 * });
 	 *
 	 * // Sql storage also exposes the full engine underneath
-	 * storage.query('insert into projects(name, data) values('Cool Project', 'blah')');
+	 * storage.query('insert into projects(name, data) values("Cool Project", "blah")');
 	 * storage.query('select * from projects').then((resp) => {})
 	 * ```
 	 *
@@ -61567,7 +62981,7 @@
 
 
 /***/ },
-/* 352 */
+/* 355 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -61616,7 +63030,7 @@
 
 
 /***/ },
-/* 353 */
+/* 356 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var config_1 = __webpack_require__(161);
@@ -61635,6 +63049,7 @@
 	    modalLeave: 'modal-slide-out',
 	    pageTransition: 'ios-transition',
 	    pageTransitionDelay: 16,
+	    spinner: 'ios',
 	    tabbarPlacement: 'bottom',
 	});
 	// Material Design Mode Settings
@@ -61652,14 +63067,33 @@
 	    modalLeave: 'modal-md-slide-out',
 	    pageTransition: 'md-transition',
 	    pageTransitionDelay: 96,
+	    spinner: 'crescent',
 	    tabbarHighlight: true,
+	    tabbarPlacement: 'top',
+	    tabSubPages: true,
+	});
+	// Windows Mode Settings
+	config_1.Config.setModeConfig('wp', {
+	    activator: 'highlight',
+	    actionSheetEnter: 'action-sheet-wp-slide-in',
+	    actionSheetLeave: 'action-sheet-wp-slide-out',
+	    alertEnter: 'alert-wp-pop-in',
+	    alertLeave: 'alert-wp-pop-out',
+	    backButtonText: '',
+	    backButtonIcon: 'ios-arrow-back',
+	    iconMode: 'ios',
+	    menuType: 'overlay',
+	    modalEnter: 'modal-md-slide-in',
+	    modalLeave: 'modal-md-slide-out',
+	    pageTransition: 'wp-transition',
+	    pageTransitionDelay: 96,
 	    tabbarPlacement: 'top',
 	    tabSubPages: true,
 	});
 
 
 /***/ },
-/* 354 */
+/* 357 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var platform_1 = __webpack_require__(162);
@@ -61722,13 +63156,14 @@
 	            // fallback to always use ripple
 	            return 'ripple';
 	        },
+	        autoFocusAssist: 'immediate',
 	        hoverCSS: false,
 	        keyboardHeight: 300,
 	        mode: 'md',
 	        scrollAssist: true,
 	    },
 	    isMatch: function (p) {
-	        return p.isPlatform('android', 'android|silk');
+	        return p.isPlatformMatch('android', ['android', 'silk'], ['windows phone']);
 	    },
 	    versionParser: function (p) {
 	        return p.matchUserAgentVersion(/Android (\d+).(\d+)?/);
@@ -61742,6 +63177,7 @@
 	        'iphone'
 	    ],
 	    settings: {
+	        autoFocusAssist: 'delay',
 	        clickBlock: true,
 	        hoverCSS: false,
 	        keyboardHeight: 300,
@@ -61752,7 +63188,7 @@
 	        tapPolyfill: isIOSDevice,
 	    },
 	    isMatch: function (p) {
-	        return p.isPlatform('ios', 'iphone|ipad|ipod');
+	        return p.isPlatformMatch('ios', ['iphone', 'ipad', 'ipod']);
 	    },
 	    versionParser: function (p) {
 	        return p.matchUserAgentVersion(/OS (\d+)_(\d+)?/);
@@ -61765,7 +63201,7 @@
 	        keyboardHeight: 500,
 	    },
 	    isMatch: function (p) {
-	        return p.isPlatform('ios', 'ipad');
+	        return p.isPlatformMatch('ipad');
 	    }
 	});
 	platform_1.Platform.register({
@@ -61774,21 +63210,24 @@
 	        'phablet'
 	    ],
 	    isMatch: function (p) {
-	        return p.isPlatform('ios', 'iphone');
+	        return p.isPlatformMatch('iphone');
 	    }
 	});
 	platform_1.Platform.register({
-	    name: 'windowsphone',
+	    name: 'windows',
 	    superset: 'mobile',
 	    subsets: [
 	        'phablet',
 	        'tablet'
 	    ],
 	    settings: {
-	        mode: 'md',
+	        mode: 'wp',
+	        autoFocusAssist: 'immediate',
+	        clickBlock: true,
+	        hoverCSS: false
 	    },
 	    isMatch: function (p) {
-	        return p.isPlatform('windowsphone', 'windows phone');
+	        return p.isPlatformMatch('windows', ['windows phone']);
 	    },
 	    versionParser: function (p) {
 	        return p.matchUserAgentVersion(/Windows Phone (\d+).(\d+)?/);
@@ -61822,7 +63261,7 @@
 
 
 /***/ },
-/* 355 */
+/* 358 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __extends = (this && this.__extends) || function (d, b) {
@@ -61882,7 +63321,7 @@
 
 
 /***/ },
-/* 356 */
+/* 359 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __extends = (this && this.__extends) || function (d, b) {
@@ -62056,7 +63495,7 @@
 
 
 /***/ },
-/* 357 */
+/* 360 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __extends = (this && this.__extends) || function (d, b) {
@@ -62120,9 +63559,72 @@
 
 
 /***/ },
-/* 358 */
+/* 361 */
 /***/ function(module, exports, __webpack_require__) {
 
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var animation_1 = __webpack_require__(306);
+	var transition_1 = __webpack_require__(305);
+	var SHOW_BACK_BTN_CSS = 'show-back-button';
+	var SCALE_SMALL = .95;
+	var WPTransition = (function (_super) {
+	    __extends(WPTransition, _super);
+	    function WPTransition(enteringView, leavingView, opts) {
+	        _super.call(this, opts);
+	        // what direction is the transition going
+	        var backDirection = (opts.direction === 'back');
+	        // do they have navbars?
+	        var enteringHasNavbar = enteringView.hasNavbar();
+	        var leavingHasNavbar = leavingView && leavingView.hasNavbar();
+	        // entering content scale from smaller to larger
+	        var enteringPage = new animation_1.Animation(enteringView.pageRef());
+	        enteringPage.before.addClass('show-page');
+	        this.add(enteringPage);
+	        if (backDirection) {
+	            this.duration(opts.duration || 120).easing('cubic-bezier(0.47,0,0.745,0.715)');
+	            enteringPage.before.clearStyles(['scale']);
+	        }
+	        else {
+	            this.duration(opts.duration || 280).easing('cubic-bezier(0,0 0.05,1)');
+	            enteringPage
+	                .fromTo('scale', SCALE_SMALL, 1, true)
+	                .fadeIn();
+	        }
+	        if (enteringHasNavbar) {
+	            var enteringNavBar = new animation_1.Animation(enteringView.navbarRef());
+	            enteringNavBar.before.addClass('show-navbar');
+	            this.add(enteringNavBar);
+	            var enteringBackButton = new animation_1.Animation(enteringView.backBtnRef());
+	            this.add(enteringBackButton);
+	            if (enteringView.enableBack()) {
+	                enteringBackButton.before.addClass(SHOW_BACK_BTN_CSS);
+	            }
+	            else {
+	                enteringBackButton.before.removeClass(SHOW_BACK_BTN_CSS);
+	            }
+	        }
+	        // setup leaving view
+	        if (leavingView && backDirection) {
+	            // leaving content
+	            this.duration(opts.duration || 200).easing('cubic-bezier(0.47,0,0.745,0.715)');
+	            var leavingPage = new animation_1.Animation(leavingView.pageRef());
+	            this.add(leavingPage.fromTo('scale', 1, SCALE_SMALL).fadeOut());
+	        }
+	    }
+	    return WPTransition;
+	})(transition_1.Transition);
+	transition_1.Transition.register('wp-transition', WPTransition);
+
+
+/***/ },
+/* 362 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
 	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
 	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
 	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -62132,10 +63634,10 @@
 	var __metadata = (this && this.__metadata) || function (k, v) {
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
-	var ionic_1 = __webpack_require__(5);
-	var page1_1 = __webpack_require__(359);
-	var page2_1 = __webpack_require__(360);
-	var page3_1 = __webpack_require__(361);
+	var ionic_angular_1 = __webpack_require__(5);
+	var page1_1 = __webpack_require__(363);
+	var page2_1 = __webpack_require__(364);
+	var page3_1 = __webpack_require__(365);
 	var TabsPage = (function () {
 	    function TabsPage() {
 	        // this tells the tabs component which Pages
@@ -62145,20 +63647,21 @@
 	        this.tab3Root = page3_1.Page3;
 	    }
 	    TabsPage = __decorate([
-	        ionic_1.Page({
+	        ionic_angular_1.Page({
 	            templateUrl: 'build/pages/tabs/tabs.html'
 	        }), 
 	        __metadata('design:paramtypes', [])
 	    ], TabsPage);
 	    return TabsPage;
-	})();
+	}());
 	exports.TabsPage = TabsPage;
 
 
 /***/ },
-/* 359 */
+/* 363 */
 /***/ function(module, exports, __webpack_require__) {
 
+	"use strict";
 	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
 	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
 	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -62168,10 +63671,10 @@
 	var __metadata = (this && this.__metadata) || function (k, v) {
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
-	var ionic_1 = __webpack_require__(5);
+	var ionic_angular_1 = __webpack_require__(5);
 	var core_1 = __webpack_require__(7);
 	var Page1 = (function () {
-	    function Page1(platform, navParams, _zone) {
+	    function Page1(platform, _zone) {
 	        this._zone = _zone;
 	        this.platform = platform;
 	        this.images = [];
@@ -62199,20 +63702,21 @@
 	        });
 	    };
 	    Page1 = __decorate([
-	        ionic_1.Page({
+	        ionic_angular_1.Page({
 	            templateUrl: 'build/pages/page1/page1.html',
 	        }), 
-	        __metadata('design:paramtypes', [ionic_1.Platform, ionic_1.NavParams, core_1.NgZone])
+	        __metadata('design:paramtypes', [ionic_angular_1.Platform, core_1.NgZone])
 	    ], Page1);
 	    return Page1;
-	})();
+	}());
 	exports.Page1 = Page1;
 
 
 /***/ },
-/* 360 */
+/* 364 */
 /***/ function(module, exports, __webpack_require__) {
 
+	"use strict";
 	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
 	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
 	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -62222,25 +63726,26 @@
 	var __metadata = (this && this.__metadata) || function (k, v) {
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
-	var ionic_1 = __webpack_require__(5);
+	var ionic_angular_1 = __webpack_require__(5);
 	var Page2 = (function () {
 	    function Page2() {
 	    }
 	    Page2 = __decorate([
-	        ionic_1.Page({
+	        ionic_angular_1.Page({
 	            templateUrl: 'build/pages/page2/page2.html',
 	        }), 
 	        __metadata('design:paramtypes', [])
 	    ], Page2);
 	    return Page2;
-	})();
+	}());
 	exports.Page2 = Page2;
 
 
 /***/ },
-/* 361 */
+/* 365 */
 /***/ function(module, exports, __webpack_require__) {
 
+	"use strict";
 	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
 	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
 	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -62250,18 +63755,18 @@
 	var __metadata = (this && this.__metadata) || function (k, v) {
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
-	var ionic_1 = __webpack_require__(5);
+	var ionic_angular_1 = __webpack_require__(5);
 	var Page3 = (function () {
 	    function Page3() {
 	    }
 	    Page3 = __decorate([
-	        ionic_1.Page({
+	        ionic_angular_1.Page({
 	            templateUrl: 'build/pages/page3/page3.html'
 	        }), 
 	        __metadata('design:paramtypes', [])
 	    ], Page3);
 	    return Page3;
-	})();
+	}());
 	exports.Page3 = Page3;
 
 

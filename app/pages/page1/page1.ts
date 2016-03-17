@@ -1,5 +1,7 @@
-import {Page, NavController, Platform, NavParams} from 'ionic-framework/ionic';
+import {Page, NavController, Platform} from 'ionic-angular';
 import {NgZone} from 'angular2/core';
+
+declare var Camera:any;
 
 @Page({
   templateUrl: 'build/pages/page1/page1.html',
@@ -9,9 +11,9 @@ export class Page1 {
 
   _zone: any;
   platform:any;
-  images: Array<Object>;
+  images: Array<{src: String}>;
 
-  constructor(platform:Platform, navParams: NavParams, _zone : NgZone) {
+  constructor(platform:Platform, _zone : NgZone) {
     this._zone = _zone;
     this.platform = platform;
     this.images = [];
