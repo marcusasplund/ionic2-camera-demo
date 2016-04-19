@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 import {Page, NavController, Platform} from 'ionic-angular';
-=======
-import {Page, NavController, Platform} from 'ionic-framework/ionic';
->>>>>>> 3fac5e9243e968e3ead65d56a9ec7cbb11e6dd32
 import {NgZone} from 'angular2/core';
 
 declare var Camera:any;
@@ -17,11 +13,7 @@ export class Page1 {
   platform:any;
   images: Array<{src: String}>;
 
-<<<<<<< HEAD
   constructor(platform:Platform, _zone : NgZone) {
-=======
-  constructor(platform:Platform, zone : NgZone) {
->>>>>>> 3fac5e9243e968e3ead65d56a9ec7cbb11e6dd32
     this._zone = _zone;
     this.platform = platform;
     this.images = [];
