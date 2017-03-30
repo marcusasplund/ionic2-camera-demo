@@ -5,19 +5,6 @@
 sudo: required
 dist: trusty
 
-notifications:
-  email: true
-
-addons:
-  apt:
-    sources:
-      - ubuntu-toolchain-r-test
-      - google-chrome
-    packages:
-      - google-chrome-stable
-      - lib32stdc++6
-      - lib32z1
-
 branches:
   only:
     - master
