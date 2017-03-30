@@ -2,6 +2,8 @@
 [![GitHub issues](https://img.shields.io/github/issues/marcusasplund/ionic2-camera-demo.svg)](https://github.com/marcusasplund/ionic2-camera-demo/issues)
 [![Build status](https://travis-ci.org/marcusasplund/ionic2-camera-demo.svg?branch=master)](https://travis-ci.org/marcusasplund/ionic2-camera-demo)
 [![dependencies](https://david-dm.org/marcusasplund/ionic2-camera-demo.svg)](https://david-dm.org/marcusasplund/ionic2-camera-demo)
+[![GitHub version](https://badge.fury.io/gh/marcusasplund%2Fionic2-camera-demo.svg)](https://badge.fury.io/gh/marcusasplund%2Fionic2-camera-demo)
+[![Stack Share](http://img.shields.io/badge/tech-stack-0690fa.svg?style=flat)](http://stackshare.io/marcusasplund/ionic2-camera-demo)
 
 Example of using Cordova Camera in a ionic2 application
 
