@@ -9,9 +9,9 @@ Example of using Cordova Camera in a ionic2 application
 Only tested in Android
 
 If you don't have it already, first install ionic2 and cordova
-
-$ npm install -g ionic@beta
-
+$ npm uninstall -g ionic
+$ npm install -g ionic
+$ npm uninstall -g cordova
 $ npm install -g cordova
 
 ## A short way to try out this project:
@@ -20,6 +20,8 @@ $ git clone https://github.com/marcusasplund/ionic2-camera-demo.git
 $ cd ionic2-camera-demo
 
 $ npm install
+
+$ npm run build 
 
 $ ionic build android
 
@@ -42,12 +44,13 @@ $ ionic plugin add cordova-plugin-camera --save
 
 $ tsd init
 
-$ tsd install cordova --save
+$ (sudo) typings install dt~cordova --global
 
-Add this row in file: typings/main.d.ts
-`/// <reference path="./cordova/plugins/Camera.d.ts"/>`
+$ (sudo) typings install dt~cordova-plugin-camera --global
 
 download folder "app" from this project and replace folder "app" with this 
+
+$ npm run build
 
 $ ionic build android
 
