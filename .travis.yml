@@ -1,25 +1,37 @@
 sudo: false
-language: android
-cache:
-  directories:
-    - node_modules
-notifications:
-  email: false
-android:
-    components:
-        - build-tools-23.0.1
-        - android-23
-before_install:
-  - nvm install v4
-  - npm i -g npm@^2.0.0
-  - npm install -g ionic@beta
-  - npm install -g cordova
+
+language: node_js
+node_js:
+  - "5.1"
+
+addons:
+  apt:
+    sources:
+    - ubuntu-toolchain-r-test
+    packages:
+    - g++-4.8
+    - openjdk-7-jdk
+    - lib32stdc++6
+    - lib32z1
+env:
+  CXX=g++-4.8
+
 install:
+  - npm install -g gulp bower cordova ionic
   - npm install
+  - bower update
+
 before_script:
-  - npm prune
-after_success:
-  - npm run semantic-release
-branches:
-  except:
-    - "/^v\\d+\\.\\d+\\.\\d+$/"
+  - wget http://dl.google.com/android/android-sdk_r24.4-linux.tgz
+  - tar -xvf android-sdk_r24.4-linux.tgz
+  - echo y | ./android-sdk-linux/tools/android update sdk --no-ui --all --filter platform-tools
+  - echo y | ./android-sdk-linux/tools/android update sdk --no-ui --all --filter build-tools-23.0.2
+  - echo y | ./android-sdk-linux/tools/android update sdk --no-ui --all --filter android-23
+  - echo y | ./android-sdk-linux/tools/android update sdk --no-ui --all --filter extra-android-support
+  - echo y | ./android-sdk-linux/tools/android update sdk --no-ui --all --filter extra-android-m2repository
+  - echo y | ./android-sdk-linux/tools/android update sdk --no-ui --all --filter extra-google-m2repository
+  - export ANDROID_HOME=$PWD/android-sdk-linux
+  - export PATH=${PATH}:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$ANDROID_HOME/build-tools/23.0.2
+
+script:
+  - cordova prepare
