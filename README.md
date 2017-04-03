@@ -10,19 +10,21 @@ Only tested in Android
 
 If you don't have it already, first install ionic2 and cordova
 
-$ npm install -g ionic@beta
-
+install
+```bash
+$ npm uninstall -g ionic
+$ npm install -g ionic
+$ npm uninstall -g cordova
 $ npm install -g cordova
-
+```
 ## A short way to try out this project:
+```bash
 $ git clone https://github.com/marcusasplund/ionic2-camera-demo.git
-
 $ cd ionic2-camera-demo
-
 $ npm install
-
+$ npm run build 
 $ ionic build android
-
+```
 install .apk and test
 
 ## The long way to try out this project:
@@ -30,27 +32,41 @@ install .apk and test
 ### Install a starter project
 (heads up: this project is written in typescript, if you want plain js, skip the flag --ts)
 
+```bash
 $ ionic start ionic2-camera-demo --v2 --ts
-
 $ cd ionic2-camera-demo
-
+```
 ### Install Camera plugin
-
+```bash
 $ ionic plugin add cordova-plugin-camera --save
+$ npm install --save @ionic-native/camera
+```
+Checkout the latest api:
+
+https://ionicframework.com/docs/native/camera/
+
+Heads up, in the file app.module.ts you need to add:
+```js
+import { Camera } from '@ionic-native/camera';
+```
+And add Camera in the providers array
+```js
+  providers: [
+    Camera}
+  ]
+```  
 
 ### Install Cordova typedefs (if you write in typescript this part is needed)
-
-$ tsd init
-
-$ tsd install cordova --save
-
-Add this row in file: typings/main.d.ts
-`/// <reference path="./cordova/plugins/Camera.d.ts"/>`
-
+```bash
+$ (sudo) typings install dt~cordova --global
+$ (sudo) typings install dt~cordova-plugin-camera --global
+```
 download folder "app" from this project and replace folder "app" with this 
+```bash
+$ npm run build
 
 $ ionic build android
-
+```
 install .apk and test
 
 
