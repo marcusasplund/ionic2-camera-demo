@@ -8,7 +8,7 @@ Example of using Cordova Camera in a ionic2 application
 
 Only tested in Android
 
-If you don't have it already, first install ionic2 and cordova
+If you don't have it already, first install the latest ionic2 and cordova, i noticed that it was a good idea to uninstall my really old cli:s first
 
 install
 ```bash
