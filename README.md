@@ -49,11 +49,14 @@ Heads up, in the file app.module.ts you need to add:
 ```js
 import { Camera } from '@ionic-native/camera';
 ```
-And add Camera in the providers array
+And add Camera in the providers array, like so:
 ```js
-  providers: [
-    Camera}
-  ]
+providers: [
+    StatusBar,
+    SplashScreen,
+    Camera,
+    {provide: ErrorHandler, useClass: IonicErrorHandler}
+]
 ```  
 
 ### Install Cordova typedefs (if you write in typescript this part is needed)
