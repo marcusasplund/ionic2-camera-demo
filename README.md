@@ -1,4 +1,6 @@
 # ionic2-camera-demo
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/marcusasplund/ionic2-camera-demo.svg)](https://greenkeeper.io/)
 [![GitHub issues](https://img.shields.io/github/issues/marcusasplund/ionic2-camera-demo.svg)](https://github.com/marcusasplund/ionic2-camera-demo/issues)
 [![Build status](https://travis-ci.org/marcusasplund/ionic2-camera-demo.svg?branch=master)](https://travis-ci.org/marcusasplund/ionic2-camera-demo)
 [![dependencies](https://david-dm.org/marcusasplund/ionic2-camera-demo.svg)](https://david-dm.org/marcusasplund/ionic2-camera-demo)
