@@ -21,7 +21,7 @@
     "@angular/platform-server": "4.3.6",
     "@ionic-native/camera": "^4.2.0",
     "@ionic-native/core": "4.2.0",
-    "@ionic-native/status-bar": "4.2.0",
+    "@ionic-native/status-bar": "4.2.1",
     "@ionic/storage": "2.0.1",
     "ionic-angular": "3.6.0",
     "ionicons": "3.0.0",
