@@ -32,7 +32,7 @@
   },
   "devDependencies": {
     "@ionic/app-scripts": "2.1.4",
-    "typescript": "2.4.2"
+    "typescript": "2.5.2"
   },
   "description": "ionic2-camera-demo: An Ionic project",
   "cordovaPlugins": [
