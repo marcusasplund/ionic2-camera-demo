@@ -17,7 +17,7 @@
     "@angular/forms": "4.3.6",
     "@angular/http": "4.3.6",
     "@angular/platform-browser": "4.3.6",
-    "@angular/platform-browser-dynamic": "4.3.6",
+    "@angular/platform-browser-dynamic": "4.4.0-RC.0",
     "@angular/platform-server": "4.3.6",
     "@ionic-native/camera": "^4.2.0",
     "@ionic-native/core": "4.2.1",
