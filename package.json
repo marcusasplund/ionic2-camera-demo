@@ -12,7 +12,7 @@
   "dependencies": {
     "@angular/common": "4.4.0-RC.0",
     "@angular/compiler": "4.4.0-RC.0",
-    "@angular/compiler-cli": "4.4.0-RC.0",
+    "@angular/compiler-cli": "4.4.0",
     "@angular/core": "4.4.0-RC.0",
     "@angular/forms": "4.4.0-RC.0",
     "@angular/http": "4.4.0-RC.0",
