@@ -18,7 +18,7 @@
     "@angular/http": "4.4.1",
     "@angular/platform-browser": "4.4.1",
     "@angular/platform-browser-dynamic": "4.4.1",
-    "@angular/platform-server": "4.4.1",
+    "@angular/platform-server": "4.4.4",
     "@ionic-native/camera": "^4.2.0",
     "@ionic-native/core": "4.2.1",
     "@ionic-native/status-bar": "4.2.1",
