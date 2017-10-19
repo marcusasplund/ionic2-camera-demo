@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@angular/common": "4.4.5",
-    "@angular/compiler": "4.4.5",
+    "@angular/compiler": "4.4.6",
     "@angular/compiler-cli": "4.4.5",
     "@angular/core": "4.4.5",
     "@angular/forms": "4.4.5",
