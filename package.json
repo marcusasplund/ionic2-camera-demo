@@ -33,7 +33,7 @@
   "devDependencies": {
     "@ionic/app-scripts": "3.1.0",
     "@angular/tsc-wrapped": "4.4.6",
-    "typescript": "2.4.2"
+    "typescript": "2.6.1"
   },
   "description": "ionic2-camera-demo: An Ionic project",
   "cordovaPlugins": [
