@@ -11,10 +11,10 @@
   },
   "dependencies": {
     "@angular/common": "5.0.1",
-    "@angular/compiler": "5.0.1",
+    "@angular/compiler": "5.0.2",
     "@angular/compiler-cli": "5.0.1",
     "@angular/common": "5.0.1",
-    "@angular/compiler": "5.0.1",
+    "@angular/compiler": "5.0.2",
     "@angular/core": "5.0.1",
     "@angular/compiler-cli": "5.0.1",
     "@angular/core": "5.0.1",
