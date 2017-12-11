@@ -35,7 +35,7 @@ before_script:
   - export PATH=${PATH}:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$ANDROID_HOME/build-tools/23.0.2
 
 script:
-  - npm run build
   - ionic cordova platform rm android
   - ionic cordova platform add android
+  - npm run build
   - ionic cordova build android
