@@ -2,8 +2,9 @@ sudo: false
 
 language: node_js
 node_js:
+  - "6"
   - "8"
-  - "7"
+  - "9"
 addons:
   apt:
     sources:
@@ -34,7 +35,5 @@ before_script:
   - export PATH=${PATH}:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$ANDROID_HOME/build-tools/23.0.2
 
 script:
-
-  - cordova platform add android
   - npm run build
-  - ionic build android
+  - ionic cordova build android
