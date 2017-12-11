@@ -24,7 +24,7 @@ $ npm install -g cordova
 $ git clone https://github.com/marcusasplund/ionic2-camera-demo.git
 $ cd ionic2-camera-demo
 $ npm install
-$ npm run build 
+$ npm run build
 $ ionic build android
 ```
 install .apk and test
@@ -40,7 +40,7 @@ $ cd ionic2-camera-demo
 ```
 ### Install Camera plugin
 ```bash
-$ ionic plugin add cordova-plugin-camera --save
+$ ionic cordova plugin add cordova-plugin-camera --save
 $ npm install --save @ionic-native/camera
 ```
 Checkout the latest api:
@@ -66,12 +66,10 @@ providers: [
 $ (sudo) typings install dt~cordova --global
 $ (sudo) typings install dt~cordova-plugin-camera --global
 ```
-download folder "app" from this project and replace folder "app" with this 
+download folder "app" from this project and replace folder "app" with this
 ```bash
 $ npm run build
 
 $ ionic build android
 ```
 install .apk and test
-
-
