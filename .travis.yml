@@ -38,4 +38,3 @@ script:
   - ionic cordova platform rm android
   - ionic cordova platform add android
   - npm run build
-  - ionic cordova build android
