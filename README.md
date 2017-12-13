@@ -25,7 +25,7 @@ $ git clone https://github.com/marcusasplund/ionic2-camera-demo.git
 $ cd ionic2-camera-demo
 $ npm install
 $ npm run build
-$ ionic build android
+$ ionic cordova build android
 ```
 install .apk and test
 
@@ -70,6 +70,6 @@ download folder "app" from this project and replace folder "app" with this
 ```bash
 $ npm run build
 
-$ ionic build android
+$ ionic cordova build android
 ```
 install .apk and test
