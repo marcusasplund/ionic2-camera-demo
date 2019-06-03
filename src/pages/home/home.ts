@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
-import { Camera, CameraOptions } from '@ionic-native/camera';
+import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 
 @Component({
   selector: 'page-home',
@@ -10,7 +9,7 @@ import { Camera, CameraOptions } from '@ionic-native/camera';
 export class HomePage {
   images: Array<{src: String}>;
 
-  constructor(public navCtrl: NavController, private camera: Camera) {
+  constructor(private camera: Camera) {
     this.images = [];
   }
 
