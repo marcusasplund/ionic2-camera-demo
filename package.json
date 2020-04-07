@@ -18,7 +18,7 @@
     "@angular/http": "5.2.1",
     "@angular/platform-browser": "5.2.1",
     "@angular/platform-browser-dynamic": "5.2.1",
-    "@ionic-native/camera": "5.22.0",
+    "@ionic-native/camera": "5.23.0",
     "@ionic-native/core": "4.20.0",
     "@ionic-native/splash-screen": "4.20.0",
     "@ionic-native/status-bar": "4.20.0",
