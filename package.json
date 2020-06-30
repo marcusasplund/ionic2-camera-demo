@@ -7,7 +7,9 @@
     "clean": "ionic-app-scripts clean",
     "build": "ionic-app-scripts build",
     "ionic:build": "ionic-app-scripts build",
-    "ionic:serve": "ionic-app-scripts serve"
+    "ionic:serve": "ionic-app-scripts serve",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "dependencies": {
     "@angular/common": "5.2.11",
@@ -34,7 +36,8 @@
     "ionicons": "3.0.0",
     "rxjs": "5.5.12",
     "sw-toolbox": "3.6.0",
-    "zone.js": "0.10.3"
+    "zone.js": "0.10.3",
+    "snyk": "^1.352.1"
   },
   "devDependencies": {
     "@ionic/app-scripts": "3.1.8",
@@ -63,5 +66,6 @@
     "platforms": [
       "android"
     ]
-  }
+  },
+  "snyk": true
 }
