@@ -26,7 +26,7 @@
     "@ionic-native/status-bar": "4.20.0",
     "@ionic/storage": "2.3.1",
     "cordova-android": "9.0.0",
-    "cordova-plugin-camera": "5.0.0",
+    "cordova-plugin-camera": "5.0.1",
     "cordova-plugin-device": "2.0.3",
     "cordova-plugin-ionic-webview": "4.2.1",
     "cordova-plugin-splashscreen": "5.0.4",
