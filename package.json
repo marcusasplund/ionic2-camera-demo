@@ -14,7 +14,7 @@
   "dependencies": {
     "@angular/common": "5.2.11",
     "@angular/compiler": "5.2.11",
-    "@angular/compiler-cli": "11.0.3",
+    "@angular/compiler-cli": "11.0.4",
     "@angular/core": "5.2.11",
     "@angular/forms": "5.2.11",
     "@angular/http": "5.2.11",
